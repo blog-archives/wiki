@@ -126,3 +126,4 @@
 ## See Also
 
 - [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](multi-agent-design.md) — 讨论 agent 角色如何预定义、触发与委派。
+- [子任务的输入输出与完成条件约定](subtask-contracts.md) — 拆出来的子任务之间靠什么约定交接。

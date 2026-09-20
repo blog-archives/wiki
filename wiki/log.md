@@ -90,3 +90,30 @@
 ## [2026-09-20] edit | 面试题清单精简为纯问题清单
 - Updated: AI Agent 面试题清单（120 题）
 - Removed: 模块索引表格、各模块「参考范围」说明、参考资料列表
+
+## [2026-09-20] ingest | 子任务的输入输出与完成条件约定
+- Disposition: New
+- Raw: raw/ai-agent/2026-09-20-crush-subtask-contracts.md
+- Updated: 子任务拆分的依据
+
+## [2026-09-20] ingest | 子任务的输入输出与完成条件约定（补充 Claude Code）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-claude-code-subtask-contracts.md
+- Updated: 子任务的输入输出与完成条件约定
+
+## [2026-09-20] ingest | 子任务的输入输出与完成条件约定（补充 Codex 结构化协议）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-codex-subtask-contracts.md
+- Updated: 子任务的输入输出与完成条件约定
+
+## [2026-09-20] edit | 子任务的输入输出与完成条件约定（重构：突出 Codex 并用 JSON 展示）
+- Updated: 子任务的输入输出与完成条件约定
+- Ref: Codex 结构以 JSON 展开；Crush/Claude Code 一笔带过
+
+## [2026-09-20] edit | 子任务的输入输出与完成条件约定（新增总结思考）
+- Updated: 子任务的输入输出与完成条件约定
+- Ref: 三家方案对比后的 5 点思考
+
+## [2026-09-20] edit | 子任务的输入输出与完成条件约定（重排结构，突出重点）
+- Updated: 子任务的输入输出与完成条件约定
+- Ref: 一句话结论 + 对照表 → 关键思考（前置）→ 方案细节（Codex JSON / Crush·CC 带过）

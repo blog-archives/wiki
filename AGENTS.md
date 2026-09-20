@@ -20,3 +20,8 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 - Grounding invariant: every number, date, and quote in `wiki/` must exist verbatim in the linked `raw/` files.
 - Inside `wiki/`, links are relative to the current file; in conversation, use project-root-relative paths.
 - Never modify `raw/`; never silently rewrite history (use Status blocks for outdated/disputed claims).
+
+## Formatting preferences
+
+- Use lists only for short, one-line items. For longer reasoning, write prose paragraphs instead of paragraph-length list items.
+- For multi-point reasoning, give each point a short bold title line (a numbered item like `1. **Title**`, or a `###` subheading) and put the explanation in a separate paragraph below it.
