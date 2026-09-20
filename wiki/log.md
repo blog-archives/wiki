@@ -117,3 +117,13 @@
 ## [2026-09-20] edit | 子任务的输入输出与完成条件约定（重排结构，突出重点）
 - Updated: 子任务的输入输出与完成条件约定
 - Ref: 一句话结论 + 对照表 → 关键思考（前置）→ 方案细节（Codex JSON / Crush·CC 带过）
+
+## [2026-09-20] ingest | 计划质量校验：漏项 / 重复 / 不可执行
+- Disposition: New
+- Raw: raw/ai-agent/2026-09-20-plan-quality-validation.md
+- Updated: AI Agent 面试题清单（120 题）
+
+## [2026-09-20] ingest | merge: 合并第 03 模块三篇为「任务拆分与规划」
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-crush-task-decomposition.md; raw/ai-agent/2026-09-20-claude-code-task-decomposition.md; raw/ai-agent/2026-09-20-codex-task-decomposition.md; raw/ai-agent/2026-09-20-crush-subtask-contracts.md; raw/ai-agent/2026-09-20-claude-code-subtask-contracts.md; raw/ai-agent/2026-09-20-codex-subtask-contracts.md; raw/ai-agent/2026-09-20-plan-quality-validation.md
+- Result: 三篇合并为「任务拆分与规划」，原三篇已删除
