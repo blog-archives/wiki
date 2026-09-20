@@ -127,3 +127,30 @@
 - Disposition: Update
 - Raw: raw/ai-agent/2026-09-20-crush-task-decomposition.md; raw/ai-agent/2026-09-20-claude-code-task-decomposition.md; raw/ai-agent/2026-09-20-codex-task-decomposition.md; raw/ai-agent/2026-09-20-crush-subtask-contracts.md; raw/ai-agent/2026-09-20-claude-code-subtask-contracts.md; raw/ai-agent/2026-09-20-codex-subtask-contracts.md; raw/ai-agent/2026-09-20-plan-quality-validation.md
 - Result: 三篇合并为「任务拆分与规划」，原三篇已删除
+
+## [2026-09-20] ingest | 任务拆分与规划（补充澄清·假设·停止）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-clarify-assume-stop.md
+- Updated: 任务拆分与规划; AI Agent 面试题清单（120 题）
+
+## [2026-09-20] edit | 任务拆分与规划（重心转向思考总结）
+- Updated: 任务拆分与规划
+- Ref: 以 7 点核心思考为主体，三家做法压缩为对照表 + Codex JSON + 一个拆分示例
+
+## [2026-09-20] edit | 任务拆分与规划（恢复按问题分节，每节带思考）
+- Updated: 任务拆分与规划
+- Ref: 六个问题各一节，节内先结论/参考、后「思考」小结
+
+## [2026-09-20] edit | 任务拆分与规划（思考前置、去固定标签）
+- Updated: 任务拆分与规划
+- Ref: 每节开头直接给判断，去掉末尾「思考」小标题
+
+## [2026-09-20] ingest | 任务拆分与规划（补充意图识别讨论）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-intent-recognition.md
+- Updated: 任务拆分与规划
+
+## [2026-09-20] ingest | 任务拆分与规划（补充意图识别落地做法）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-intent-recognition-implementation.md
+- Updated: 任务拆分与规划
