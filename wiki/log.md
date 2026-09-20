@@ -33,3 +33,28 @@
 - Disposition: Update
 - Raw: raw/ai-agent/2026-09-20-crush-agent-architecture.md; raw/ai-agent/2026-09-20-codex-multi-agent-roles.md; raw/ai-agent/2026-09-20-claude-code-agents.md
 - Result: 三篇合并为「多 Agent 设计对比：Crush / Codex / Claude Code」，原三篇已删除
+
+## [2026-09-20] ingest | Eino 创建子 Agent
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-eino-subagents.md
+- Updated: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
+
+## [2026-09-20] ingest | Eino 动态创建 subagent demo
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-eino-subagent-demo.md
+- Updated: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
+
+## [2026-09-20] ingest | Eino DeepAgent 动态创建 subagent demo
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-eino-deepagent-demo.md
+- Updated: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
+
+## [2026-09-20] ingest | Eino 两种写法运行逻辑与选型
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-eino-subagents.md; raw/ai-agent/2026-09-20-eino-subagent-demo.md; raw/ai-agent/2026-09-20-eino-deepagent-demo.md
+- Updated: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
+
+## [2026-09-20] ingest | Eino 两种写法效果等价、deep 更简洁
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-eino-subagents.md; raw/ai-agent/2026-09-20-eino-deepagent-demo.md
+- Updated: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
