@@ -58,3 +58,35 @@
 - Disposition: Update
 - Raw: raw/ai-agent/2026-09-20-eino-subagents.md; raw/ai-agent/2026-09-20-eino-deepagent-demo.md
 - Updated: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
+
+## [2026-09-20] ingest | 子任务拆分的依据
+- Disposition: New
+- Raw: raw/ai-agent/2026-09-20-crush-task-decomposition.md
+
+## [2026-09-20] ingest | 子任务拆分的依据（补充 Claude Code）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-claude-code-task-decomposition.md
+- Updated: 子任务拆分的依据
+
+## [2026-09-20] ingest | 子任务拆分的依据（补充 Codex）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-codex-task-decomposition.md
+- Updated: 子任务拆分的依据
+
+## [2026-09-20] ingest | 子任务拆分的依据（重构：按三问组织）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-crush-task-decomposition.md; raw/ai-agent/2026-09-20-claude-code-task-decomposition.md; raw/ai-agent/2026-09-20-codex-task-decomposition.md
+- Updated: 子任务拆分的依据
+
+## [2026-09-20] ingest | 子任务拆分的依据（各节补充提示词/源码示例）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-crush-task-decomposition.md; raw/ai-agent/2026-09-20-claude-code-task-decomposition.md; raw/ai-agent/2026-09-20-codex-task-decomposition.md
+- Updated: 子任务拆分的依据
+
+## [2026-09-20] edit | 面试题清单引用两篇整理
+- Updated: AI Agent 面试题清单（120 题）
+- Ref: 模块 03 → 子任务拆分的依据；模块 10 → 多 Agent 设计对比
+
+## [2026-09-20] edit | 面试题清单精简为纯问题清单
+- Updated: AI Agent 面试题清单（120 题）
+- Removed: 模块索引表格、各模块「参考范围」说明、参考资料列表
