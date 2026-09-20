@@ -1,0 +1,38 @@
+site_name: Knowledge Base
+site_url: https://wiki.lllllan.cn/
+repo_url: https://github.com/blog-archives/wiki
+edit_uri: edit/main/wiki/
+docs_dir: wiki
+site_dir: site
+
+hooks:
+  - hooks.py
+
+extra_css:
+  - assets/mobile.css
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+not_in_nav: |
+  /raw
+  log.md
+
+markdown_extensions:
+  - tables
+  - fenced_code
+  - admonition
+  - toc:
+      permalink: true
