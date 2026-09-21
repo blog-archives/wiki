@@ -580,6 +580,89 @@
 
 - Updated: wiki/index.md（去掉逐篇条目与 Updated 列，只保留 ai-agent / claude-code 两个目录入口与一行说明，避免频繁维护）
 
+## [2026-09-21] ingest | 重写内部中断实现
+
+- Disposition: Update
+- Sources: agent-practice 的 03-eino-human-in-the-loop、05-native-human-in-the-loop（核对提交 84650dbf484d80a5769768388fad171b976628e4）；Eino 官方快速开始第七章。公开持久来源直接引用，不归档 raw。
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Updated: wiki/ai-agent/interrupt-resume/index.md；wiki/index.md
+- Result: Eino 部分围绕工具注册、授权中间件、中断事件与完整运行流程展开；手写部分拆解 Session、Run、Resume、finishTool 与多工具队列。标注旧版副作用顺序说法的局限，明确内存状态及恢复边界。
+
+## [2026-09-21] edit | 内部中断 1.1 聚焦 checkpoint
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 删除 Model → Agent → Runner 基础组装介绍，改为说明 checkpoint 如何连接中断与恢复、存储与 ID 的配置，以及框架和应用的职责边界。
+
+## [2026-09-21] edit | 合并内部中断的追问与授权说明
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 合并原 1.2、1.3，以两个简短调用示例说明返回 tool.Interrupt 主动触发中断，精简工具与中间件细节，并顺延后续编号。
+
+## [2026-09-21] edit | 补充中断 action 的处理代码
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 在 1.3 展示 consumeEvents，明确 Action / Interrupted 判断、根因中断提取，以及事件流结束后收集回答并恢复的处理顺序。
+
+## [2026-09-21] edit | 精简中断事件处理示例
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 1.3 仅保留 Action / Interrupted 判断与根因中断收集，移除 consumeEvents 的外围代码。
+
+## [2026-09-21] edit | 拼接中断交互与恢复的核心流程
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 1.3 将 action 判断、提示展示、回答绑定与 ResumeWithParams 拼为连续核心片段，保留事件流结束后再交互恢复的时序说明，移除辅助函数调用造成的跳转。
+
+## [2026-09-21] edit | 精简 Eino 章节总结
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 第一章结尾压缩为 checkpoint、交互与恢复的一段总结，官方第七章链接移至文末参考文档。
+
+## [2026-09-21] edit | 按实现流程重写手写中断章节
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 第二章按 Session、中断、恢复、状态流转四节组织；用 Go 核心代码展示 Run 保存等待状态并返回，将 Resume 与 finishTool 拼接以说明消息补齐和队列推进，新增状态流程图。
+
+## [2026-09-21] edit | 用状态表替换手写中断长流程图
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 2.4 改为对照 Pending、Waiting、Messages 的状态变化表，突出等待时保留调用、完成时补消息并出队。
+
+## [2026-09-21] edit | 第三章聚焦中断实现机制
+
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 移除框架与手写对应表，改为解释栈外状态保存、显式中断与控制权移交、恢复寻址与重入、工具结果完成与循环推进；保留副作用顺序修正和持久化边界。
+
+## [2026-09-21] edit | 记录实现解析类文章的写作偏好
+
+- Updated: AGENTS.md
+- Reference: wiki/ai-agent/interrupt-resume/internal-interrupt.md
+- Result: 将本篇多轮修改确定的习惯记录为仓库写作约定，涵盖机制优先、按执行流程组织、框架与手写代码的不同重心、核心片段拼接、紧凑图表与简短总结；限定适用于实现解析类文章，不强制套用固定章节模板。
+
+## [2026-09-21] edit | 写作约定从结构参考修正为梳理方法
+
+- Updated: AGENTS.md
+- Result: 明确参考内部中断文章的材料分析、重点判断、因果梳理和表达取舍，而非章节结构；补充按解释目标分配代码粒度、拼接保真、避免重复与形式选择。撤销固定结尾要求，对比仅限竞品或相似对象且确有解释或选择需要时使用。
+
+## [2026-09-21] ingest | 重写外部中断实现
+
+- Disposition: Update
+- Sources: agent-practice/07-eino-external-interrupt（提交 84650dbf484d80a5769768388fad171b976628e4）；Eino v0.9.13 的 turn_loop.go、cancel.go；官方 Agent Cancel 与 TurnLoop 快速入门。持久公开来源直接引用，不归档 raw。
+- Updated: wiki/ai-agent/interrupt-resume/external-interrupt.md；wiki/ai-agent/interrupt-resume/index.md；wiki/index.md
+- Result: 围绕外部暂停的控制链路重写，拼接信号监听、Stop、Wait 及新 Loop 恢复的核心代码，解释安全点、保存结果与输入归属。修正“存在 checkpoint 就调用 GenResume”的旧概括，以状态表呈现暂停生命周期。
+
+## [2026-09-21] edit | 补充外部中断的官方章节引用
+
+- Updated: wiki/ai-agent/interrupt-resume/external-interrupt.md
+- Source: https://www.cloudwego.io/zh/docs/eino/quick_start/chapter_11_turnloop/
+- Result: 开篇引出官方第十一章，文末列为首要参考；正文仍以 07 项目的暂停恢复实现为主。
+
+## [2026-09-22] edit | 按官方入门思路简化外部中断文章
+
+- Updated: wiki/ai-agent/interrupt-resume/external-interrupt.md；wiki/ai-agent/interrupt-resume/index.md
+- Sources: Eino 官方第十一章；07-eino-external-interrupt 源码；Eino v0.9.13 turn_loop.go。
+- Result: 先说明持续运行的 Loop 与一轮任务，再介绍 Stop / Wait 和停止模式，串起启动、暂停、恢复的核心调用，最后解释配置回调。删除信号通道、完整退出判断和重复状态总结，保留恢复条件与内存边界；官方抢占仅作概念说明，不混入 07 实现。
+
 ## [2026-09-22] edit | 移除外链预览插件
 
 - Removed: plugins/external-link-preview/（构建期抓取全部外链的单体 JSON 方案）；quartz.config.yaml 中的对应条目；.quartz-cache/external-link-preview.json
@@ -593,3 +676,16 @@
 - Cause: 该插件不只是渲染属性面板，它同时是解析 frontmatter 的 transformer（填充 `frontmatter.title`、`aliases`、`frontmatterLinks`）。关掉后标题全部退化为「无题」、YAML 头被当作正文渲染
 - Note: 本次其余关闭项（latex、canvas-page、bases-page、encrypted-pages、og-image）均为 transformer / pageType / emitter，且不承担 frontmatter 解析，确认无副作用
 - Result: 标题恢复（`<h1 class="article-title">`），frontmatter 不再泄漏进正文；构建 71 文件、emit 约 0.4s
+
+## [2026-09-22] ingest | 聚焦父子执行差异重写多 Agent 中断
+
+- Disposition: Update
+- Sources: agent-practice/04-eino-subagent-human-in-the-loop、06-native-subagent-human-in-the-loop（提交 84650dbf484d80a5769768388fad171b976628e4）；Eino v0.9.13 adk/agent_tool.go。公开持久来源直接引用。
+- Updated: wiki/ai-agent/interrupt-resume/multi-agent-interrupt.md；wiki/ai-agent/interrupt-resume/index.md；wiki/index.md
+- Result: 以内部中断文章为前置，只展开父级委派等待、AgentTool 桥接、Frame 压栈与弹栈、子中断恢复定位和结果回填。删除完整基础循环、跨产品旁支与对比表，用状态表说明父子依赖。
+
+## [2026-09-22] edit | 合并用户交互专题，移除重复文章
+
+- Removed: wiki/ai-agent/interrupt-resume/user-interaction.md
+- Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md；wiki/ai-agent/interrupt-resume/multi-agent-interrupt.md；wiki/ai-agent/interrupt-resume/index.md；wiki/ai-agent/index.md
+- Result: 用户交互的中断与恢复流程已由内部中断和多 Agent 篇覆盖；将本次调用授权、网页交互入口与回答路由要点并入内部中断篇，删除重复的独立页面与索引引用。通过内部中断篇 aliases 保留原页面地址跳转。

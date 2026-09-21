@@ -1,6 +1,6 @@
 ---
 title: AI Agent
-updated: "2026-09-21"
+updated: "2026-09-22"
 order: 1
 ---
 
@@ -12,4 +12,4 @@ order: 1
 | [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](multi-agent-design.md) | 预定义角色、触发、动态生成与交互方式对比 |
 | [任务拆分与规划](task-planning.md) | 何时 / 如何拆、子任务契约、计划校验、出错与中途改目标 |
 | [系统提示词设计](system-prompt-design.md) | 以 Codex CLI 为样本的三层提示词结构 |
-| [中断与恢复（子专题）](ai-agent/interrupt-resume/index.md) | 产品设计 + 内部 / 外部 / 多 Agent 实现 + 用户交互 |
+| [中断与恢复（子专题）](ai-agent/interrupt-resume/index.md) | 产品设计与内部 / 外部 / 多 Agent 中断实现（含用户交互） |
