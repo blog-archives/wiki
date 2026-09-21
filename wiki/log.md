@@ -220,3 +220,12 @@
 - Added: mkdocs-awesome-pages-plugin + wiki/*/.pages，目录标题改为「AI Agent 设计笔记」「深入理解 AI Agent（开源书）」，并把开源书章节顺序固定为 1→10（原按字符串排序 chapter10 会排在 chapter2 前）
 - Added: hooks.py 将 ai-agent-book/ 存档文档中无法解析的上游相对链接改写为 GitHub 上游地址（保持原文档不改），strict 警告 42 → 0
 - Result: 顶部按目录分标签、侧栏每目录折叠；mkdocs build --strict 0 warning；evidence 0/0/0
+
+## [2026-09-21] ingest | Claude Code 核心系统
+- Disposition: New
+- Raw: raw/claude-code/2026-09-21-claude-code-core-systems.md
+- Note: DeepWiki《Core Systems》原文存 raw/，中文译文存 wiki/claude-code/；新增 claude-code 主题与 .pages 标题
+
+## [2026-09-21] edit | 删除《深入理解 AI Agent》开源书存档与配图
+- Removed: wiki/ai-agent-book/（15 篇正文 + .pages）、wiki/images/ai-agent-book/（116 张图）
+- Updated: index.md（移除 ai-agent-book 主题）、hooks.py（移除已失效的 ai-agent-book 上游链接改写逻辑）
