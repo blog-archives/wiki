@@ -257,4 +257,3 @@ Claude Code 在终端和 IDE 中提供丰富的交互体验。
 详见 [UI/UX & Terminal Integration](https://deepwiki.com/anthropics/claude-code/3.9-uiux-and-terminal-integration)。
 
 **来源：** [CHANGELOG.md:12-12](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L12-L12)、[CHANGELOG.md:26-27](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L26-L27)、[CHANGELOG.md:34-36](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L34-L36)、[CHANGELOG.md:40-41](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L40-L41)、[CHANGELOG.md:64-64](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L64-L64)、[.devcontainer/devcontainer.json:18-23](https://github.com/anthropics/claude-code/blob/6ce37e9f/.devcontainer/devcontainer.json#L18-L23)
-

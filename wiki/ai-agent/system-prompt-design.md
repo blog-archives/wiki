@@ -31,4 +31,3 @@ updated: "2026-09-20"
 ## See Also
 
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 第 04 模块「Prompt 与结构化输出」对应本页。
-

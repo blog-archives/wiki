@@ -156,4 +156,3 @@ Crush 子 Agent 输入只有自由文本 `Prompt`（仅校验非空），输出�
 
 - [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](multi-agent-design.md) — 各项目 agent 角色的预定义、触发与委派。
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 第 03 模块「任务拆分与规划」对应本页。
-

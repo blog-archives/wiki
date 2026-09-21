@@ -22,6 +22,7 @@ Quartz is vendored **unmodified**: `quartz/` and the framework files at the repo
 
 - `quartz.config.yaml` — plugin list, layout, theme, locale (upstream ships only `quartz.config.default.yaml`).
 - `plugins/<name>/` — local Quartz plugins, wired in via `source: "./plugins/<name>"`.
+- `scripts/` — project tooling (`format-markdown.mjs`).
 - `.github/workflows/deploy.yml` — our Pages deploy; upstream's CI workflows are intentionally not vendored.
 
 Never edit `quartz/` or the vendored framework files for project needs — add a plugin or a config entry instead. `wiki/` is content and is untouched by framework updates.
@@ -30,6 +31,7 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 - **Ingest** ("add to wiki", drop a URL/file): fetch the source, triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
+- **Format**: run `make format` (or `node scripts/format-markdown.mjs wiki`) to apply pangu spacing and safe layout to every `wiki/*.md`; `make format-check` reports drift without writing. The script skips frontmatter, code and link targets.
 
 ## Rules
 
