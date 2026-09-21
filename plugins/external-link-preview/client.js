@@ -1,22 +1,13 @@
 // Renders hover previews for external links from the content prefetched at
-// build time by plugins/external-link-preview/index.js. Reuses the built-in
-// `.popover` / `.popover-inner` styles so the card matches internal previews.
+// build time by plugins/external-link-preview/index.js.
+//
+// Quartz's built-in popover fetches same-origin pages, so it can't reach
+// external URLs (CORS). This mirrors its output instead: the same `.popover` /
+// `.popover-inner` card, a `.popover-hint` header and an
+// `<article class="popover-hint">` body inside `.markdown-preview-view
+// .markdown-rendered`, so the site styles (including the heading-styles plugin)
+// render external previews exactly like internal ones.
 (() => {
-  const STYLE_ID = "external-popover-style"
-  const STYLE = `
-.external-popover .popover-inner { display: flex; flex-direction: column; gap: 0.35rem; user-select: text; }
-.external-popover-image { width: 100%; max-height: 10rem; object-fit: cover; border-radius: 4px; margin: 0 0 0.35rem 0; }
-.external-popover-title { font-weight: 600; font-size: 1rem; line-height: 1.3; }
-.external-popover-host { color: var(--gray); font-size: 0.8rem; }
-.external-popover-description { color: var(--darkgray); font-size: 0.9rem; line-height: 1.4; }
-.external-popover-paragraph, .external-popover-list { font-size: 0.9rem; line-height: 1.45; margin: 0; }
-.external-popover-list { padding-left: 1rem; position: relative; }
-.external-popover-list::before { content: "•"; position: absolute; left: 0.15rem; color: var(--gray); }
-.external-popover-heading { font-weight: 600; font-size: 0.95rem; margin: 0.35rem 0 0; }
-.external-popover-quote { border-left: 2px solid var(--lightgray); padding-left: 0.6rem; color: var(--darkgray); font-size: 0.9rem; margin: 0; }
-.external-popover-code { font-family: var(--codeFont); font-size: 0.78rem; line-height: 1.4; white-space: pre; margin: 0; }
-`
-
   let previewsPromise = null
 
   function basePath() {
@@ -43,14 +34,6 @@
     }
   }
 
-  function ensureStyle() {
-    if (document.getElementById(STYLE_ID)) return
-    const style = document.createElement("style")
-    style.id = STYLE_ID
-    style.textContent = STYLE
-    document.head.appendChild(style)
-  }
-
   function removePopovers() {
     for (const el of document.querySelectorAll(".external-popover")) el.remove()
   }
@@ -71,48 +54,44 @@
     el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`
   }
 
-  function blockElement(block) {
-    const tag =
-      block.t === "code"
-        ? "pre"
-        : block.t === "list"
-          ? "div"
-          : block.t === "quote"
-            ? "blockquote"
-            : block.t === "heading"
-              ? "div"
-              : "p"
-    const el = document.createElement(tag)
-    el.className = `external-popover-${block.t}`
-    el.textContent = block.text
-    return el
-  }
-
-  function appendBody(inner, preview) {
-    if (preview.code) {
-      const pre = document.createElement("pre")
-      pre.className = "external-popover-code"
-      pre.textContent = preview.code.text
-      inner.appendChild(pre)
-      return
-    }
-    if (Array.isArray(preview.content) && preview.content.length > 0) {
-      for (const block of preview.content) inner.appendChild(blockElement(block))
-      return
-    }
-    if (preview.image) {
-      const img = document.createElement("img")
-      img.className = "external-popover-image"
-      img.src = preview.image
-      img.alt = ""
-      img.loading = "lazy"
-      inner.appendChild(img)
-    }
-    if (preview.description) {
-      const desc = document.createElement("div")
-      desc.className = "external-popover-description"
-      desc.textContent = preview.description
-      inner.appendChild(desc)
+  // Render the prefetched blocks as plain Markdown elements, so the same
+  // `.markdown-rendered` styles apply as on a real page.
+  function renderBlocks(container, blocks) {
+    let list = null
+    for (const block of blocks) {
+      if (block.t === "list") {
+        if (!list) {
+          list = document.createElement("ul")
+          container.appendChild(list)
+        }
+        const li = document.createElement("li")
+        li.textContent = block.text
+        list.appendChild(li)
+        continue
+      }
+      list = null
+      if (block.t === "heading") {
+        const level = Math.min(Math.max(block.level || 2, 1), 6)
+        const heading = document.createElement(`h${level}`)
+        heading.textContent = block.text
+        container.appendChild(heading)
+      } else if (block.t === "code") {
+        const pre = document.createElement("pre")
+        const code = document.createElement("code")
+        code.textContent = block.text
+        pre.appendChild(code)
+        container.appendChild(pre)
+      } else if (block.t === "quote") {
+        const quote = document.createElement("blockquote")
+        const p = document.createElement("p")
+        p.textContent = block.text
+        quote.appendChild(p)
+        container.appendChild(quote)
+      } else {
+        const p = document.createElement("p")
+        p.textContent = block.text
+        container.appendChild(p)
+      }
     }
   }
 
@@ -123,23 +102,49 @@
     inner.className = "popover-inner"
     el.appendChild(inner)
 
-    const title = document.createElement("div")
-    title.className = "external-popover-title"
+    const header = document.createElement("div")
+    header.className = "popover-hint"
+    const title = document.createElement("h1")
+    title.className = "article-title"
     title.textContent = preview.title || preview.siteName || anchor.hostname
-    inner.appendChild(title)
+    header.appendChild(title)
+    const meta = document.createElement("p")
+    meta.className = "content-meta"
+    meta.textContent = preview.siteName || anchor.hostname
+    header.appendChild(meta)
+    inner.appendChild(header)
 
-    const host = document.createElement("div")
-    host.className = "external-popover-host"
-    host.textContent = preview.siteName || anchor.hostname
-    inner.appendChild(host)
-
-    appendBody(inner, preview)
+    const article = document.createElement("article")
+    article.className = "popover-hint"
+    const body = document.createElement("div")
+    body.className = "markdown-preview-view markdown-rendered"
+    if (Array.isArray(preview.content)) renderBlocks(body, preview.content)
+    if (preview.code) {
+      const pre = document.createElement("pre")
+      const code = document.createElement("code")
+      code.textContent = preview.code.text
+      pre.appendChild(code)
+      body.appendChild(pre)
+    }
+    if (preview.image) {
+      const img = document.createElement("img")
+      img.src = preview.image
+      img.alt = ""
+      img.loading = "lazy"
+      body.appendChild(img)
+    }
+    if (preview.description) {
+      const p = document.createElement("p")
+      p.textContent = preview.description
+      body.appendChild(p)
+    }
+    article.appendChild(body)
+    inner.appendChild(article)
     return el
   }
 
   function render(anchor, preview) {
     removePopovers()
-    ensureStyle()
     const el = createPopover(preview, anchor)
     document.body.appendChild(el)
     position(el, anchor)

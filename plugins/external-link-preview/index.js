@@ -55,8 +55,9 @@ const BLOCK_KINDS = {
 export const manifest = {
   name: "external-link-preview",
   displayName: "External Link Preview",
-  description: "Prefetch external link content at build time and show it in hover previews.",
-  version: "1.1.0",
+  description:
+    "Prefetch external link content at build time and show it in hover previews; GitHub directories preview their README.",
+  version: "1.2.0",
   category: "emitter",
   quartzVersion: ">=5.0.0",
   defaultOptions: {
@@ -180,6 +181,8 @@ function absoluteUrl(href) {
 async function fetchPreview(url, options) {
   const github = parseGitHubBlob(url)
   if (github) return fetchGitHubPreview(github, options)
+  const tree = parseGitHubTree(url)
+  if (tree) return fetchGitHubTreePreview(tree, options)
   return fetchPagePreview(url, options)
 }
 
@@ -201,6 +204,14 @@ function parseGitHubBlob(url) {
   }
 }
 
+function parseGitHubTree(url) {
+  const match = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/tree\/([^/?#]+)(?:\/([^?#]+))?/)
+  if (!match) return null
+  const [, owner, repo, ref, rawPath] = match
+  const filePath = rawPath ? rawPath.replace(/\/+$/, "") : ""
+  return { owner, repo, ref, filePath }
+}
+
 async function fetchGitHubPreview(blob, options) {
   const rawUrl = `https://raw.githubusercontent.com/${blob.owner}/${blob.repo}/${blob.ref}/${blob.filePath}`
   const text = await fetchMemoizedText(rawUrl, options)
@@ -215,6 +226,106 @@ async function fetchGitHubPreview(blob, options) {
     url: `https://github.com/${blob.owner}/${blob.repo}/blob/${blob.ref}/${blob.filePath}`,
     code: { text: lines.slice(start - 1, end).join("\n"), startLine: start },
   }
+}
+
+// A GitHub directory page renders its README client-side, so the HTML we fetch
+// holds only the file list. Read the directory's README from the raw endpoint
+// instead and show it the way the page would.
+async function fetchGitHubTreePreview(tree, options) {
+  const base = `https://raw.githubusercontent.com/${tree.owner}/${tree.repo}/${tree.ref}`
+  const prefix = tree.filePath ? `${tree.filePath}/` : ""
+  for (const name of ["README.md", "readme.md", "README.markdown"]) {
+    const text = await fetchMemoizedText(`${base}/${prefix}${name}`, options)
+    if (text === null) continue
+    const suffix = tree.filePath ? `/${tree.filePath}` : ""
+    return {
+      title: `${tree.filePath || tree.repo} · ${tree.owner}/${tree.repo}`,
+      siteName: "GitHub",
+      url: `https://github.com/${tree.owner}/${tree.repo}/tree/${tree.ref}${suffix}`,
+      content: markdownToBlocks(text),
+    }
+  }
+  return null
+}
+
+// Minimal Markdown → block list, enough to preview a README the way GitHub
+// renders it: headings, paragraphs, list items, quotes and fenced code.
+function markdownToBlocks(markdown) {
+  const blocks = []
+  const state = { chars: 0 }
+  const lines = markdown.split("\n")
+  let i = 0
+  while (i < lines.length && state.chars < CONTENT_MAX_CHARS && blocks.length < CONTENT_MAX_BLOCKS) {
+    const line = lines[i]
+    if (/^\s*```/.test(line)) {
+      const body = []
+      i += 1
+      while (i < lines.length && !/^\s*```/.test(lines[i])) {
+        body.push(lines[i])
+        i += 1
+      }
+      i += 1
+      addBlock(blocks, state, { t: "code", text: body.join("\n") })
+      continue
+    }
+    const heading = line.match(/^\s{0,3}(#{1,6})\s+(.*?)\s*#*\s*$/)
+    if (heading) {
+      addBlock(blocks, state, {
+        t: "heading",
+        level: heading[1].length,
+        text: cleanInline(heading[2]),
+      })
+      i += 1
+      continue
+    }
+    const item = line.match(/^\s*(?:[-*+]|\d+[.)])\s+(.*)$/)
+    if (item) {
+      addBlock(blocks, state, { t: "list", text: cleanInline(item[1]) })
+      i += 1
+      continue
+    }
+    const quote = line.match(/^\s*>\s?(.*)$/)
+    if (quote) {
+      addBlock(blocks, state, { t: "quote", text: cleanInline(quote[1]) })
+      i += 1
+      continue
+    }
+    if (line.trim() === "") {
+      i += 1
+      continue
+    }
+    const paragraph = []
+    while (
+      i < lines.length &&
+      lines[i].trim() !== "" &&
+      !/^\s*(?:#{1,6}\s|[-*+]\s|\d+[.)]\s|>|```)/.test(lines[i])
+    ) {
+      paragraph.push(lines[i].trim())
+      i += 1
+    }
+    addBlock(blocks, state, { t: "paragraph", text: cleanInline(paragraph.join(" ")) })
+  }
+  return blocks
+}
+
+function addBlock(blocks, state, block) {
+  const text = (block.text ?? "").trim()
+  const room = CONTENT_MAX_CHARS - state.chars
+  if (!text || room <= 0) return
+  const clipped = text.slice(0, room)
+  blocks.push({ ...block, text: clipped })
+  state.chars += clipped.length
+}
+
+// Strip image syntax, unwrap links and drop code backticks so raw Markdown
+// reads as plain text (underscores are left alone to keep identifiers intact).
+function cleanInline(text) {
+  return text
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/`/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
 }
 
 // One raw file can back many line-anchored links; fetch it once per build.
