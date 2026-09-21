@@ -214,3 +214,9 @@
 - Moved: wiki/images/* → wiki/images/ai-agent-book/（116 个）
 - Updated: ai-agent-book/*.md 引用改为 ../images/ai-agent-book/；AGENTS.md 规则改为 wiki/images/<source>/<file>
 - Result: 图片仍集中一处，并按来源分组；116 个引用全部可解析
+
+## [2026-09-20] edit | 站点导航改为按目录浏览 + 修复 --strict 构建
+- Changed: mkdocs.yml 去掉 navigation.sections（强制展开导致侧栏溢出），加 navigation.tabs（目录升为顶部标签页，侧栏只显示当前目录）+ navigation.indexes（ai-agent-book/README.md 成为该目录落地页）
+- Added: mkdocs-awesome-pages-plugin + wiki/*/.pages，目录标题改为「AI Agent 设计笔记」「深入理解 AI Agent（开源书）」，并把开源书章节顺序固定为 1→10（原按字符串排序 chapter10 会排在 chapter2 前）
+- Added: hooks.py 将 ai-agent-book/ 存档文档中无法解析的上游相对链接改写为 GitHub 上游地址（保持原文档不改），strict 警告 42 → 0
+- Result: 顶部按目录分标签、侧栏每目录折叠；mkdocs build --strict 0 warning；evidence 0/0/0

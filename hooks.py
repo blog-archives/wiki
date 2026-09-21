@@ -4,15 +4,67 @@
    articles use (``../../raw/<topic>/<file>.md``). Those paths escape
    ``docs_dir`` (``wiki/``), so MkDocs cannot resolve them and leaves
    them pointing at ``.md`` URLs that are never emitted.
-2. ``on_page_content`` copies each table's header labels onto the body
+2. ``on_page_markdown`` also repairs the archived upstream docs under
+   ``ai-agent-book/``. Those files are kept byte-for-byte as published,
+   so their relative links still point at the upstream repo layout
+   (``book/chapter1.md``, ``docs/zh-CN/LEARNING.md``, ...). Every such
+   link that does not resolve inside ``docs_dir`` is redirected to the
+   file on GitHub, which keeps ``--strict`` link checking useful for our
+   own articles instead of flagging the archive.
+3. ``on_page_content`` copies each table's header labels onto the body
    cells as ``data-label`` attributes, so the mobile stylesheet can stack
    wide comparison tables into labelled cards without horizontal scroll.
 """
 
 import html
+import os
+import posixpath
 import re
 
 _RAW_LINK_RE = re.compile(r"\]\(((?:\.\./)+)raw/([^)\s]+?)\.md(#[^)\s]*)?\)")
+
+_MD_LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
+
+_ARCHIVE_PREFIX = "ai-agent-book/"
+_ARCHIVE_UPSTREAM = "https://github.com/bojieli/ai-agent-book/"
+_ARCHIVE_UPSTREAM_DIR_DEFAULT = "book/"
+_ARCHIVE_UPSTREAM_DIRS = {
+    "README.md": "",
+    "LEARNING.md": "docs/zh-CN/",
+}
+_ARCHIVE_EXTERNAL_PREFIXES = ("http://", "https://", "mailto:", "#", "/", "data:")
+
+
+def _archive_upstream_url(path, base):
+    kind = "tree" if path.endswith("/") else "blob"
+    ref = posixpath.normpath(posixpath.join(base, path))
+    return f"{_ARCHIVE_UPSTREAM}{kind}/main/{ref}"
+
+
+def _rewrite_archive_links(markdown, page, config):
+    src_path = page.file.src_path
+    if not src_path.startswith(_ARCHIVE_PREFIX):
+        return markdown
+
+    docs_dir = config["docs_dir"]
+    page_dir = posixpath.dirname(src_path)
+    base = _ARCHIVE_UPSTREAM_DIRS.get(
+        posixpath.basename(src_path), _ARCHIVE_UPSTREAM_DIR_DEFAULT
+    )
+
+    def repl(match):
+        target = match.group(1)
+        if target.startswith(_ARCHIVE_EXTERNAL_PREFIXES):
+            return match.group(0)
+        path, _, anchor = target.partition("#")
+        if not path:
+            return match.group(0)
+        if os.path.exists(os.path.join(docs_dir, posixpath.normpath(posixpath.join(page_dir, path)))):
+            return match.group(0)
+        suffix = f"#{anchor}" if anchor else ""
+        return f"]({_archive_upstream_url(path, base)}{suffix})"
+
+    return _MD_LINK_RE.sub(repl, markdown)
 
 _TABLE_RE = re.compile(r"<table>.*?</table>", re.DOTALL)
 _THEAD_RE = re.compile(r"<thead>(.*?)</thead>", re.DOTALL)
@@ -24,6 +76,8 @@ _TAG_RE = re.compile(r"<[^>]+>")
 
 
 def on_page_markdown(markdown, page, config, files):
+    markdown = _rewrite_archive_links(markdown, page, config)
+
     depth = page.file.src_path.count("/")
     prefix = f'{"../" * depth}raw/'
 

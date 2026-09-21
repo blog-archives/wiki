@@ -14,13 +14,22 @@ extra_css:
 theme:
   name: material
   language: zh
+  # Sidebar is kept short: `navigation.tabs` puts each top-level directory in
+  # the top bar, so the sidebar only lists the current directory. With
+  # `navigation.sections` off, folders render as collapsible groups instead of
+  # being force-expanded. `navigation.indexes` makes a folder's README.md its
+  # landing page (linked from the section title). `awesome-pages` reads each
+  # folder's `.pages` for the directory title/order while still auto-including
+  # new pages.
   features:
-    - navigation.sections
+    - navigation.tabs
+    - navigation.indexes
     - navigation.top
     - search.highlight
     - content.code.copy
 
 plugins:
+  - awesome-pages
   - search:
       lang:
         - zh
