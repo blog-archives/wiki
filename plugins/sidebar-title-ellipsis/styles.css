@@ -1,0 +1,53 @@
+/* Sidebar titles.
+   Long explorer and table-of-contents names stay on one line and are clipped
+   with an ellipsis instead of wrapping. Scoped to the two sidebars so nothing
+   else in the UI changes. */
+
+/* Left explorer: file and folder names. */
+.explorer-content ul li > a.nav-file-title {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Folder rows are flex containers; let the title column shrink so its text
+   can ellipsize rather than push the row wider. */
+.explorer-content .folder-container {
+  min-width: 0;
+}
+
+.explorer-content .folder-container > div {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.explorer-content .folder-container .folder-button {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.explorer-content .folder-container .folder-title {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Right table of contents: section links. The full title is mirrored into a
+   `title` attribute by client.js so it shows on hover. */
+ul.toc-content.overflow > li > a {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

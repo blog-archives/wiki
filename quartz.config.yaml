@@ -257,6 +257,9 @@ plugins:
   - source: "./plugins/heading-styles"
     enabled: true
     order: 49
+  - source: "./plugins/sidebar-title-ellipsis"
+    enabled: true
+    order: 50
   - source: "@quartz-community/encrypted-pages"
     enabled: true
     options:
