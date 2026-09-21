@@ -6,6 +6,7 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 - `raw/<topic>/` — immutable source material. Read only; never modify.
 - `wiki/<topic>/` — compiled knowledge articles, one topic level only. Fully agent-owned.
+- `wiki/images/` — single shared tree for every image under `wiki/`, grouped by source (`wiki/images/<source>/`); articles reference it as `../images/<source>/<file>`.
 - `wiki/index.md` — global index: one row per article, grouped by topic.
 - `wiki/log.md` — append-only operation log.
 
@@ -19,6 +20,7 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 - Grounding invariant: every number, date, and quote in `wiki/` must exist verbatim in the linked `raw/` files.
 - Inside `wiki/`, links are relative to the current file; in conversation, use project-root-relative paths.
+- All images under `wiki/` live in the single `wiki/images/` tree, grouped by source (`wiki/images/<source>/`); articles reference them as `../images/<source>/<file>`.
 - Never modify `raw/`; never silently rewrite history (use Status blocks for outdated/disputed claims).
 
 ## Formatting preferences
