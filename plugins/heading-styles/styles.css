@@ -1,0 +1,75 @@
+/* Heading hierarchy.
+   Every level gets a distinct size, weight and colour, plus one decorative
+   accent that fades out as levels get deeper. Scoped to the rendered article
+   body so the page title and UI chrome are untouched. */
+
+.markdown-rendered {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  /* H1 — top-level section: largest, heaviest, full-width rule. */
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 2.75rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--secondary);
+  }
+
+  /* H2 — major section: strong, hairline rule. */
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  /* H3 — subsection: left accent bar instead of a full rule. */
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1.85rem;
+    margin-bottom: 0.9rem;
+    padding-left: 0.6rem;
+    border-left: 3px solid var(--secondary);
+  }
+
+  /* H4 — coloured, no rule. */
+  h4 {
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
+    color: var(--secondary);
+  }
+
+  /* H5 — smaller, tracked out, muted. */
+  h5 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin-top: 1.4rem;
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--darkgray);
+  }
+
+  /* H6 — smallest, lightest, widest tracking. */
+  h6 {
+    font-size: 0.88rem;
+    font-weight: 400;
+    margin-top: 1.25rem;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--darkgray);
+  }
+}

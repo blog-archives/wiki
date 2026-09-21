@@ -254,6 +254,9 @@ plugins:
   - source: "./plugins/external-link-preview"
     enabled: true
     order: 48
+  - source: "./plugins/heading-styles"
+    enabled: true
+    order: 49
   - source: "@quartz-community/encrypted-pages"
     enabled: true
     options:
