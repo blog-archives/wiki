@@ -1,32 +1,27 @@
-VENV := .venv
-MKDOCS := $(VENV)/bin/mkdocs
+QUARTZ := npx quartz
+CONTENT := wiki
+OUTPUT := public
 
-.PHONY: help setup serve serve-lan build clean lint
+.PHONY: help setup serve build clean lint
 
 help:
-	@echo "make setup     - create .venv and install docs deps"
-	@echo "make serve     - preview at http://127.0.0.1:8000"
-	@echo "make serve-lan - preview on the LAN (test on your phone)"
-	@echo "make build     - build static site into site/"
-	@echo "make lint      - run the evidence check"
-	@echo "make clean     - remove build output"
+	@echo "make setup  - install Node dependencies"
+	@echo "make serve  - preview at http://localhost:8080"
+	@echo "make build  - build static site into $(OUTPUT)/"
+	@echo "make lint   - run the evidence check"
+	@echo "make clean  - remove build output"
 
 setup:
-	python3 -m venv $(VENV)
-	$(VENV)/bin/pip install -q --upgrade pip
-	$(VENV)/bin/pip install -q -r requirements-docs.txt
+	npm ci
 
 serve:
-	$(MKDOCS) serve
-
-serve-lan:
-	$(MKDOCS) serve --dev-addr 0.0.0.0:8000
+	$(QUARTZ) build --serve -d $(CONTENT)
 
 build:
-	$(MKDOCS) build
+	$(QUARTZ) build -d $(CONTENT) -o $(OUTPUT)
 
 lint:
-	python3 ~/.agents/skills/karpathy-llm-wiki/scripts/check_evidence.py .
+	python3 scripts/check_evidence.py .
 
 clean:
-	rm -rf site
+	rm -rf $(OUTPUT)

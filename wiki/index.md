@@ -1,4 +1,6 @@
-# Knowledge Base Index
+---
+title: Knowledge Base Index
+---
 
 ## ai-agent
 

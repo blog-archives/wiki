@@ -1,8 +1,7 @@
-# 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
-
-> Sources: DeepWiki Q&A（charmbracelet/crush；openai/codex；anthropics/claude-code；cloudwego/eino）, Unknown
-> Raw: [Crush](../../raw/ai-agent/2026-09-20-crush-agent-architecture.md); [Codex](../../raw/ai-agent/2026-09-20-codex-multi-agent-roles.md); [Claude Code](../../raw/ai-agent/2026-09-20-claude-code-agents.md); [Eino](../../raw/ai-agent/2026-09-20-eino-subagents.md); [Eino Demo](../../raw/ai-agent/2026-09-20-eino-subagent-demo.md); [Eino DeepAgent Demo](../../raw/ai-agent/2026-09-20-eino-deepagent-demo.md)
-> Updated: 2026-09-20
+---
+title: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
+updated: "2026-09-20"
+---
 
 ## Overview
 
@@ -110,3 +109,6 @@ deepAgent, _ := deep.New(ctx, &deep.Config{
 ## See Also
 
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 其中「多 Agent 与框架选型」模块讨论多 agent 拆分与协作方式。
+
+> Sources: DeepWiki Q&A（charmbracelet/crush；openai/codex；anthropics/claude-code；cloudwego/eino）, Unknown
+> Raw: [Crush](../../raw/ai-agent/2026-09-20-crush-agent-architecture.md); [Codex](../../raw/ai-agent/2026-09-20-codex-multi-agent-roles.md); [Claude Code](../../raw/ai-agent/2026-09-20-claude-code-agents.md); [Eino](../../raw/ai-agent/2026-09-20-eino-subagents.md); [Eino Demo](../../raw/ai-agent/2026-09-20-eino-subagent-demo.md); [Eino DeepAgent Demo](../../raw/ai-agent/2026-09-20-eino-deepagent-demo.md)

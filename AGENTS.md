@@ -10,11 +10,28 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 - `wiki/index.md` — global index: one row per article, grouped by topic.
 - `wiki/log.md` — append-only operation log.
 
+## Site
+
+The published site is built with [Quartz 5](https://quartz.jzhao.xyz/) from `wiki/` (`wiki/raw` symlinks to `raw/`, so sources are published too). `make build` runs `npx quartz build -d wiki -o public`; `make serve` previews at http://localhost:8080. Config lives in `quartz.config.yaml`. Hover previews (`enablePopovers`), graph view, backlinks and full-text search are enabled; the UI locale is `zh-CN`.
+
+Each document states its title once, as frontmatter `title:`, and its last-updated date as frontmatter `updated:`. The body must **not** repeat the title as a `# heading` — Quartz renders the frontmatter title as the page heading, and the local `plugins/title-from-h1` transformer promotes a leading H1 (legacy `raw/` sources) to the title and strips it. Source citations live at the **end** of the article, as a trailing blockquote of `> Sources: ...` and `> Raw: ...` lines. `log.md` is excluded via `ignorePatterns`. Pages under `raw/` are published and reachable through article links, but marked *unlisted* by the local `plugins/raw-unlisted` transformer so they stay out of the explorer, search, graph and folder listings without touching the immutable sources.
+
+## Customization boundary
+
+Quartz is vendored **unmodified**: `quartz/` and the framework files at the repo root (`package.json`, `package-lock.json`, `tsconfig.json`, `quartz.ts`, `Dockerfile`, …) are byte-identical to upstream v5, so an upgrade can replace them wholesale. All our behaviour changes are extensions upstream does not own:
+
+- `quartz.config.yaml` — plugin list, layout, theme, locale (upstream ships only `quartz.config.default.yaml`).
+- `plugins/<name>/` — local Quartz plugins, wired in via `source: "./plugins/<name>"`.
+- `scripts/` — project tooling (the lint adapter).
+- `.github/workflows/deploy.yml` — our Pages deploy; upstream's CI workflows are intentionally not vendored.
+
+Never edit `quartz/` or the vendored framework files for project needs — add a plugin or a config entry instead. `wiki/` and `raw/` are content and are untouched by framework updates.
+
 ## Workflow
 
 - **Ingest** ("add to wiki", drop a URL/file): fetch into `raw/<topic>/YYYY-MM-DD-slug.md`, triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
-- **Lint**: run `python3 ~/.agents/skills/karpathy-llm-wiki/scripts/check_evidence.py .` then apply safe fixes and report judgment issues.
+- **Lint**: run `python3 scripts/check_evidence.py .` then apply safe fixes and report judgment issues. This project-local adapter normalizes our document format (frontmatter title + end-of-article citations) and delegates to the `karpathy-llm-wiki` checker; the skill itself is left untouched.
 
 ## Rules
 

@@ -1,8 +1,7 @@
-# 系统提示词设计
-
-> Sources: Codex CLI system prompt, Unknown
-> Raw: [Codex 系统提示词](../../raw/ai-agent/2026-09-20-codex-system-prompt.md)
-> Updated: 2026-09-20
+---
+title: 系统提示词设计
+updated: "2026-09-20"
+---
 
 **导语**：本页整理 Agent 系统提示词的组织方式，目前以 Codex CLI 的提示词为样本。它把提示词分成**身份与能力 → 工作方式 → 工具规范**三层，主体「工作方式」再按自主性、计划、执行、验证、输出逐段约束行为。最值得借鉴的是四类可复制写法：**指令优先级、计划状态机、验证分层、输出格式规范**。
 
@@ -32,3 +31,6 @@
 ## See Also
 
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 第 04 模块「Prompt 与结构化输出」对应本页。
+
+> Sources: Codex CLI system prompt, Unknown
+> Raw: [Codex 系统提示词](../../raw/ai-agent/2026-09-20-codex-system-prompt.md)

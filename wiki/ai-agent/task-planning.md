@@ -1,8 +1,7 @@
-# 任务拆分与规划
-
-> Sources: DeepWiki Q&A（charmbracelet/crush）, Unknown; DeepWiki Q&A（anthropics/claude-code）, Unknown; DeepWiki Q&A（openai/codex）, Unknown
-> Raw: [Crush 拆分依据](../../raw/ai-agent/2026-09-20-crush-task-decomposition.md); [Claude Code 拆分依据](../../raw/ai-agent/2026-09-20-claude-code-task-decomposition.md); [Codex 拆分依据](../../raw/ai-agent/2026-09-20-codex-task-decomposition.md); [Crush 子任务契约](../../raw/ai-agent/2026-09-20-crush-subtask-contracts.md); [Claude Code 子任务契约](../../raw/ai-agent/2026-09-20-claude-code-subtask-contracts.md); [Codex 子任务契约](../../raw/ai-agent/2026-09-20-codex-subtask-contracts.md); [计划质量校验](../../raw/ai-agent/2026-09-20-plan-quality-validation.md); [澄清/假设/停止](../../raw/ai-agent/2026-09-20-clarify-assume-stop.md); [意图识别讨论](../../raw/ai-agent/2026-09-20-intent-recognition.md); [意图识别落地](../../raw/ai-agent/2026-09-20-intent-recognition-implementation.md); [出错处理](../../raw/ai-agent/2026-09-20-plan-error-handling.md); [中途改目标 Codex](../../raw/ai-agent/2026-09-20-mid-task-goal-change.md); [中途改目标 CC/Crush](../../raw/ai-agent/2026-09-20-mid-task-goal-change-others.md)
-> Updated: 2026-09-20
+---
+title: 任务拆分与规划
+updated: "2026-09-20"
+---
 
 **导语**：本页按问题组织，覆盖「任务拆分与规划」的六个问题——何时拆、怎么拆、拆成什么、子任务靠什么契约交接、计划有没有质量校验、模糊时如何澄清或停止。核心判断是：**拆分靠 prompt 启发式，契约与校验基本都交给 LLM，唯一的结构化例外是 Codex 的跨会话协议。**
 
@@ -157,3 +156,6 @@ Crush 子 Agent 输入只有自由文本 `Prompt`（仅校验非空），输出�
 
 - [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](multi-agent-design.md) — 各项目 agent 角色的预定义、触发与委派。
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 第 03 模块「任务拆分与规划」对应本页。
+
+> Sources: DeepWiki Q&A（charmbracelet/crush）, Unknown; DeepWiki Q&A（anthropics/claude-code）, Unknown; DeepWiki Q&A（openai/codex）, Unknown
+> Raw: [Crush 拆分依据](../../raw/ai-agent/2026-09-20-crush-task-decomposition.md); [Claude Code 拆分依据](../../raw/ai-agent/2026-09-20-claude-code-task-decomposition.md); [Codex 拆分依据](../../raw/ai-agent/2026-09-20-codex-task-decomposition.md); [Crush 子任务契约](../../raw/ai-agent/2026-09-20-crush-subtask-contracts.md); [Claude Code 子任务契约](../../raw/ai-agent/2026-09-20-claude-code-subtask-contracts.md); [Codex 子任务契约](../../raw/ai-agent/2026-09-20-codex-subtask-contracts.md); [计划质量校验](../../raw/ai-agent/2026-09-20-plan-quality-validation.md); [澄清/假设/停止](../../raw/ai-agent/2026-09-20-clarify-assume-stop.md); [意图识别讨论](../../raw/ai-agent/2026-09-20-intent-recognition.md); [意图识别落地](../../raw/ai-agent/2026-09-20-intent-recognition-implementation.md); [出错处理](../../raw/ai-agent/2026-09-20-plan-error-handling.md); [中途改目标 Codex](../../raw/ai-agent/2026-09-20-mid-task-goal-change.md); [中途改目标 CC/Crush](../../raw/ai-agent/2026-09-20-mid-task-goal-change-others.md)

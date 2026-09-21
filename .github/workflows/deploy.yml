@@ -18,17 +18,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@v6
         with:
-          python-version: "3.x"
-          cache: pip
-          cache-dependency-path: requirements-docs.txt
-      - run: pip install -r requirements-docs.txt
-      - run: mkdocs build --strict
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Quartz
+        run: npx quartz build -d wiki -o public
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: site
+          path: public
 
   deploy:
     needs: build
