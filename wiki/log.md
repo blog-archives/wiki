@@ -579,3 +579,17 @@
 ## [2026-09-21] edit | 根 index 收敛到目录级
 
 - Updated: wiki/index.md（去掉逐篇条目与 Updated 列，只保留 ai-agent / claude-code 两个目录入口与一行说明，避免频繁维护）
+
+## [2026-09-22] edit | 移除外链预览插件
+
+- Removed: plugins/external-link-preview/（构建期抓取全部外链的单体 JSON 方案）；quartz.config.yaml 中的对应条目；.quartz-cache/external-link-preview.json
+- Updated: AGENTS.md 删去外链预览说明
+- Note: 该方案把构建与任意第三方站点抓取绑定——emit 阶段稳定多耗 20+ 秒（raw.githubusercontent.com 超时且失败不缓存），且单体 JSON 随外链数增长。改为浏览器按需获取需引入代理/edge function（CORS），暂不实现
+- Result: emit 阶段由约 25s 降到约 0.4s；站内链接的悬浮预览（内置 popover）不受影响
+
+## [2026-09-22] fix | 重新启用 note-properties
+
+- Fixed: quartz.config.yaml 恢复 `@quartz-community/note-properties` 为 enabled: true
+- Cause: 该插件不只是渲染属性面板，它同时是解析 frontmatter 的 transformer（填充 `frontmatter.title`、`aliases`、`frontmatterLinks`）。关掉后标题全部退化为「无题」、YAML 头被当作正文渲染
+- Note: 本次其余关闭项（latex、canvas-page、bases-page、encrypted-pages、og-image）均为 transformer / pageType / emitter，且不承担 frontmatter 解析，确认无副作用
+- Result: 标题恢复（`<h1 class="article-title">`），frontmatter 不再泄漏进正文；构建 71 文件、emit 约 0.4s

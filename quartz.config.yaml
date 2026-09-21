@@ -83,7 +83,7 @@ plugins:
     enabled: true
     order: 70
   - source: "@quartz-community/latex"
-    enabled: true
+    enabled: false
     options:
       renderEngine: katex
     order: 80
@@ -120,11 +120,11 @@ plugins:
   - source: "@quartz-community/favicon"
     enabled: true
   - source: "@quartz-community/og-image"
-    enabled: true
+    enabled: false
   - source: "@quartz-community/cname"
     enabled: true
   - source: "@quartz-community/canvas-page"
-    enabled: true
+    enabled: false
   - source: "@quartz-community/content-page"
     enabled: true
   - source: "./plugins/folder-order"
@@ -219,7 +219,7 @@ plugins:
       priority: 25
       display: mobile-only
   - source: "@quartz-community/bases-page"
-    enabled: true
+    enabled: false
     options: {}
     order: 50
   - source: "@quartz-community/note-properties"
@@ -253,9 +253,6 @@ plugins:
   - source: "./plugins/title-from-h1"
     enabled: true
     order: 47
-  - source: "./plugins/external-link-preview"
-    enabled: true
-    order: 48
   - source: "./plugins/heading-styles"
     enabled: true
     order: 49
@@ -266,7 +263,7 @@ plugins:
     enabled: true
     order: 51
   - source: "@quartz-community/encrypted-pages"
-    enabled: true
+    enabled: false
     options:
       iterations: 600000
       passwordField: password
