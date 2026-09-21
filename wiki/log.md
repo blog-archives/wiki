@@ -154,3 +154,27 @@
 - Disposition: Update
 - Raw: raw/ai-agent/2026-09-20-intent-recognition-implementation.md
 - Updated: 任务拆分与规划
+
+## [2026-09-20] edit | 任务拆分与规划（加粗/斜体突出重点）
+- Updated: 任务拆分与规划; AGENTS.md 格式偏好
+- Ref: 段首论点加粗、关键术语加粗、对比用斜体
+
+## [2026-09-20] ingest | 任务拆分与规划（补充多步骤任务出错处理）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-plan-error-handling.md
+- Updated: 任务拆分与规划; AI Agent 面试题清单（120 题）
+
+## [2026-09-20] ingest | 任务拆分与规划（补充中途改目标：Codex Goal / steer）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-mid-task-goal-change.md
+- Updated: 任务拆分与规划; AI Agent 面试题清单（120 题）
+
+## [2026-09-20] ingest | 任务拆分与规划（中途改目标：补充 Claude Code / Crush）
+- Disposition: Update
+- Raw: raw/ai-agent/2026-09-20-mid-task-goal-change-others.md
+- Updated: 任务拆分与规划
+
+## [2026-09-20] ingest | 系统提示词设计（Codex 系统提示词整理）
+- Disposition: New
+- Raw: raw/ai-agent/2026-09-20-codex-system-prompt.md
+- Updated: 系统提示词设计; AI Agent 面试题清单（120 题）

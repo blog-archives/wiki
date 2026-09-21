@@ -25,3 +25,4 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 - Use lists only for short, one-line items. For longer reasoning, write prose paragraphs instead of paragraph-length list items.
 - For multi-point reasoning, give each point a short bold title line (a numbered item like `1. **Title**`, or a `###` subheading) and put the explanation in a separate paragraph below it.
+- Don't leave prose as flat text: bold the thesis sentence of a paragraph and key terms, and use italics for sharp contrasts, so the reader can scan the argument.
