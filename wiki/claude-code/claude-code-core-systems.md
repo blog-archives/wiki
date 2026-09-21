@@ -3,11 +3,7 @@ title: Claude Code 核心系统
 updated: "2026-09-21"
 ---
 
-## 概述
-
-本文是 DeepWiki 对 `anthropics/claude-code` 仓库《Core Systems》一章的中文译文。原文基于 `CHANGELOG.md` 等源码文件，介绍 Claude Code 的内部架构及其各核心子系统：Agent 系统、工具系统、权限系统、上下文窗口管理、Hook 系统、MCP 集成、插件系统、Skill 系统、沙箱环境，以及 UI/终端集成。文章先给出整体架构与请求处理流程，再逐一说明每个子系统的职责、关键配置与近期变更。
-
-面向用户的使用与配置文档见 [Configuration Management](https://deepwiki.com/anthropics/claude-code/2.2-configuration-management) 与 [CLI Commands & Interaction Modes](https://deepwiki.com/anthropics/claude-code/2.3-cli-commands-and-interaction-modes)；各子系统的细节见下文各节列出的子页面。
+> 本文是 [DeepWiki | anthropics/claude-code/3-core-systems](https://deepwiki.com/anthropics/claude-code/3-core-systems)一章的中文译文。
 
 ## 架构总览
 
@@ -19,15 +15,15 @@ Claude Code 的架构围绕若干核心子系统组织，它们协同工作以�
 
 ```mermaid
 graph TB
-    CLI["CLI Entry Point<br/>'claude' command"]
-    SessionMgr["SessionManager<br/>(src/sessions/manager.ts)"]
-    AgentCore["Agent System<br/>AgentExecutor (src/agents/executor.ts)"]
-    ContextMgr["ContextManager<br/>(src/context/manager.ts)"]
-    ToolRegistry["ToolRegistry<br/>(src/tools/registry.ts)"]
-    PermSystem["PermissionSystem<br/>(src/permissions/checker.ts)"]
-    HookEngine["HookEngine<br/>(src/hooks/engine.ts)"]
-    PluginLoader["PluginLoader<br/>(src/plugins/loader.ts)"]
-    SkillLoader["SkillLoader<br/>(src/skills/loader.ts)"]
+    CLI["CLI 入口<br/>'claude' 命令"]
+    SessionMgr["会话管理器<br/>(src/sessions/manager.ts)"]
+    AgentCore["Agent 系统<br/>AgentExecutor (src/agents/executor.ts)"]
+    ContextMgr["上下文管理器<br/>(src/context/manager.ts)"]
+    ToolRegistry["工具注册表<br/>(src/tools/registry.ts)"]
+    PermSystem["权限系统<br/>(src/permissions/checker.ts)"]
+    HookEngine["Hook 引擎<br/>(src/hooks/engine.ts)"]
+    PluginLoader["插件加载器<br/>(src/plugins/loader.ts)"]
+    SkillLoader["Skill 加载器<br/>(src/skills/loader.ts)"]
 
     CLI --> SessionMgr
     SessionMgr --> AgentCore
@@ -39,7 +35,7 @@ graph TB
     PluginLoader --> HookEngine
     SkillLoader --> AgentCore
 
-    ContextMgr -.->|"trigger /compact"| AgentCore
+    ContextMgr -.->|"触发 /compact"| AgentCore
     HookEngine -.->|"PreToolUse/PostToolUse"| ToolRegistry
     PermSystem -.->|"allow/ask/deny"| ToolRegistry
 ```
@@ -67,19 +63,19 @@ graph TB
 
 ```mermaid
 flowchart TD
-    UserInput["User Input<br/>Terminal REPL"]
-    InputParser["InputParser<br/>(src/cli/parser.ts)"]
-    SessionContext["SessionContext<br/>Conversation history"]
+    UserInput["用户输入<br/>终端 REPL"]
+    InputParser["输入解析器<br/>(src/cli/parser.ts)"]
+    SessionContext["会话上下文<br/>对话历史"]
     AgentExec["AgentExecutor<br/>(src/agents/executor.ts)"]
-    ToolDecision["Tool Decision<br/>Model selects tools"]
-    PermCheck["PermissionChecker<br/>(src/permissions/checker.ts)"]
-    PermPrompt["Permission Prompt<br/>AskUserQuestion"]
-    ToolExec["Tool Execution<br/>BashTool/ReadTool/etc"]
+    ToolDecision["工具决策<br/>模型选择工具"]
+    PermCheck["权限检查器<br/>(src/permissions/checker.ts)"]
+    PermPrompt["权限提示<br/>AskUserQuestion"]
+    ToolExec["工具执行<br/>BashTool/ReadTool 等"]
     HookPre["PreToolUse Hook"]
     HookPost["PostToolUse Hook"]
-    ContextCheck["ContextManager<br/>Token tracking"]
-    Compaction["Compaction<br/>(src/context/compactor.ts)"]
-    Response["Response<br/>Display to user"]
+    ContextCheck["上下文管理器<br/>Token 追踪"]
+    Compaction["压缩<br/>(src/context/compactor.ts)"]
+    Response["响应<br/>展示给用户"]
 
     UserInput --> InputParser
     InputParser -->|"prompt"| SessionContext
@@ -90,13 +86,13 @@ flowchart TD
     PermCheck -->|"ask"| PermPrompt
     PermCheck -->|"deny"| Response
     PermCheck -->|"allow"| HookPre
-    PermPrompt -->|"approved"| HookPre
-    PermPrompt -->|"denied"| Response
+    PermPrompt -->|"已批准"| HookPre
+    PermPrompt -->|"已拒绝"| Response
     HookPre --> ToolExec
     ToolExec --> HookPost
     HookPost --> ContextCheck
-    ContextCheck -->|"< limit"| AgentExec
-    ContextCheck -->|"> limit"| Compaction
+    ContextCheck -->|"< 上限"| AgentExec
+    ContextCheck -->|"> 上限"| Compaction
     Compaction --> AgentExec
     AgentExec --> Response
 ```

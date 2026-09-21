@@ -16,6 +16,8 @@ The published site is built with [Quartz 5](https://quartz.jzhao.xyz/) from `wik
 
 Each document states its title once, as frontmatter `title:`, and its last-updated date as frontmatter `updated:`. The body must **not** repeat the title as a `# heading` — Quartz renders the frontmatter title as the page heading, and the local `plugins/title-from-h1` transformer promotes a leading H1 to the title and strips it. `log.md` is excluded via `ignorePatterns`. Pages under `wiki/annotations/` are published and reachable through article links (including hover previews), but marked *unlisted* by the local `plugins/unlisted-paths` transformer so they stay out of the explorer, search, graph and folder listings. The plugin takes a `prefixes` option listing the path prefixes to hide (currently `annotations`).
 
+External links also get hover previews. Quartz's built-in popover is internal-only (same-origin fetch + `.popover-hint`), so the local `plugins/external-link-preview` emitter walks the rendered pages and, once per build, fetches each `a.external-link` URL's content into `static/external-previews.json` (cached under `.quartz-cache/`, default TTL 168h). GitHub blob links resolve to the exact referenced lines via `raw.githubusercontent.com`; other pages are reduced to a readable heading/paragraph/list block list (via the transitive `parse5`), with metadata kept as a fallback. A small client script renders it on hover. Builds need network access for uncached links; individual fetch failures are skipped, never fatal.
+
 ## Customization boundary
 
 Quartz is vendored **unmodified**: `quartz/` and the framework files at the repo root (`package.json`, `package-lock.json`, `tsconfig.json`, `quartz.ts`, `Dockerfile`, …) are byte-identical to upstream v5, so an upgrade can replace them wholesale. All our behaviour changes are extensions upstream does not own:
@@ -37,6 +39,7 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 - Inside `wiki/`, links are relative to the current file; in conversation, use project-root-relative paths.
 - All images under `wiki/` live in the single `wiki/images/` tree, grouped by source (`wiki/images/<source>/`); articles reference them as `../images/<source>/<file>`.
+- When an article is a summary or translation of one specific source, open the body with a one-line blockquote that says so and links the original inline, e.g. `> 本文是 [DeepWiki | anthropics/claude-code/3-core-systems](https://deepwiki.com/anthropics/claude-code/3-core-systems) 一章的中文译文。`. Keep it to that single line — no separate `原文：` line and no long overview. When only a passage or sentence is drawn from a source, link it inline in that paragraph or sentence instead.
 - Never silently rewrite history (use Status blocks for outdated/disputed claims).
 
 ## Formatting preferences

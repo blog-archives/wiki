@@ -296,3 +296,14 @@
 - Added: scripts/format-markdown.mjs（盘古之白 + 安全排版，零依赖）；Makefile 增加 format / format-check
 - Updated: AGENTS.md 记录 scripts/ 与 Format 流程；全量格式化 wiki/*.md（6 个文件）
 - Result: CJK↔半角字母/数字自动加空格，标题/列表/代码块/表格/引用块空行规范化，跳过 frontmatter 与代码
+
+## [2026-09-21] edit | 译文开头标注原文链接
+
+- Added: AGENTS.md 规则——整篇总结/翻译的文章开头用一行引用块点明并内联原文链接（如 `> 本文是 [标题](url) 一章的中文译文。`），不另起 `原文：` 行、不写长概述；局部引用则在对应段落或句子就近给出链接
+- Updated: wiki/claude-code/claude-code-core-systems.md 开头补上 DeepWiki《Core Systems》原文链接，把「概述」浓缩进该引用块，并翻译两幅流程图中的节点与连线标签
+
+## [2026-09-21] edit | 外部链接悬浮预览
+
+- Added: plugins/external-link-preview/（构建期抓取外链内容写入 `static/external-previews.json`：GitHub blob 经 raw.githubusercontent.com 取被引用的具体行，其他页面用 parse5 提取正文块；客户端脚本 hover 渲染，复用 `.popover` 样式）
+- Updated: quartz.config.yaml 启用该 emitter（order 48）；AGENTS.md 记录外链预览行为
+- Result: 62 个外链取得内容（52 个 GitHub 行引用 + 10 个 DeepWiki 正文，JSON 约 72 KB）；缓存 `.quartz-cache/external-link-preview.json`（TTL 168h），抓取失败跳过、不阻断构建

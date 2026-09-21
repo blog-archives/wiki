@@ -251,6 +251,9 @@ plugins:
   - source: "./plugins/title-from-h1"
     enabled: true
     order: 47
+  - source: "./plugins/external-link-preview"
+    enabled: true
+    order: 48
   - source: "@quartz-community/encrypted-pages"
     enabled: true
     options:
