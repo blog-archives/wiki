@@ -1,6 +1,7 @@
 ---
 title: 多 Agent 中断实现
 updated: "2026-09-21"
+order: 4
 ---
 
 > 本文整理自 [agent-practice](https://github.com/code-practice-archives/agent-practice) 仓库 04、06 实验的 README 与源码。

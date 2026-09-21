@@ -1,6 +1,7 @@
 ---
 title: 基于中断恢复的用户交互
 updated: "2026-09-21"
+order: 5
 ---
 
 > 本文整理自 [agent-practice](https://github.com/code-practice-archives/agent-practice) 仓库 03、04 实验的 README 与源码。

@@ -1,6 +1,7 @@
 ---
 title: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
 updated: "2026-09-21"
+order: 2
 ---
 
 ## Overview

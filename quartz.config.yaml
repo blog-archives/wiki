@@ -127,11 +127,11 @@ plugins:
     enabled: true
   - source: "@quartz-community/content-page"
     enabled: true
-  - source: "@quartz-community/folder-page"
+  - source: "./plugins/folder-order"
     enabled: true
   - source: "@quartz-community/tag-page"
     enabled: true
-  - source: "@quartz-community/explorer"
+  - source: "./plugins/explorer-order"
     enabled: true
     layout:
       position: left
@@ -262,6 +262,9 @@ plugins:
   - source: "./plugins/sidebar-title-ellipsis"
     enabled: true
     order: 50
+  - source: "./plugins/explorer-align"
+    enabled: true
+    order: 51
   - source: "@quartz-community/encrypted-pages"
     enabled: true
     options:

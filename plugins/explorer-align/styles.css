@@ -1,0 +1,66 @@
+/* Left explorer tree: folder and file rows share one leading gutter so their
+   titles line up at every depth, and both lead with an icon from the same set.
+
+   A folder row leads with a 12px collapse chevron plus a 5px gap (17px in
+   total); a file row had no leading element, so its title started 17px to the
+   left. Reserve that same gutter on file rows and drop a matching document
+   glyph in it, then give files the folder rows' line-height and a hover colour
+   so the two read as one list. The folder chevron is redrawn from the same
+   lucide stroke icon as the file glyph, at the same size and weight, and the
+   folder title's inline-block baseline is neutralised so it sits on the row
+   centre instead of riding above it. */
+
+.explorer-content {
+  --explorer-icon: 12px;
+  --explorer-gutter: 17px;
+  --explorer-file-icon: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M14%202H6a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2V8z'/%3E%3Cpolyline%20points='14%202%2014%208%2020%208'/%3E%3C/svg%3E");
+  --explorer-chevron: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='3%206%2018%2012'%20fill='none'%20stroke='black'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='m6%209%206%206%206-6'/%3E%3C/svg%3E");
+}
+
+.explorer-content ul li > a.nav-file-title {
+  position: relative;
+  padding-left: var(--explorer-gutter);
+  line-height: 1.5rem;
+}
+
+.explorer-content ul li > a.nav-file-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: var(--explorer-icon);
+  height: var(--explorer-icon);
+  transform: translateY(-50%);
+  background-color: currentColor;
+  opacity: 0.66;
+  -webkit-mask: var(--explorer-file-icon) center / contain no-repeat;
+  mask: var(--explorer-file-icon) center / contain no-repeat;
+}
+
+.explorer-content ul li > a.nav-file-title:hover {
+  opacity: 1;
+  color: var(--tertiary);
+}
+
+/* Redraw the folder chevron with the same stroke icon as the file glyph. The
+   original inline polyline is hidden and the icon is masked onto the existing
+   <svg>, so the collapse rotation and click target keep working unchanged. */
+.explorer-content .folder-icon {
+  background-color: currentColor;
+  opacity: 0.5;
+  -webkit-mask: var(--explorer-chevron) center / contain no-repeat;
+  mask: var(--explorer-chevron) center / contain no-repeat;
+}
+
+.explorer-content .folder-icon polyline {
+  display: none;
+}
+
+/* The folder title link is `display: inline-block`, so it sits on the wrapper's
+   text baseline and the line box's strut descent leaves it visibly above the
+   row centre. Make the wrapper a centred flex row so the title lines up with
+   the file rows (and with the chevron). */
+.explorer-content .folder-container > div {
+  display: flex;
+  align-items: center;
+}

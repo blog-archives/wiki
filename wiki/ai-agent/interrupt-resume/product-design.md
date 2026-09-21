@@ -1,6 +1,7 @@
 ---
 title: 专业产品的中断设计
 updated: "2026-09-21"
+order: 1
 ---
 
 > 本文整理自 DeepWiki 关于 openai/codex 与 anthropics/claude-code 的问答，存档见 [raw/2026-09-21-165330.md](../../raw/2026-09-21-165330.md) 与 [raw/2026-09-21-142646.md](../../raw/2026-09-21-142646.md)。

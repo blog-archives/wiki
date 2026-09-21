@@ -1,6 +1,7 @@
 ---
 title: 内部中断实现
 updated: "2026-09-21"
+order: 2
 ---
 
 > 本文整理自 [agent-practice](https://github.com/code-practice-archives/agent-practice) 仓库 03、05 实验的源码。

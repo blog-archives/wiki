@@ -467,3 +467,37 @@
 - Added: wiki/ai-agent/interrupt-resume/index.md（子专题落地页）——一句话说明 + 五篇文章的标题与一句话内容表
 - Added: wiki/ai-agent/index.md（ai-agent 目录落地页，标题「AI Agent」）——一句话说明 + 五篇文章（含中断与恢复子专题）的标题与一句话内容表
 - Updated: wiki/index.md 的 ai-agent 表与子专题表各新增入口行
+
+## [2026-09-21] edit | 侧栏文件按 order 元数据排序
+
+- Added: plugins/explorer-order/（component 包装 `@quartz-community/explorer`：每次渲染把全部文件的 `order` frontmatter 编成 `slug → order` 映射内联到页面，客户端排序按 order 升序；文件夹仍排在文件前，同组内已设 order 的排在未设的前面，其余保持原字母序）
+- Updated: quartz.config.yaml 用 `./plugins/explorer-order` 替换 `@quartz-community/explorer`；AGENTS.md 记录该行为
+- Result: 文档在 frontmatter 写 `order: <number>` 即可控制 explorer 中的位置（目录的 index.md 控制该文件夹的位置）
+
+## [2026-09-21] edit | 目录页文章列表也按 order 排序
+
+- Added: plugins/folder-order/（pageType 包装 `@quartz-community/folder-page`：注入按 `order` 的比较器——文件夹仍在前，同组内已设 order 的升序排在前，其余沿用原「日期倒序 + 标题」排序）
+- Updated: quartz.config.yaml 用 `./plugins/folder-order` 替换 `@quartz-community/folder-page`；AGENTS.md 记录该行为
+- Result: 目录落地页（如 /ai-agent/）的文章列表与 explorer 一致地受 `order` 控制
+
+## [2026-09-21] edit | 按 index 介绍顺序补 order，并让 order 优先于「文件夹在前」
+
+- Added: 13 篇文章的 frontmatter 补 `order`，取各自 index 表格中的介绍顺序——`ai-agent/index.md`、`claude-code/index.md` 在根目录分列 1/2；`ai-agent/` 下 4 篇 + `interrupt-resume/` 子目录（1–5）；`interrupt-resume/` 下 5 篇（1–5）；`claude-code/agent-system-and-subagents.md` 为 1
+- Updated: plugins/explorer-order 与 plugins/folder-order 的排序规则改为 order 优先（已设 order 的按升序排在前，未设的回落到原「文件夹在前 / 字母序 / 日期倒序」），使侧栏与目录页与 index 顺序一致；AGENTS.md 同步
+- Result: explorer 与目录落地页的条目顺序均与 `wiki/index.md` 及其子目录 index 的介绍顺序一致
+
+## [2026-09-21] edit | 左侧目录树文件夹/文件对齐
+
+- Added: plugins/explorer-align/（注入 CSS：文件行补上与文件夹 chevron 等宽的 17px 前导槽并放一个文档图标，行高统一为 1.5rem，hover 用 tertiary 色）
+- Updated: quartz.config.yaml 启用该 transformer（order 51）；AGENTS.md 记录
+- Result: 同一层级下文件夹标题与文件标题左对齐，目录与文档视觉上成为一套列表
+
+## [2026-09-21] edit | 目录树文件夹箭头统一为描边图标
+
+- Updated: plugins/explorer-align/styles.css——把文件夹原本的内联 polyline 箭头隐藏，用与文件文档图标同一套 lucide 描边图标（chevron-down）重绘到同一个 `<svg>` 上，尺寸 12px、透明度与文件图标对齐；折叠旋转与点击热区不变
+- Result: 文件夹箭头与文件图标风格统一；经无头 Chrome 渲染确认各层级文件夹/文件标题对齐
+
+## [2026-09-21] edit | 修复文件夹标题偏上（与箭头/文件行不齐）
+
+- Fixed: plugins/explorer-align/styles.css——文件夹标题链接是 `display:inline-block`，会落在包裹层行盒的基线上，行盒 strut 的下沿留白把标题顶到行中心之上（约 4px，行高也被撑到 31.6px）。把包裹层 `.folder-container > div` 改为 `display:flex; align-items:center`，标题回到行中心
+- Verified: 静态页（含真实字体）对比修复前后——修复前 folder 行高 31.6px、标题中心比容器中心高 3.8px；修复后行高 24px、三者同心

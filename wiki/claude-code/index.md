@@ -1,6 +1,7 @@
 ---
 title: Claude Code 核心系统
 updated: "2026-09-21"
+order: 2
 ---
 
 > 本文是 [DeepWiki | anthropics/claude-code/3-core-systems](https://deepwiki.com/anthropics/claude-code/3-core-systems)一章的中文译文。

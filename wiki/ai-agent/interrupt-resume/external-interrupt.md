@@ -1,6 +1,7 @@
 ---
 title: 外部中断实现
 updated: "2026-09-21"
+order: 3
 ---
 
 > 本文整理自 [agent-practice](https://github.com/code-practice-archives/agent-practice) 仓库 07 实验的源码与 [Eino TurnLoop 官方文档](https://www.cloudwego.io/zh/docs/eino/quick_start/chapter_11_turnloop/)。

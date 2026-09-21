@@ -1,6 +1,7 @@
 ---
 title: Agent 系统与 Subagents
 updated: "2026-09-21"
+order: 1
 ---
 
 > 本文是 [DeepWiki | anthropics/claude-code/3.1-agent-system-and-subagents](https://deepwiki.com/anthropics/claude-code/3.1-agent-system-and-subagents) 一章的中文译文。
