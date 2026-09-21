@@ -181,5 +181,3 @@ updated: "2026-09-20"
 - [ ] 119 Coding Agent 生成的代码通过了现有测试，是否就可以认定任务完成？还需要如何验证需求与安全边界？
 - [ ] 120 选一个你实际做过的 Agent，说明你独立负责的部分、最难的问题、关键取舍，以及证明效果的证据？
 
-> Sources: AI Agent 面试题清单, 2026-09-19
-> Raw: [2026-09-19-ai-agent-interview-questions-120.md](../../raw/ai-agent/2026-09-19-ai-agent-interview-questions-120.md)

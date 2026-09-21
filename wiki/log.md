@@ -235,3 +235,8 @@
 - Renamed: plugins/raw-unlisted → plugins/unlisted-paths，改为读取 prefixes 选项（默认 raw）
 - Updated: quartz.config.yaml 用 prefixes: [raw, annotations] 隐藏两处目录；AGENTS.md 记录 wiki/annotations/ 与插件改名；scripts/check_evidence.py 跳过 wiki/annotations/
 - Result: 批注文档不进左侧目录/搜索/图谱，HTML 仍生成，链接悬浮预览可用
+
+## [2026-09-21] edit | 移除 raw 存档与证据校验流程
+- Removed: raw/（23 个源文件）、wiki/raw 软链、scripts/check_evidence.py
+- Updated: 5 篇文章末尾的 Sources/Raw 引用块；quartz.config.yaml 的 unlisted prefixes 仅保留 annotations；Makefile 去掉 lint 目标；AGENTS.md 去掉 raw 布局/grounding invariant/Lint 流程
+- Result: 站点只由 wiki/ 正文构成；不再保留原始素材与来源引用

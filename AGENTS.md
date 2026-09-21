@@ -4,7 +4,6 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 ## Layout
 
-- `raw/<topic>/` — immutable source material. Read only; never modify.
 - `wiki/<topic>/` — compiled knowledge articles, one topic level only. Fully agent-owned.
 - `wiki/images/` — single shared tree for every image under `wiki/`, grouped by source (`wiki/images/<source>/`); articles reference it as `../images/<source>/<file>`.
 - `wiki/annotations/` — link-only annotation notes. Kept out of listings (see below); articles link to them for hover-preview "comments".
@@ -13,9 +12,9 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 ## Site
 
-The published site is built with [Quartz 5](https://quartz.jzhao.xyz/) from `wiki/` (`wiki/raw` symlinks to `raw/`, so sources are published too). `make build` runs `npx quartz build -d wiki -o public`; `make serve` previews at http://localhost:8080. Config lives in `quartz.config.yaml`. Hover previews (`enablePopovers`), graph view, backlinks and full-text search are enabled; the UI locale is `zh-CN`.
+The published site is built with [Quartz 5](https://quartz.jzhao.xyz/) from `wiki/`. `make build` runs `npx quartz build -d wiki -o public`; `make serve` previews at http://localhost:8080. Config lives in `quartz.config.yaml`. Hover previews (`enablePopovers`), graph view, backlinks and full-text search are enabled; the UI locale is `zh-CN`.
 
-Each document states its title once, as frontmatter `title:`, and its last-updated date as frontmatter `updated:`. The body must **not** repeat the title as a `# heading` — Quartz renders the frontmatter title as the page heading, and the local `plugins/title-from-h1` transformer promotes a leading H1 (legacy `raw/` sources) to the title and strips it. Source citations live at the **end** of the article, as a trailing blockquote of `> Sources: ...` and `> Raw: ...` lines. `log.md` is excluded via `ignorePatterns`. Pages under `raw/` and `wiki/annotations/` are published and reachable through article links (including hover previews), but marked *unlisted* by the local `plugins/unlisted-paths` transformer so they stay out of the explorer, search, graph and folder listings. The plugin takes a `prefixes` option listing the path prefixes to hide (currently `raw` and `annotations`).
+Each document states its title once, as frontmatter `title:`, and its last-updated date as frontmatter `updated:`. The body must **not** repeat the title as a `# heading` — Quartz renders the frontmatter title as the page heading, and the local `plugins/title-from-h1` transformer promotes a leading H1 to the title and strips it. `log.md` is excluded via `ignorePatterns`. Pages under `wiki/annotations/` are published and reachable through article links (including hover previews), but marked *unlisted* by the local `plugins/unlisted-paths` transformer so they stay out of the explorer, search, graph and folder listings. The plugin takes a `prefixes` option listing the path prefixes to hide (currently `annotations`).
 
 ## Customization boundary
 
@@ -23,23 +22,20 @@ Quartz is vendored **unmodified**: `quartz/` and the framework files at the repo
 
 - `quartz.config.yaml` — plugin list, layout, theme, locale (upstream ships only `quartz.config.default.yaml`).
 - `plugins/<name>/` — local Quartz plugins, wired in via `source: "./plugins/<name>"`.
-- `scripts/` — project tooling (the lint adapter).
 - `.github/workflows/deploy.yml` — our Pages deploy; upstream's CI workflows are intentionally not vendored.
 
-Never edit `quartz/` or the vendored framework files for project needs — add a plugin or a config entry instead. `wiki/` and `raw/` are content and are untouched by framework updates.
+Never edit `quartz/` or the vendored framework files for project needs — add a plugin or a config entry instead. `wiki/` is content and is untouched by framework updates.
 
 ## Workflow
 
-- **Ingest** ("add to wiki", drop a URL/file): fetch into `raw/<topic>/YYYY-MM-DD-slug.md`, triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
+- **Ingest** ("add to wiki", drop a URL/file): fetch the source, triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
-- **Lint**: run `python3 scripts/check_evidence.py .` then apply safe fixes and report judgment issues. This project-local adapter normalizes our document format (frontmatter title + end-of-article citations) and delegates to the `karpathy-llm-wiki` checker; the skill itself is left untouched. It skips `wiki/annotations/`, whose link-only notes are not grounded in sources.
 
 ## Rules
 
-- Grounding invariant: every number, date, and quote in `wiki/` must exist verbatim in the linked `raw/` files.
 - Inside `wiki/`, links are relative to the current file; in conversation, use project-root-relative paths.
 - All images under `wiki/` live in the single `wiki/images/` tree, grouped by source (`wiki/images/<source>/`); articles reference them as `../images/<source>/<file>`.
-- Never modify `raw/`; never silently rewrite history (use Status blocks for outdated/disputed claims).
+- Never silently rewrite history (use Status blocks for outdated/disputed claims).
 
 ## Formatting preferences
 

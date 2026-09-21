@@ -104,11 +104,9 @@ deepAgent, _ := deep.New(ctx, &deep.Config{
 })
 ```
 
-两者都是「从预注册候选里动态选型」，都不支持凭空 new 全新 agent。完整可运行 demo（两种写法）见 raw。
+两者都是「从预注册候选里动态选型」，都不支持凭空 new 全新 agent。
 
 ## See Also
 
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 其中「多 Agent 与框架选型」模块讨论多 agent 拆分与协作方式。
 
-> Sources: DeepWiki Q&A（charmbracelet/crush；openai/codex；anthropics/claude-code；cloudwego/eino）, Unknown
-> Raw: [Crush](../../raw/ai-agent/2026-09-20-crush-agent-architecture.md); [Codex](../../raw/ai-agent/2026-09-20-codex-multi-agent-roles.md); [Claude Code](../../raw/ai-agent/2026-09-20-claude-code-agents.md); [Eino](../../raw/ai-agent/2026-09-20-eino-subagents.md); [Eino Demo](../../raw/ai-agent/2026-09-20-eino-subagent-demo.md); [Eino DeepAgent Demo](../../raw/ai-agent/2026-09-20-eino-deepagent-demo.md)

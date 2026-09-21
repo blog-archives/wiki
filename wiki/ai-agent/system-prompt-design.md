@@ -32,5 +32,3 @@ updated: "2026-09-20"
 
 - [AI Agent 面试题清单（120 题）](interview-question-checklist.md) — 第 04 模块「Prompt 与结构化输出」对应本页。
 
-> Sources: Codex CLI system prompt, Unknown
-> Raw: [Codex 系统提示词](../../raw/ai-agent/2026-09-20-codex-system-prompt.md)

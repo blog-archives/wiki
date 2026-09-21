@@ -1,8 +1,8 @@
 // Marks every page under the configured path prefixes as unlisted. Such pages
 // are still emitted and reachable through the links in wiki articles (including
 // hover previews), but are dropped from the explorer, search index, graph,
-// backlinks and folder listings. Keeps the immutable `raw/` sources free of
-// frontmatter, and lets directories such as `annotations/` stay link-only.
+// backlinks and folder listings. Lets directories such as `annotations/` stay
+// link-only without frontmatter on every note.
 
 export const manifest = {
   name: "unlisted-paths",
@@ -12,7 +12,7 @@ export const manifest = {
   category: "transformer",
   quartzVersion: ">=5.0.0",
   defaultOptions: {
-    prefixes: ["raw"],
+    prefixes: [],
   },
 }
 

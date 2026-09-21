@@ -1,8 +1,7 @@
 // Enforces the single-source title convention: a document's title lives in
 // frontmatter, never as a duplicated `# Heading` in the body.
 //
-// - Leading H1 with no explicit title (e.g. immutable raw/ sources) -> promoted
-//   to the frontmatter title.
+// - Leading H1 with no explicit title -> promoted to the frontmatter title.
 // - Leading H1 alongside an explicit title -> the H1 is dropped; frontmatter wins.
 //
 // Either way the body H1 is removed so the title renders exactly once.
