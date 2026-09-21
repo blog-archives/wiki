@@ -1,6 +1,6 @@
 ---
 title: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
-updated: "2026-09-20"
+updated: "2026-09-21"
 ---
 
 ## Overview
@@ -105,6 +105,8 @@ deepAgent, _ := deep.New(ctx, &deep.Config{
 ```
 
 两者都是「从预注册候选里动态选型」，都不支持凭空 new 全新 agent。
+
+**参考：** 使用 Eino 实现见 [01-eino-subagent](https://github.com/code-practice-archives/agent-practice/tree/main/01-eino-subagent)，自己实现见 [02-native-subagent](https://github.com/code-practice-archives/agent-practice/tree/main/02-native-subagent)。
 
 ## See Also
 

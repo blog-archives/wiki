@@ -101,7 +101,7 @@ flowchart TD
 
 ## 系统组件详解
 
-### Agent 系统
+### [Agent 系统](agent-system-and-subagents.md)
 
 Agent 系统编排所有由 AI 驱动的操作，包括为并行工作派生 subagent，以及管理后台任务。
 
@@ -111,8 +111,6 @@ Agent 系统编排所有由 AI 驱动的操作，包括为并行工作派生 sub
 - **远程控制：** 支持 `claude remote-control --continue` 恢复会话，并在 `ListAgents` 中把断开的会话标记为 `offline` [CHANGELOG.md:5-9](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L5-L9)
 - **云端会话：** 在 agent 列表中区分本地会话与云端托管的会话 [CHANGELOG.md:9-9](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L9-L9)
 - **恢复的 subagent：** 修复了恢复 subagent 和 teammate 时会重新渲染其 MCP 工具定义、破坏 prompt 缓存的问题 [CHANGELOG.md:52-52](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L52-L52)
-
-详见 [Agent System & Subagents](https://deepwiki.com/anthropics/claude-code/3.1-agent-system-and-subagents)。
 
 **来源：** [CHANGELOG.md:5-9](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L5-L9)、[CHANGELOG.md:28-28](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L28-L28)、[CHANGELOG.md:52-52](https://github.com/anthropics/claude-code/blob/6ce37e9f/CHANGELOG.md?plain=1#L52-L52)
 

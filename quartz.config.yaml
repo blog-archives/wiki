@@ -77,6 +77,7 @@ plugins:
     enabled: true
     options:
       markdownLinkResolution: shortest
+      openLinksInNewTab: true
     order: 60
   - source: "@quartz-community/description"
     enabled: true
@@ -247,6 +248,7 @@ plugins:
     options:
       prefixes:
         - annotations
+        - raw
     order: 46
   - source: "./plugins/title-from-h1"
     enabled: true

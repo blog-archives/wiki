@@ -4,9 +4,10 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 ## Layout
 
-- `wiki/<topic>/` — compiled knowledge articles, one topic level only. Fully agent-owned.
+- `wiki/<topic>/` — compiled knowledge articles. A topic may hold one level of sub-topic directories for a focused series (e.g. `wiki/ai-agent/interrupt-resume/`); no deeper nesting. Fully agent-owned.
 - `wiki/images/` — single shared tree for every image under `wiki/`, grouped by source (`wiki/images/<source>/`); articles reference it as `../images/<source>/<file>`.
 - `wiki/annotations/` — link-only annotation notes. Kept out of listings (see below); articles link to them for hover-preview "comments".
+- `raw/` — archive for sources that are *ephemeral or likely to be lost*: session-scoped Q&A links, pasted text, offline documents. A durable public original (a page or repo that stays reachable) is linked directly in the article instead, never archived. Flat (no topic subdirectories), stored verbatim with a metadata header. Files are named by timestamp, `YYYY-MM-DD-HHMMSS.md` (a day can hold several sources, so the name goes down to the second). Surfaced to the build through the `wiki/raw` symlink (see below), so its pages are published and link-reachable but unlisted.
 - `wiki/index.md` — global index: one row per article, grouped by topic.
 - `wiki/log.md` — append-only operation log.
 
@@ -14,9 +15,9 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 
 The published site is built with [Quartz 5](https://quartz.jzhao.xyz/) from `wiki/`. `make build` runs `npx quartz build -d wiki -o public`; `make serve` previews at http://localhost:8080. Config lives in `quartz.config.yaml`. Hover previews (`enablePopovers`), graph view, backlinks and full-text search are enabled; the UI locale is `zh-CN`.
 
-Each document states its title once, as frontmatter `title:`, and its last-updated date as frontmatter `updated:`. The body must **not** repeat the title as a `# heading` — Quartz renders the frontmatter title as the page heading, and the local `plugins/title-from-h1` transformer promotes a leading H1 to the title and strips it. `log.md` is excluded via `ignorePatterns`. Pages under `wiki/annotations/` are published and reachable through article links (including hover previews), but marked *unlisted* by the local `plugins/unlisted-paths` transformer so they stay out of the explorer, search, graph and folder listings. The plugin takes a `prefixes` option listing the path prefixes to hide (currently `annotations`).
+Each document states its title once, as frontmatter `title:`, and its last-updated date as frontmatter `updated:`. The body must **not** repeat the title as a `# heading` — Quartz renders the frontmatter title as the page heading, and the local `plugins/title-from-h1` transformer promotes a leading H1 to the title and strips it. `log.md` is excluded via `ignorePatterns`. Pages under `wiki/annotations/` are published and reachable through article links (including hover previews), but marked *unlisted* by the local `plugins/unlisted-paths` transformer so they stay out of the explorer, search, graph and folder listings. The plugin takes a `prefixes` option listing the path prefixes to hide (currently `annotations` and `raw`). The `raw/` source archive gets the same treatment: `wiki/raw` is a symlink to the repo-root `raw/`, so raw pages are built and link-reachable but never listed.
 
-External links also get hover previews. Quartz's built-in popover is internal-only (same-origin fetch + `.popover-hint`), so the local `plugins/external-link-preview` emitter walks the rendered pages and, once per build, fetches each `a.external-link` URL's content into `static/external-previews.json` (cached under `.quartz-cache/`, default TTL 168h). GitHub blob links resolve to the exact referenced lines via `raw.githubusercontent.com`; other pages are reduced to a readable heading/paragraph/list block list (via the transitive `parse5`), with metadata kept as a fallback. A small client script renders it on hover. Builds need network access for uncached links; individual fetch failures are skipped, never fatal.
+External links also get hover previews. Quartz's built-in popover is internal-only (same-origin fetch + `.popover-hint`), so the local `plugins/external-link-preview` emitter walks the rendered pages and, once per build, fetches each `a.external-link` URL's content into `static/external-previews.json` (cached under `.quartz-cache/`, default TTL 168h). GitHub blob links resolve to the exact referenced lines via `raw.githubusercontent.com`; GitHub directory (`/tree/`) links resolve to that directory's `README` (GitHub renders it client-side, so the raw README is read and converted to the same block list); other pages are reduced to a readable heading/paragraph/list block list (via the transitive `parse5`), with metadata kept as a fallback. A small client script renders it on hover using the same `.popover` / `.popover-inner` card and `.popover-hint` header/body structure as the built-in popover, so external previews render exactly like internal ones. Builds need network access for uncached links; individual fetch failures are skipped, never fatal.
 
 ## Customization boundary
 
@@ -31,7 +32,7 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 ## Workflow
 
-- **Ingest** ("add to wiki", drop a URL/file): fetch the source, triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
+- **Ingest** ("add to wiki", drop a URL/file): fetch the source; archive it to `raw/` only if it is ephemeral or likely to be lost, otherwise cite the durable original inline. Then triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
 - **Format**: run `make format` (or `node scripts/format-markdown.mjs wiki`) to apply pangu spacing and safe layout to every `wiki/*.md`; `make format-check` reports drift without writing. The script skips frontmatter, code and link targets.
 
