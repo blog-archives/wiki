@@ -9,7 +9,8 @@ expects the title as an H1 followed immediately by the metadata blockquote.
 Rather than fork that skill, this adapter rewrites each article into the shape
 the upstream checker expects inside a throwaway project, then runs the upstream
 script there and relays its report. ``raw/`` is symlinked, so no sources are
-copied or modified.
+copied or modified. ``wiki/annotations/`` holds link-only notes that are not
+grounded in sources, so it is skipped.
 
 Usage: check_evidence.py [project-root]   (defaults to the current directory)
 """
@@ -25,6 +26,7 @@ SKILL_CHECKER = (
     Path.home() / ".agents" / "skills" / "karpathy-llm-wiki" / "scripts" / "check_evidence.py"
 )
 SKIP_FILES = {"index.md", "log.md"}
+SKIP_DIRS = {"annotations"}
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n(.*)$", re.DOTALL)
 FIELD_RE = re.compile(r"\s*(title|updated):\s*(.+?)\s*$")
@@ -91,7 +93,10 @@ def main(argv: list[str]) -> int:
         if raw.is_dir():
             (tmp / "raw").symlink_to(raw.resolve(), target_is_directory=True)
         for path in sorted(wiki.rglob("*.md")):
-            dest = tmp / "wiki" / path.relative_to(wiki)
+            rel = path.relative_to(wiki)
+            if rel.parts and rel.parts[0] in SKIP_DIRS:
+                continue
+            dest = tmp / "wiki" / rel
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_text(normalize(path.read_text(encoding="utf-8")), encoding="utf-8")
 

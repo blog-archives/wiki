@@ -229,3 +229,9 @@
 ## [2026-09-21] edit | 删除《深入理解 AI Agent》开源书存档与配图
 - Removed: wiki/ai-agent-book/（15 篇正文 + .pages）、wiki/images/ai-agent-book/（116 张图）
 - Updated: index.md（移除 ai-agent-book 主题）、hooks.py（移除已失效的 ai-agent-book 上游链接改写逻辑）
+
+## [2026-09-21] edit | 新增批注目录并泛化 unlisted 插件
+- Added: wiki/annotations/（链接型批注目录，附 index.md 说明）
+- Renamed: plugins/raw-unlisted → plugins/unlisted-paths，改为读取 prefixes 选项（默认 raw）
+- Updated: quartz.config.yaml 用 prefixes: [raw, annotations] 隐藏两处目录；AGENTS.md 记录 wiki/annotations/ 与插件改名；scripts/check_evidence.py 跳过 wiki/annotations/
+- Result: 批注文档不进左侧目录/搜索/图谱，HTML 仍生成，链接悬浮预览可用

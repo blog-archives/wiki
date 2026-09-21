@@ -242,8 +242,12 @@ plugins:
     enabled: true
     options: {}
     order: 45
-  - source: "./plugins/raw-unlisted"
+  - source: "./plugins/unlisted-paths"
     enabled: true
+    options:
+      prefixes:
+        - raw
+        - annotations
     order: 46
   - source: "./plugins/title-from-h1"
     enabled: true
