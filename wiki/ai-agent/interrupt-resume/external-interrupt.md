@@ -8,7 +8,7 @@ order: 3
 
 ## Overview
 
-**外部中断是「执行本身没问题，应用或用户要求暂停正在跑的循环」。** 和工具主动请求输入的[内部中断实现](internal-interrupt.md)相反，它由外部发起，因此关键变成三件事：**应用怎么触达正在执行的循环、框架在哪个安全点停下、以及之后怎么恢复。** 本文看 Eino 的 `TurnLoop`（07）；Codex 把这套东西做成 session 生命周期的设计，见[专业产品的中断设计](product-design.md)。
+**外部中断是「执行本身没问题，应用或用户要求暂停正在跑的循环」。** 和工具主动请求输入的[内部中断实现](internal-interrupt.md)相反，它由外部发起，因此关键变成三件事：**应用怎么触达正在执行的循环、框架在哪个安全点停下、以及之后怎么恢复。** 本文看 Eino 的 `TurnLoop`（07）；Codex 把这套东西做成 session 生命周期的设计，见[中断与恢复子专题](ai-agent/interrupt-resume/index.md)。
 
 ## 一、Eino：TurnLoop
 
@@ -90,5 +90,5 @@ func resumeTask(_ context.Context, _ *adk.TurnLoop[string, *schema.Message], int
 
 - [内部中断实现](internal-interrupt.md) — 工具主动请求输入
 - [多 Agent 中断实现](multi-agent-interrupt.md) — 中断沿调用链传播与恢复寻址
-- [专业产品的中断设计](product-design.md) — Claude Code / Codex 的设计
+- [中断与恢复子专题](ai-agent/interrupt-resume/index.md) — Claude Code / Codex 的设计
 - [任务拆分与规划](../task-planning.md) — 中途改目标、steer、排队与中断

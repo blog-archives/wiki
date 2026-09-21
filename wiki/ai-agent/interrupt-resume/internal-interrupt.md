@@ -131,4 +131,4 @@ func (r *Runner) Run(ctx context.Context, session *Session) (*Interrupt, error) 
 - [外部中断实现](external-interrupt.md) — 应用 / 用户从外部暂停正在跑的循环
 - [多 Agent 中断实现](multi-agent-interrupt.md) — 中断如何沿调用链向上冒泡、恢复如何寻址
 - [基于中断恢复的用户交互](user-interaction.md) — 用内部中断实现追问与授权
-- [专业产品的中断设计](product-design.md) — Claude Code / Codex 的设计
+- [中断与恢复子专题](ai-agent/interrupt-resume/index.md) — Claude Code / Codex 的设计

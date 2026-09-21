@@ -75,7 +75,7 @@ Handlers: []adk.ChatModelAgentMiddleware{&approvalMiddleware{}},
 agent:coordinator;tool:note_assistant:delegate-1;agent:note_assistant;tool:ask_user:ask-1
 ```
 
-Claude Code 把「用户交互统一收敛到主会话」做成了产品设计——subagent 的权限询问冒泡到主 session、标明来源、Esc 只拒绝该次调用，另配异步通知与 `AskUserQuestion`（见[专业产品的中断设计](product-design.md)）。
+Claude Code 把「用户交互统一收敛到主会话」做成了产品设计——subagent 的权限询问冒泡到主 session、标明来源、Esc 只拒绝该次调用，另配异步通知与 `AskUserQuestion`（见[中断与恢复子专题](ai-agent/interrupt-resume/index.md)）。
 
 ## 三、工程边界
 
@@ -90,6 +90,6 @@ Claude Code 把「用户交互统一收敛到主会话」做成了产品设计�
 - [内部中断实现](internal-interrupt.md) — 工具主动请求输入
 - [外部中断实现](external-interrupt.md) — 应用 / 用户从外部暂停
 - [多 Agent 中断实现](multi-agent-interrupt.md) — 嵌套调用链上的传播与寻址
-- [专业产品的中断设计](product-design.md) — Claude Code / Codex 的设计
+- [中断与恢复子专题](ai-agent/interrupt-resume/index.md) — Claude Code / Codex 的设计
 - [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](../multi-agent-design.md)
 - [Claude Code 的 Agent 系统与 Subagents](../../claude-code/agent-system-and-subagents.md)

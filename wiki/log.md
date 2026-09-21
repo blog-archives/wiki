@@ -501,3 +501,81 @@
 
 - Fixed: plugins/explorer-align/styles.css——文件夹标题链接是 `display:inline-block`，会落在包裹层行盒的基线上，行盒 strut 的下沿留白把标题顶到行中心之上（约 4px，行高也被撑到 31.6px）。把包裹层 `.folder-container > div` 改为 `display:flex; align-items:center`，标题回到行中心
 - Verified: 静态页（含真实字体）对比修复前后——修复前 folder 行高 31.6px、标题中心比容器中心高 3.8px；修复后行高 24px、三者同心
+
+## [2026-09-21] ingest | 从 Codex 学习中断恢复的实现
+
+- Disposition: New; Update; Disputed
+- Raw: raw/2026-09-21-221655.md（元数据头之后逐字节保留用户所贴原文，含完整源码引用）
+- Added: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Updated: 专业产品的中断设计（保留旧表述并补充 Status: Disputed，区分中断后同 ID 恢复与精确执行位置恢复）
+- Updated: wiki/index.md、wiki/ai-agent/interrupt-resume/index.md
+- Note: 按自实现中断恢复的工程问题组织；限定 flush 失败、检查点、恢复去重及跨进程锁的证据范围，未将通用业务幂等建议冒充 Codex 已有保证。
+
+## [2026-09-21] edit | Codex 中断恢复文章按宏观到微观重写
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 先用整体流程图与状态分层建立设计框架，再讨论存储、停止、恢复、并发与副作用五个边界；合并重复解释，删去旁支细节和重复清单。
+- Updated: wiki/index.md、wiki/ai-agent/interrupt-resume/index.md 的摘要
+
+## [2026-09-21] edit | 流程图展示 Agent 循环如何停止
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 展开模型与工具循环，画出取消信号传播、等待退出 / 超时、abort 清理和中断边界记录；保留恢复回到循环的路径。
+
+## [2026-09-21] edit | 补齐执行侧取消信号接收点
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Source: openai/codex 公开 main 分支的 session/turn.rs、tools/parallel.rs、async-utils/src/lib.rs（稳定公开来源直接引用，不存档 raw）
+- Result: 流程图明确模型流 or_cancel、工具 select!、取消状态检查及 TurnAborted 向上传播；新增短代码说明取消感知，替换先前笼统的响应取消箭头。
+
+## [2026-09-21] edit | 简化中断恢复总览图
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 恢复简洁主线，仅保留循环感知取消、退出清理、保存历史与恢复启动；删除图中底层函数及重复代码解释。
+
+## [2026-09-21] edit | 修正 Agent 循环框边界
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 循环框只包含模型调用与工具执行，在两者的等待位置标注取消感知；退出、清理、持久化和恢复均放在框外。
+
+## [2026-09-21] edit | 恢复请求改为独立入口
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 恢复请求独立触发恢复节点，与中断请求对称；持久化历史通过读取关系提供恢复数据。
+
+## [2026-09-21] edit | 收敛中断恢复图的视觉层次
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 横向突出请求、Agent 循环与退出收尾；合并控制节点，移除持久化数据连线，改用图下短段说明。
+
+## [2026-09-21] edit | 移除恢复边界中的检查点概念
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 删除“检查点”对照表与引导句，将 `SnapshotTurnState` 直接说明为扫描历史得到的临时结果。
+
+## [2026-09-21] edit | 删除恢复边界中的 SnapshotTurnState 段落
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 该段讲的是 fork 分叉历史的结束边界，与恢复流程无关，整段删除。
+
+## [2026-09-21] edit | 补充恢复边界章节
+
+- Updated: wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md
+- Result: 从“从哪份历史开始、何时允许继续”两个问题展开：补上有界扫描与压缩检查点起点、恢复复用 turn_id 并还原 root_turn_id、idle 门槛拒绝无副作用三点。
+
+## [2026-09-21] edit | 合并产品设计中继到子专题 index
+
+- Removed: wiki/ai-agent/interrupt-resume/product-design.md（内容精简后并入 index.md 的「专业产品的中断设计」一节）
+- Updated: wiki/ai-agent/interrupt-resume/index.md（新增产品设计概览：Claude Code 冒泡与权限链路、Codex 三层粒度与挂起持久化，保留两处 Status: Disputed）
+- Updated: 各篇 See Also / 正文引用由 product-design.md 改为 index.md#专业产品的中断设计
+- Updated: wiki/index.md（删除 product-design 行，子专题入口行摘要并入产品设计要点）
+
+## [2026-09-21] edit | 简化子专题 index 为纯索引
+
+- Updated: wiki/ai-agent/interrupt-resume/index.md（只保留「什么是中断恢复」+ Claude Code / Codex 做法概述 + 文章列表；移除产品设计细节与 Status 块）
+- Updated: 各篇引用由 product-design 改为指向子专题 index；因 Quartz `shortest` 解析会把同目录 `index.md` 折叠到站点根，链接统一写成 `ai-agent/interrupt-resume/index.md`
+- Updated: wiki/ai-agent/index.md（子专题链接同因修正为全路径）
+
+## [2026-09-21] edit | 根 index 收敛到目录级
+
+- Updated: wiki/index.md（去掉逐篇条目与 Updated 列，只保留 ai-agent / claude-code 两个目录入口与一行说明，避免频繁维护）

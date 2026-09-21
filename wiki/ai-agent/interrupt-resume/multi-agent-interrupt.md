@@ -8,7 +8,7 @@ order: 4
 
 ## Overview
 
-**单 Agent 的中断/恢复讲完，多一层 Agent 之后问题变成两个：中断往哪儿冒、恢复找谁。** 前者由「谁发起中断」决定，后者由「寻址信息有多完整」决定。本文看两种实现：**Eino 用 `NewAgentTool` 把子 Agent 包成工具，中断沿调用链逐层上传到最外层，应用只跟最外层打交道；手写版用一个显式 `Frame` 栈，中断就是栈顶的等待。** 两者恢复的都是「调用路径」，而不是「让上层模型重新规划」。Codex 把每个子代理当独立线程、按 `thread_id` 恢复的设计，见[专业产品的中断设计](product-design.md)。
+**单 Agent 的中断/恢复讲完，多一层 Agent 之后问题变成两个：中断往哪儿冒、恢复找谁。** 前者由「谁发起中断」决定，后者由「寻址信息有多完整」决定。本文看两种实现：**Eino 用 `NewAgentTool` 把子 Agent 包成工具，中断沿调用链逐层上传到最外层，应用只跟最外层打交道；手写版用一个显式 `Frame` 栈，中断就是栈顶的等待。** 两者恢复的都是「调用路径」，而不是「让上层模型重新规划」。Codex 把每个子代理当独立线程、按 `thread_id` 恢复的设计，见[中断与恢复子专题](ai-agent/interrupt-resume/index.md)。
 
 ## 一、Eino：AgentTool 桥接，中断逐层上传
 
@@ -242,12 +242,12 @@ func (s *Session) address() string {
 
 **共同点：恢复的是「调用路径」，不是「重新规划」。** 两者都不会因为恢复而让上层模型重跑一遍决策。手写版还有两条自己的边界：**串行栈不支持并行分支或多个位置同时等待**（并行需要额外的分支状态与回答路由，不能共享一个 `top()`），且 `Frame` 引用的 `Agent` 含函数、不能直接序列化成磁盘 checkpoint。
 
-Codex 走的是第三条路——**每个子代理是独立线程**，恢复时按 `thread_id` 重建历史与 `agent_path` / `agent_role` 元数据，嵌套的父子代理树可以一起恢复（见[专业产品的中断设计](product-design.md)）。
+Codex 走的是第三条路——**每个子代理是独立线程**，恢复时按 `thread_id` 重建历史与 `agent_path` / `agent_role` 元数据，嵌套的父子代理树可以一起恢复（见[中断与恢复子专题](ai-agent/interrupt-resume/index.md)）。
 
 ## See Also
 
 - [内部中断实现](internal-interrupt.md) — 工具主动请求输入（Eino 与手写版）
 - [外部中断实现](external-interrupt.md) — 应用 / 用户从外部暂停（Eino TurnLoop）
 - [基于中断恢复的用户交互](user-interaction.md) — 中断之后怎么和用户对话
-- [专业产品的中断设计](product-design.md) — Claude Code / Codex 的设计
+- [中断与恢复子专题](ai-agent/interrupt-resume/index.md) — Claude Code / Codex 的设计
 - [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](../multi-agent-design.md)
