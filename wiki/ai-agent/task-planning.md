@@ -1,6 +1,13 @@
 ---
 title: 任务拆分与规划
 updated: "2026-09-22"
+tags:
+  - task-planning
+  - plan
+  - sub-agent
+  - multi-agent
+  - openai-codex
+  - anthropics-claude-code
 order: 3
 ---
 

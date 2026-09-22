@@ -1,6 +1,13 @@
 ---
 title: 长期记忆：从历史记录到可复用经验
 updated: "2026-09-22"
+tags:
+  - context-engineering
+  - long-term-memory
+  - memory-write
+  - memory-read
+  - consolidation
+  - openai-codex
 order: 6
 ---
 
@@ -48,6 +55,8 @@ memories/                  # 记忆根目录，一个 git 工作区
 ```
 
 **这些文件位于 `codex_home/memories/`，模板对摘要密度、手册分块和技能触发条件都有格式要求。** 保存前还要校验产物合法，例如没有残留符号链接、摘要首行确实是 `v1`。[位置、格式与校验](../../raw/2026-09-22-203150.md)
+
+**这里的 `skills/` 与 [Agent Skills](../agent-skills.md) 使用同样的 `SKILL.md`（frontmatter 加指令）格式，但入口不同**：记忆技能由记忆整合产出，Agent Skills 由 Skills 扩展扫描 skill 根目录；两者是否会互相发现，本文材料没有展开。
 
 分层解决了读到什么。但流水线每次启动都可能把新证据整合进来，新旧经验一旦并存，就会互相冲突。
 

@@ -1,6 +1,12 @@
 ---
 title: 上下文完整性：工具关联、有效约束与质量验证
 updated: "2026-09-22"
+tags:
+  - context-engineering
+  - context-integrity
+  - history-reconstruction
+  - validation
+  - openai-codex
 order: 4
 ---
 

@@ -1,6 +1,11 @@
 ---
 title: 上下文预算与压缩：何时减量，保留什么
 updated: "2026-09-22"
+tags:
+  - context-engineering
+  - context-compaction
+  - token-budget
+  - openai-codex
 order: 3
 ---
 

@@ -1,6 +1,12 @@
 ---
 title: 上下文存储：历史、当前窗口与任务状态怎样分工
 updated: "2026-09-22"
+tags:
+  - context-engineering
+  - context-storage
+  - rollout
+  - task-state
+  - openai-codex
 order: 2
 ---
 

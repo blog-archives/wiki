@@ -1,6 +1,8 @@
 ---
 title: 中断与恢复
 updated: "2026-09-22"
+tags:
+  - interrupt-resume
 order: 6
 ---
 

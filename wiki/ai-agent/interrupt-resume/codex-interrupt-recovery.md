@@ -1,6 +1,11 @@
 ---
 title: 从 Codex 学习中断恢复的实现
 updated: "2026-09-22"
+tags:
+  - interrupt-resume
+  - openai-codex
+  - rollout
+  - session
 order: 1.5
 ---
 

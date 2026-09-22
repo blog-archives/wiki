@@ -1,6 +1,11 @@
 ---
 title: 外部中断实现
 updated: "2026-09-22"
+tags:
+  - interrupt-resume
+  - cloudwego-eino
+  - agent-loop
+  - checkpoint
 order: 3
 ---
 

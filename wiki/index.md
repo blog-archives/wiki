@@ -5,7 +5,7 @@ updated: "2026-09-22"
 
 | 目录 | 内容 |
 | --- | --- |
-| [ai-agent](ai-agent/index.md) | AI Agent 应用开发与工程实践：面试题清单、多 Agent 设计对比、任务拆分与规划、系统提示词设计（指令作用域、计划状态与验证策略）、工具调用防护（大结果处理与重复检测）、模型调用错误处理与 Eino 重试故障转移，及「中断与恢复」「上下文工程」子专题（含内部、外部与父子 Agent 中断恢复） |
+| [ai-agent](ai-agent/index.md) | AI Agent 应用开发与工程实践：面试题清单、多 Agent 设计对比、任务拆分与规划、系统提示词设计（指令作用域、计划状态与验证策略）、Agent Skills、模型调用错误处理与 Eino 重试故障转移，及「工具调用」「中断与恢复」「上下文工程」子专题 |
 
 ## 错误处理与重试
 
@@ -13,11 +13,22 @@ updated: "2026-09-22"
 | --- | --- | --- |
 | [模型调用错误处理：策略设计与 Eino 实现](ai-agent/model-call-retry-and-fallback.md) | 第 44 题：参考 Codex / Claude Code 设计，用 Eino 实现分类重试与模型切换 | 2026-09-22 |
 
-## 工具调用防护
+## 工具调用
+
+围绕 Codex 材料，按一次调用的时间顺序整理：工具怎样注册与按需发现、调用怎样分发、结果过大怎样减量、反复调用怎样判断进展。
 
 | 文章 | 内容 | Updated |
 | --- | --- | --- |
-| [工具调用防护：大结果处理与重复检测](ai-agent/tool-call-guardrails.md) | 第 34、43 题：输出预算、按需读取与无进展调用的防护思路 | 2026-09-22 |
+| [工具调用（子专题）](ai-agent/tool-call/index.md) | 阅读顺序与一次工具调用的完整生命周期 | 2026-09-22 |
+| [工具发现与调用：从工具注册到执行分发](ai-agent/tool-call/tool-discovery-and-dispatch.md) | 工具注册、延迟暴露、tool_search / BM25 检索与 dispatch 管线 | 2026-09-22 |
+| [工具调用大结果处理](ai-agent/tool-call/large-tool-result-handling.md) | 第 34 题：截断、落盘与按需读取，控制进入上下文的内容 | 2026-09-22 |
+| [重复工具调用的检测](ai-agent/tool-call/repeated-tool-call-detection.md) | 第 43 题：调用指纹、进展判断与停止条件 | 2026-09-22 |
+
+## Agent Skills
+
+| 文章 | 内容 | Updated |
+| --- | --- | --- |
+| [Agent Skills：发现、按需加载与渐进披露](ai-agent/agent-skills.md) | 第 69 题：发现 / 加载两阶段、按需读正文、元数据预算与压缩 | 2026-09-22 |
 
 ## 上下文工程
 

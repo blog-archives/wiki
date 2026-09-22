@@ -5,10 +5,10 @@ tags:
   - git
   - worktree
   - 版本控制
-  - claude-code
-  - subagent
+  - anthropics-claude-code
+  - sub-agent
   - isolation
-  - 隔离
+  - annotations
 ---
 
 **git worktree 让同一个仓库同时检出多个分支。** 普通 `git clone` 只有一个工作目录，换分支得 `git switch` 或 `git stash`；worktree 则允许在不同目录里各自检出不同分支，它们共享同一份对象库与引用，互不干扰。

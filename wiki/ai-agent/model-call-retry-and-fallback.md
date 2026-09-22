@@ -1,6 +1,13 @@
 ---
 title: 模型调用错误处理：策略设计与 Eino 实现
 updated: "2026-09-22"
+tags:
+  - model-retry
+  - error-handling
+  - fallback
+  - openai-codex
+  - anthropics-claude-code
+  - cloudwego-eino
 order: 6.1
 aliases:
   - ai-agent/eino-model-retry-and-failover

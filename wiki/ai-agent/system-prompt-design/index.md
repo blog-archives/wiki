@@ -1,6 +1,8 @@
 ---
 title: 系统提示词设计
 updated: "2026-09-22"
+tags:
+  - system-prompt-design
 order: 4
 ---
 

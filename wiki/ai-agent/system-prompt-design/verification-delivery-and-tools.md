@@ -1,6 +1,11 @@
 ---
 title: 系统提示词：验证、交付与工具
 updated: "2026-09-22"
+tags:
+  - system-prompt-design
+  - openai-codex
+  - validation
+  - tool-call
 order: 3
 ---
 

@@ -1,6 +1,11 @@
 ---
 title: 内部中断实现
 updated: "2026-09-22"
+tags:
+  - interrupt-resume
+  - cloudwego-eino
+  - tool-call
+  - checkpoint
 order: 2
 aliases:
   - ai-agent/interrupt-resume/user-interaction

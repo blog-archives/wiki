@@ -1,6 +1,10 @@
 ---
 title: 系统提示词：环境与指令作用域
 updated: "2026-09-22"
+tags:
+  - system-prompt-design
+  - openai-codex
+  - guardrails
 order: 1
 ---
 

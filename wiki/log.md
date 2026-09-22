@@ -938,3 +938,40 @@
 - Updated: .opencode/skills/technical-writing/SKILL.md
 - Result: 高亮只保留行内 `==...==` 一种形式，移除「单独成段用 callout」的建议（暂无合适示例）；门槛不变——整篇能归拢成一句话才用，拿不准默认不加。反直觉内容仍用对比、先设想再纠正等方式。
 - Validation: 全库无 callout 用法；`make format` / `--check`、`git diff --check` 通过。
+
+## [2026-09-22] ingest | 工具发现与调用：从工具注册到执行分发
+
+- Disposition: New
+- Raw: raw/2026-09-22-225255.md（DeepWiki Q&A 导出文本，会话级来源，逐字存档）
+- Added: wiki/ai-agent/tool-discovery-and-dispatch.md（order 5.1）——按「工具集合怎样构建 → 工具太多时延迟暴露 → 模型怎样发现（tool_search 参数与提示词驱动）→ BM25 检索与 search_text → 结果合并回模型 → 从 ToolCall 到 dispatch_any_with_state → 沙箱嵌套调用与轨迹 → 边界」组织；含 finalize_tool_router 注册 tool_search、BM25 索引构建、分发管线核心判断三段拼接代码
+- Updated: wiki/ai-agent/index.md；wiki/index.md（ai-agent 说明改「工具调用（注册与按需发现、大结果处理与重复检测）」）；wiki/ai-agent/interview-question-checklist.md（模块 05、09 增加相关整理，第 029、031、066 题）；wiki/ai-agent/context-engineering/context-assembly.md（工具定义一节补延迟暴露指向新文）
+- Result: 对应面试题第 029、031 题与第 066 题的「一次工具发现与调用经过哪些环节」；说明延迟暴露由代码决定、是否搜索由模型判断，BM25 为关键词检索而非向量召回，并标明材料无 commit / 原始 URL 的证据边界
+
+## [2026-09-22] edit | 工具调用独立成子专题（3 篇）
+
+- Moved: wiki/ai-agent/tool-discovery-and-dispatch.md → wiki/ai-agent/tool-call/tool-discovery-and-dispatch.md（order 1，raw 与跨目录链接改为 `../../` / `../`）
+- Added: wiki/ai-agent/tool-call/index.md（order 5，alias `ai-agent/tool-call-guardrails`）；wiki/ai-agent/tool-call/large-tool-result-handling.md（order 2，alias `ai-agent/large-tool-result-handling`）；wiki/ai-agent/tool-call/repeated-tool-call-detection.md（order 3，alias `ai-agent/repeated-tool-call-detection`）
+- Removed: wiki/ai-agent/tool-call-guardrails.md（拆回大结果处理与重复检测两篇，两个旧 alias 分别落到对应新文）
+- Updated: wiki/ai-agent/index.md（原两行并为子专题入口行，order 5）；wiki/index.md（「工具调用防护」节改为「工具调用」子专题，含入口 + 三篇；ai-agent 说明行改列「工具调用」子专题）；wiki/ai-agent/context-engineering/index.md；wiki/ai-agent/context-engineering/context-assembly.md；wiki/ai-agent/interview-question-checklist.md（模块 05、06、09 的相关整理改指新路径）
+- Result: 工具调用与 interrupt-resume / context-engineering / system-prompt-design 采用同一「index + 聚焦页」结构；index 按一次调用的时间顺序串起「注册与按需发现 / 执行分发 → 结果减量 → 重复检测」，旧 URL 经 alias 保持可达
+
+## [2026-09-22] ingest | Agent Skills：发现、按需加载与渐进披露
+
+- Disposition: New
+- Raw: raw/2026-09-22-231527.md（DeepWiki Q&A 导出文本，6 组问答，会话级来源，逐字存档）
+- Added: wiki/ai-agent/agent-skills.md（order 5.5）——按「发现 / 加载两阶段 → 正文留到调用时 → 元数据渐进披露三步 → 太多时渲染阶段减量 → 省略条目仍可发现 → 每轮重注入与压缩折叠 → 边界」组织；含发现/加载链路图、渲染预算与省略说明
+- Updated: wiki/ai-agent/index.md；wiki/index.md（新增「Agent Skills」节，ai-agent 说明补入 Agent Skills）；wiki/ai-agent/interview-question-checklist.md（模块 09 第 69 题相关整理）；wiki/ai-agent/context-engineering/long-term-memory.md（区分记忆 `skills/` 与 Agent Skills）；wiki/ai-agent/context-engineering/index.md（相关文章补入）
+- Result: 说明发现阶段只取 frontmatter、正文经 `skills.read` 按需读取；元数据预算默认 8 000 字符或上下文窗口 2%（上限 10 000），超限时经别名压缩 / 描述截断 / 逐条省略 / 整源省略；渲染省略不等于目录省略，压缩折叠 `<SKILLS_INSTRUCTIONS>` 不造成永久丢失；标明材料未展示 `compact.rs` 直接调用的证据边界
+
+## [2026-09-22] edit | 精简 Agent Skills 文章
+
+- Updated: wiki/ai-agent/agent-skills.md
+- Result: 按「函数名/常量名和逐步流程不是重点」的反馈，删去发现阶段的 `EnvironmentAccess::walk` 选项、`MAX_*` 上限常量、元数据探测三态、按 scope 的符号链接策略、并发读取数、触发链函数名等细节，只保留发现受限、插件命名空间、frontmatter 延迟读取、披露三步、预算依次退让与压缩折叠等机制；篇幅约 118 → 73 行
+
+## [2026-09-23] tags | 为 wiki 文章生成标签
+
+- Added: wiki/ 下 28 篇文档的 `tags:` frontmatter — 22 篇文章 + 4 个子专题入口 + `ai-agent/index.md` 与 `annotations/index.md`；`wiki/index.md` 与 `log.md` 不加标签
+- Vocabulary: 复用 raw 既有标签（来源 / 主题 / 概念三类），新增 `system-prompt-design`、`task-planning`、`interview-questions`、`ai-agent`、`annotations`、`checkpoint`
+- Updated: wiki/annotations/git-worktree.md（`claude-code` → `anthropics-claude-code`，`subagent` → `sub-agent`，补 `annotations`，与 raw 词表对齐）
+- Fixed: raw/2026-09-22-153920.md 的 `##直接回答` → `## 直接回答`（缺空格被解析成内联标签，既生成 `tags/直接回答` 垃圾页，又让该行没有渲染成标题）
+- Result: 标签页 65 个；文章与 raw 共用同一标签命名空间，经 `tag-normalize` 归一化后由 `tag-pills` 展示、`tag-pages` 生成列表

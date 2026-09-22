@@ -1,6 +1,13 @@
 ---
 title: 多 Agent 设计对比：Crush / Codex / Claude Code / Eino
 updated: "2026-09-21"
+tags:
+  - multi-agent
+  - sub-agent
+  - openai-codex
+  - anthropics-claude-code
+  - charmbracelet-crush
+  - cloudwego-eino
 order: 2
 ---
 

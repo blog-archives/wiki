@@ -1,6 +1,9 @@
 ---
 title: AI Agent 面试题清单（120 题）
 updated: "2026-09-22"
+tags:
+  - interview-questions
+  - ai-agent
 order: 1
 ---
 
@@ -54,7 +57,7 @@ order: 1
 
 ## 05 工具调用与工具设计
 
-相关整理：[工具调用防护：大结果处理与重复检测](tool-call-guardrails.md) — 截断、落盘与按需读取（第 34 题）。
+相关整理：[工具发现与调用](tool-call/tool-discovery-and-dispatch.md) — 工具注册、延迟暴露与执行分发（第 29、31 题）；[工具调用大结果处理](tool-call/large-tool-result-handling.md) — 截断、落盘与按需读取（第 34 题）。
 
 - [x] 029 ★ 请描述一次完整的 Function Calling 流程：模型和业务程序分别负责哪些事情？
 - [x] 030 ★ 如何设计工具名称、描述和参数 Schema，使模型能够正确选择工具并构造参数？
@@ -69,7 +72,7 @@ order: 1
 
 ## 06 自纠、校验与循环控制
 
-相关整理：[工具调用防护：大结果处理与重复检测](tool-call-guardrails.md) — 调用指纹、进展判断与停止条件（第 43 题）。
+相关整理：[重复工具调用的检测](tool-call/repeated-tool-call-detection.md) — 调用指纹、进展判断与停止条件（第 43 题）。
 
 第 44 题：[模型调用错误处理：策略设计与 Eino 实现](model-call-retry-and-fallback.md)。
 
@@ -89,8 +92,8 @@ order: 1
 - [x] 049 裁剪历史消息时，如何保留工具调用与结果的完整关联，以及仍然有效的用户要求？
 - [x] 050 ★ 短期记忆与长期记忆有什么区别？把所有聊天记录存进数据库，是否就具备了长期记忆能力？
 - [x] 051 哪些内容值得写入长期记忆？如何确定写入时机，并避免把模型猜测保存为事实？
-- [ ] 052 新信息与旧记忆冲突时如何处理？记忆怎样更新、过期和删除？
-- [ ] 053 长期记忆采用关系数据库、全文检索、向量库或文件存储，各有什么取舍？
+- [x] 052 新信息与旧记忆冲突时如何处理？记忆怎样更新、过期和删除？
+- [x] 053 长期记忆采用关系数据库、全文检索、向量库或文件存储，各有什么取舍？
 - [x] 054 任务级结构化状态与对话历史有什么区别？复杂任务中如何防止目标和进度逐渐丢失？
 
 本组源码阅读见 [上下文工程专题](context-engineering/index.md)：从请求组装、预算与压缩，逐步进入约束保留、任务状态与长期记忆。
@@ -110,11 +113,15 @@ order: 1
 
 ## 09 MCP、Skills 与 A2A
 
-- [ ] 065 ★ MCP 解决了什么问题？它与 Function Calling、普通 HTTP API 是什么关系？
-- [ ] 066 ★ MCP 中的 Host、Client、Server 分别负责什么？一次工具发现与调用经过哪些环节？
-- [ ] 067 MCP 的 Tools、Resources、Prompts 有什么区别？各适合暴露什么能力？
-- [ ] 068 MCP 的 stdio 与 Streamable HTTP 如何选择？接入时怎样处理协议版本和能力兼容问题？
-- [ ] 069 Agent Skills 与普通提示词、工具、MCP 有什么区别？Skill 的发现和按需加载如何设计？
+相关整理：[工具发现与调用](tool-call/tool-discovery-and-dispatch.md) — Codex 侧的工具注册、延迟暴露、tool_search / BM25 检索与执行分发（第 66 题「一次工具发现与调用经过哪些环节」）。
+
+相关整理：[Agent Skills：发现、按需加载与渐进披露](agent-skills.md) — 发现 / 加载两阶段、正文按需读取、元数据预算与压缩（第 69 题）。
+
+- [x] 065 ★ MCP 解决了什么问题？它与 Function Calling、普通 HTTP API 是什么关系？
+- [x] 066 ★ MCP 中的 Host、Client、Server 分别负责什么？一次工具发现与调用经过哪些环节？
+- [x] 067 MCP 的 Tools、Resources、Prompts 有什么区别？各适合暴露什么能力？
+- [x] 068 MCP 的 stdio 与 Streamable HTTP 如何选择？接入时怎样处理协议版本和能力兼容问题？
+- [x] 069 Agent Skills 与普通提示词、工具、MCP 有什么区别？Skill 的发现和按需加载如何设计？
 - [ ] 070 A2A 与 MCP 分别解决什么协作问题？什么时候需要跨 Agent 通信协议，而不只是本地函数调用？
 
 ## 10 多 Agent 与框架选型

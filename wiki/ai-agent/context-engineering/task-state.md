@@ -1,6 +1,12 @@
 ---
 title: 任务状态：让目标与进度跨越上下文窗口
 updated: "2026-09-22"
+tags:
+  - context-engineering
+  - task-state
+  - goal
+  - plan
+  - openai-codex
 order: 5
 ---
 

@@ -1,6 +1,11 @@
 ---
 title: 多 Agent 中断实现
 updated: "2026-09-22"
+tags:
+  - interrupt-resume
+  - multi-agent
+  - cloudwego-eino
+  - sub-agent
 order: 4
 ---
 

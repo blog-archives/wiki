@@ -1,6 +1,11 @@
 ---
 title: 系统提示词：自主性、边界与计划
 updated: "2026-09-22"
+tags:
+  - system-prompt-design
+  - openai-codex
+  - plan
+  - guardrails
 order: 2
 ---
 
