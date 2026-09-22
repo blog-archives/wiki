@@ -825,3 +825,10 @@
 - Updated: context-integrity.md；专题及全局索引
 - Sources: 复用原始历史重建代码，并核对上游 core/src/compact.rs 与 prompts/templates/compact/prompt.md，公开来源直接链接。
 - Result: 补充历史加摘要提示词、模型生成交接摘要、程序保留消息并重建窗口的完整过程；提供明确标注为设计建议的提示词与压缩前后示例，区分摘要化的已完成交互、仍保留的原始调用关联和待返回结果。
+
+## [2026-09-22] lint | 移除失效的 claude-code 索引入口
+
+- Disposition: Remove
+- Removed: wiki/index.md 中指向已删除 wiki/claude-code/index.md 的目录行。
+- Result: 目录表保留 ai-agent 一项；全仓 Markdown 链接扫描确认无其他指向 claude-code/ 的失效链接（批注 tags 中的 claude-code 标签非链接，保留）。
+- Validation: make format-check、git diff --check 通过。
