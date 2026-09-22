@@ -31,7 +31,7 @@ updated: "2026-09-22"
 | [上下文预算与压缩：何时减量，保留什么](ai-agent/context-engineering/budget-and-compaction.md) | 预算检查的核心思路、压缩触发时机，以及截断、摘要与窗口重建的分工 | 2026-09-22 |
 | [上下文完整性：工具关联、有效约束与质量验证](ai-agent/context-engineering/context-integrity.md) | 摘要提示词与历史重建、压缩前后示例，以及调用关系和有效要求的验证 | 2026-09-22 |
 | [任务状态：让目标与进度跨越上下文窗口](ai-agent/context-engineering/task-state.md) | 目标与进度的保存、更新、恢复，以及执行结果的确认 | 2026-09-22 |
-| [长期记忆：从历史记录到可复用经验](ai-agent/context-engineering/long-term-memory.md) | 经验提取与整合、摘要和手册的分工，以及更新与遗忘 | 2026-09-22 |
+| [长期记忆：从历史记录到可复用经验](ai-agent/context-engineering/long-term-memory.md) | 从跨会话经验出发：该记住什么、未来任务怎样读到，以及更新、过期与完整生命周期 | 2026-09-22 |
 
 ## 相关基础文章
 
