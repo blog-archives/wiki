@@ -141,7 +141,7 @@ plugins:
     enabled: true
   - source: "./plugins/folder-order"
     enabled: true
-  - source: "@quartz-community/tag-page"
+  - source: "./plugins/tag-pages"
     enabled: true
   - source: "./plugins/explorer-order"
     enabled: true
@@ -243,10 +243,20 @@ plugins:
         - tags
         - aliases
       excludedProperties: []
-      hidePropertiesView: false
+      hidePropertiesView: true
       delimiters: ---
       language: yaml
     order: 5
+    layout:
+      position: beforeBody
+      priority: 15
+      display: all
+  - source: "./plugins/tag-normalize"
+    enabled: true
+    order: 7
+  - source: "./plugins/tag-pills"
+    enabled: true
+    order: 6
     layout:
       position: beforeBody
       priority: 15
