@@ -689,3 +689,41 @@
 - Removed: wiki/ai-agent/interrupt-resume/user-interaction.md
 - Updated: wiki/ai-agent/interrupt-resume/internal-interrupt.md；wiki/ai-agent/interrupt-resume/multi-agent-interrupt.md；wiki/ai-agent/interrupt-resume/index.md；wiki/ai-agent/index.md
 - Result: 用户交互的中断与恢复流程已由内部中断和多 Agent 篇覆盖；将本次调用授权、网页交互入口与回答路由要点并入内部中断篇，删除重复的独立页面与索引引用。通过内部中断篇 aliases 保留原页面地址跳转。
+
+## [2026-09-22] ingest | 工具调用大结果的处理：截断与落盘（Codex / Crush / Claude Code）
+
+- Disposition: New
+- Raw: raw/2026-09-22-091325.md（DeepWiki Q&A 导出文本，会话级来源，逐字存档）
+- Added: wiki/ai-agent/large-tool-result-handling.md（order 5）——按「共同约束 → 三家主导策略表 → Codex 多层就地截断 / Crush 按工具定制 / Claude Code 落盘+引用 → 统一入口还是各自处理 → 被截断数据能否取回」组织；含 `truncate_mcp_tool_result_for_event`、`response_byte_budget`、Crush `web_fetch` 落盘三段核心代码
+- Updated: wiki/ai-agent/index.md（新增条目）；wiki/index.md（ai-agent 说明补入「工具调用大结果处理」）；wiki/ai-agent/interrupt-resume/index.md（order 5 → 6，让新文排在其前）
+
+## [2026-09-22] edit | 工具调用大结果处理浓缩
+
+- Updated: wiki/ai-agent/large-tool-result-handling.md
+- Result: 全文压缩约四成——三家做法各并成一段，保留 Codex MCP 截断与 Crush `web_fetch` 落盘两段核心代码，删去 `response_byte_budget` 代码片段改为一句说明；「统一入口」「能否取回」合并收紧；小结只留「丢内容还是丢上下文 + 策略下沉」两句核心判断。
+
+## [2026-09-22] edit | 按行为模块重写系统提示词设计
+
+- Disposition: Update
+- Sources: 用户指定 openai/codex 提交 a97cf1b72eaad05aa49847bc81d09ceac9327754 的 gpt_5_2_prompt.md；网络读取失败，实际依据本仓库提交 7c89902 中此前收录的完整提示词，正文注明尚未逐字核对。不新增 raw 归档。
+- Updated: wiki/ai-agent/system-prompt-design.md；wiki/ai-agent/index.md；wiki/ai-agent/interview-question-checklist.md；wiki/index.md
+- Result: 展开身份能力、指令作用域、自主执行、计划状态、验证分层、沟通交付和工具协议；解释触发条件、执行细度与例外。保留计划批量完成规则的内部冲突，区分提示词行为指导与运行时强制保障。
+
+## [2026-09-22] ingest | 重复工具调用的检测与防护（Claude Code / Codex）
+
+- Disposition: New
+- Raw: raw/2026-09-22-110356.md（DeepWiki Q&A 导出文本，会话级来源，逐字存档）
+- Added: wiki/ai-agent/repeated-tool-call-detection.md（order 6）——先区分「相同调用」与「相同 call_id」，再逐一说明 Claude Code 的 `_claim_bash_hook_once` 只是插件配置去重、Codex 的 `ExecutedToolCallRecorder`/容量上限/`has_same_tool_calls` 都不是执行前查重；结论是两家只有容量兜底，最后给出「工具名 + 参数 + 返回结果」指纹方案的设计要点与合法重复的边界
+- Updated: wiki/ai-agent/interview-question-checklist.md（模块 06 增加相关整理链接，第 043 题）；wiki/ai-agent/index.md；wiki/index.md
+
+## [2026-09-22] edit | 格式化脚本修复 CJK 加粗渲染
+
+- Updated: scripts/format-markdown.mjs 新增 `fixEmphasisFlanking`——`**` 夹在 CJK 字与全角标点之间（`是**「x」**`）不满足 CommonMark flanking 规则、加粗不生效，脚本在定界符外侧补一个空格使其成立；奇数个 `**` 与代码/链接内的 `**` 跳过
+- Updated: wiki/ai-agent/repeated-tool-call-detection.md、wiki/ai-agent/task-planning.md（各修复若干处原本渲染为字面星号的加粗）
+- Updated: AGENTS.md（Format 流程补 emphasis flanking；格式偏好补一条说明）
+
+## [2026-09-22] edit | 加粗空格定为书写约定并统一格式化
+
+- Updated: scripts/format-markdown.mjs 的 `spaceEmphasis`（原 `fixEmphasisFlanking`）从「仅在 flanking 失败时补空格」放宽为「`**` 与相邻 CJK 之间一律补空格」（`我要**加粗**文本` → `我要 **加粗** 文本`），顺带修复 flanking 渲染；奇数个 `**` 与代码/链接内跳过
+- Updated: AGENTS.md 格式偏好明确书写约定——用 `**` 加粗时在两侧与 CJK 之间留空格（`我要 **加粗** 文本`）；Format 流程措辞改为 emphasis spacing
+- Updated: 全量重排 7 个文件（codex-interrupt-recovery、large-tool-result-handling、multi-agent-design、repeated-tool-call-detection、task-planning、annotations/index、agent-system-and-subagents）

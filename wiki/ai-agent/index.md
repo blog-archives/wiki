@@ -11,5 +11,7 @@ order: 1
 | [AI Agent 面试题清单（120 题）](interview-question-checklist.md) | 16 模块 120 题的面试准备清单 |
 | [多 Agent 设计对比：Crush / Codex / Claude Code / Eino](multi-agent-design.md) | 预定义角色、触发、动态生成与交互方式对比 |
 | [任务拆分与规划](task-planning.md) | 何时 / 如何拆、子任务契约、计划校验、出错与中途改目标 |
-| [系统提示词设计](system-prompt-design.md) | 以 Codex CLI 为样本的三层提示词结构 |
+| [系统提示词设计](system-prompt-design.md) | 以 Codex 提示词展开身份、指令作用域、执行、计划状态、验证与工具协议 |
+| [工具调用大结果的处理：截断与落盘（Codex / Crush / Claude Code）](large-tool-result-handling.md) | 就地截断 vs 落盘 + 引用、能否取回、统一入口还是各工具自决 |
+| [重复工具调用的检测与防护（Claude Code / Codex）](repeated-tool-call-detection.md) | 只有容量上限兜底、没有内容指纹查重，及指纹方案的设计要点 |
 | [中断与恢复（子专题）](ai-agent/interrupt-resume/index.md) | 产品设计与内部 / 外部 / 多 Agent 中断实现（含用户交互） |
