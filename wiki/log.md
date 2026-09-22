@@ -727,3 +727,36 @@
 - Updated: scripts/format-markdown.mjs 的 `spaceEmphasis`（原 `fixEmphasisFlanking`）从「仅在 flanking 失败时补空格」放宽为「`**` 与相邻 CJK 之间一律补空格」（`我要**加粗**文本` → `我要 **加粗** 文本`），顺带修复 flanking 渲染；奇数个 `**` 与代码/链接内跳过
 - Updated: AGENTS.md 格式偏好明确书写约定——用 `**` 加粗时在两侧与 CJK 之间留空格（`我要 **加粗** 文本`）；Format 流程措辞改为 emphasis spacing
 - Updated: 全量重排 7 个文件（codex-interrupt-recovery、large-tool-result-handling、multi-agent-design、repeated-tool-call-detection、task-planning、annotations/index、agent-system-and-subagents）
+
+## [2026-09-22] ingest | 第 44 题：工具调用错误与模型调用重试
+
+- Disposition: New; Update; Disputed
+- Raw: raw/2026-09-22-113555.md（用户粘贴内容加元数据后逐字存档）
+- Added: wiki/ai-agent/tool-call-error-handling.md；wiki/ai-agent/model-call-retry-and-fallback.md
+- Updated: wiki/ai-agent/interview-question-checklist.md（勾选第 044 题，保留原有第 043 题修改）；wiki/ai-agent/task-planning.md（保留旧表述并增加争议说明）；wiki/ai-agent/index.md；wiki/index.md
+- Result: 分开整理工具结果回传与模型请求恢复，说明副作用核实、停止条件、跨层预算和不同降级路径；按所附代码纠正问答中线性等待被称为指数退避、请求层重试被限定为非流式等表述，并标明 Eino 仅有问答引用、Claude Code 插件不代表核心引擎的证据边界。
+- Validation: 格式检查、新增文章本地链接和原文逐字归档校验通过；证据脚本不识别本仓库 frontmatter 格式，改用其候选提取逻辑对正文核对，数字无缺失，开篇来源说明作为编者文字排除。
+- Build: 直接运行仓库入口 `node quartz/bootstrap-cli.mjs build -d wiki -o public` 成功；`make build` 的 npx 入口未及时返回，已停止。
+
+## [2026-09-22] ingest | 重写模型调用错误处理，单列 Eino 用法
+
+- Disposition: New; Update; Disputed
+- Raw: raw/2026-09-22-121838.md；raw/2026-09-22-121839.md；raw/2026-09-22-121840.md（分别保存用户提供的 Codex、Claude Code、Eino 文本，内容逐字保留）
+- Removed: wiki/ai-agent/tool-call-error-handling.md（按用户要求删除，原始材料与历史日志保留）
+- Updated: wiki/ai-agent/model-call-retry-and-fallback.md；wiki/ai-agent/task-planning.md；wiki/ai-agent/interview-question-checklist.md；wiki/ai-agent/index.md；wiki/index.md
+- Added: wiki/ai-agent/eino-model-retry-and-failover.md
+- Result: 主文围绕 Codex 采样循环、语义错误映射、恢复计数、传输降级与终态展开；压缩模型 fallback 单列限定范围。Claude Code 只按核心变更日志说明策略，移除插件与 Crush 旁支。Eino 单独提供 ShouldRetry 与 Failover 组合示例，解释预算、候选选择和流式展示；公开源码核对字段，纠正原问答“只呈现最终结果”的过度概括。
+- Validation: Markdown 格式与 diff 检查通过；三份新增 raw 字节保真，正文链接可解析，删除页无活动引用。示例为集成片段，未执行 Provider 请求或宣称经过固定版本编译。
+
+## [2026-09-22] edit | 浓缩合并模型错误处理与 Eino 实现
+
+- Updated: wiki/ai-agent/model-call-retry-and-fallback.md；wiki/ai-agent/index.md；wiki/index.md；wiki/ai-agent/interview-question-checklist.md；wiki/ai-agent/task-planning.md
+- Removed: wiki/ai-agent/eino-model-retry-and-failover.md（内容并入主文，alias 保留原地址）
+- Result: 保留 Codex 分类与分层恢复、Claude Code 策略选择，以 Eino 组合配置承接实现；删除完整 Rust 片段、次要机制、重复边界说明和待追问清单，保留流式结果争议说明。
+
+## [2026-09-22] edit | 浓缩合并工具大结果处理与重复检测
+
+- Added: wiki/ai-agent/tool-call-guardrails.md
+- Removed: wiki/ai-agent/large-tool-result-handling.md；wiki/ai-agent/repeated-tool-call-detection.md（原地址通过 aliases 跳转）
+- Updated: wiki/ai-agent/index.md；wiki/index.md；wiki/ai-agent/interview-question-checklist.md
+- Result: 删除逐项目实现展开、代码片段与次要参数，只保留输出预算、截断 / 落盘 / 按需读取，以及内容指纹、进展判断、分级停止的思路；增加 Status 说明，纠正把元数据容量限制当成工具执行次数上限的旧结论。

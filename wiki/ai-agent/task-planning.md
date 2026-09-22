@@ -1,6 +1,6 @@
 ---
 title: 任务拆分与规划
-updated: "2026-09-20"
+updated: "2026-09-22"
 order: 3
 ---
 
@@ -128,6 +128,8 @@ Crush 子 Agent 输入只有自由文本 `Prompt`（仅校验非空），输出�
 | 代码护栏 | `hasRepeatedToolCalls`、Hook exit 2/49 | 通用错误事件 + `will_retry` | `run_turn` 错误分支 + `max_retries` |
 
 **重试是分层的。** Codex 把瞬时错误（如 429、ECONNRESET）在流层自动带退避重试，只有不可重试、或 `ContextWindowExceeded` / `UsageLimitReached` 这类特殊错误才冒泡给用户；Crush 则用提示词要求*每个错误至少尝试两三种不同策略*后才判定外部阻塞。**语义层面的失败才交给模型。**
+
+> **Status: Disputed** — 上段对错误分层的表述过宽：工具执行超时也可能作为结果交给模型，模型请求的可重试错误在预算耗尽后同样会退出；不能按“429”或“是否语义失败”单独决定路径。新的源码材料还展示了 Codex 有条件的无限连接重试与传输降级。设计参考与框架实现见 [模型调用错误处理](model-call-retry-and-fallback.md)，原始证据见 [第 44 题问答](../raw/2026-09-22-113555.md)。
 
 **重新规划几乎都是人工触发。** Crush 的 Plan → Execute 是两个可切换的 Agent，replan 走 `OnRequestChanges`（用户反馈），执行阶段失败*不会*自动切回 Plan；Codex 的 `update_plan` 是模型主动调用的工具，不是失败检测器；Claude Code 的 `/plan` 只是模式开关。
 
