@@ -48,4 +48,4 @@ order: 7
 
 **几个原始回答把设计意图说成了完整保证。** 例如将窗口重建称为传统滑动窗口、将执行元数据称为防重复执行机制、将记忆使用计数视为读取闭环的充分证据。相关文章就近保留争议说明，并用片段能支持的范围重新解释。
 
-已有的 [系统提示词设计](../system-prompt-design.md)解释规则怎样表达，[工具调用防护](../tool-call-guardrails.md)解释如何控制工具返回体积，[中断恢复](../interrupt-resume/codex-interrupt-recovery.md)解释执行如何停止与重建。本专题补充的是这些机制之间的信息流。
+已有的 [系统提示词设计](../system-prompt-design/index.md)解释规则怎样表达，[工具调用防护](../tool-call-guardrails.md)解释如何控制工具返回体积，[中断恢复](../interrupt-resume/codex-interrupt-recovery.md)解释执行如何停止与重建。本专题补充的是这些机制之间的信息流。
