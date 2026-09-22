@@ -832,3 +832,109 @@
 - Removed: wiki/index.md 中指向已删除 wiki/claude-code/index.md 的目录行。
 - Result: 目录表保留 ai-agent 一项；全仓 Markdown 链接扫描确认无其他指向 claude-code/ 的失效链接（批注 tags 中的 claude-code 标签非链接，保留）。
 - Validation: make format-check、git diff --check 通过。
+
+## [2026-09-22] ingest | 长期记忆：从历史记录到可复用经验（补充保存标准）
+
+- Disposition: Update
+- Raw: raw/2026-09-22-202834.md（用户粘贴的整合提示词问答，未提供会话 URL 或 commit）
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md（补充高信号内容与排除项、优先级指导、卫生规则，以及 `skills/*` 输出和手册 `Task Group` / `scope` / `applies_to` 格式）；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 补充“什么算高信号记忆”的判断标准，与既有提取、文件分工和更新内容合并，保持原文结论与证据边界。
+
+## [2026-09-22] ingest | 长期记忆：从历史记录到可复用经验（补充保存触发时机）
+
+- Disposition: Update
+- Raw: raw/2026-09-22-202951.md（用户粘贴的根会话启动流水线问答，含 README、phase2.rs、runtime.rs、startup_tests.rs 片段；未提供会话 URL 或 commit）
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md（把“怎样形成”扩写为根会话启动的前置条件、Phase 1 认领规则、Phase 2 全局锁与选择规则、git 工作区 diff 决定是否真正保存、watermark 记账，并加入时序图）；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 回答“什么时候保存”，明确“触发不等于保存”——只有记忆工作区产生 diff 才会启动整合子代理写文件，无变化时标记成功即退出。
+
+## [2026-09-22] ingest | 长期记忆：从历史记录到可复用经验（补充保存方式、位置与格式）
+
+- Disposition: Update
+- Raw: raw/2026-09-22-203150.md（用户粘贴的保存位置与格式问答，含 lib.rs、workspace.rs、phase2.rs、read/usage.rs 及模板片段；未提供会话 URL 或 commit）
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md（“保存与读取”补充 `memory_root()` 与 git 工作区、各文件职责、`MEMORY.md` / `memory_summary.md` / `skills/` 的格式要求、产物合法性校验，以及读取侧按路径分类；争议说明补充 `usage.rs` 的计数来源）；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 说明记忆存放在 `codex_home/memories/` 的 git 工作区，保存前须通过符号链接、`v1` 首行等校验才记为成功；读取侧依据命令中的记忆路径分类使用类型。
+
+## [2026-09-22] edit | raw 元数据补充 tags
+
+- Added: AGENTS.md 新增“Raw metadata”约定，并在 Ingest 步骤中要求写入 tags
+- Updated: raw/ 下全部 17 个文件，frontmatter 增加 `tags`（小写连字符，每份 5—9 个，覆盖来源、主题、内容类型、关键概念四个维度）
+- Result: 检索时可先看 tags 判断来源与主题；raw 页面仍为 unlisted，tag-page 会忽略它们，未产生公开标签页。
+
+## [2026-09-22] ingest | 长期记忆：从历史记录到可复用经验（补充更新、冲突与过期）
+
+- Disposition: Update; Disputed
+- Raw: raw/2026-09-22-203726.md（用户粘贴的更新与过期机制问答，含 consolidation 模板、state/runtime/memories.rs、stream_events_utils.rs 片段；未提供会话 URL 或 commit）
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md（把“怎样更新”改写为 INIT / 增量两种模式与按 diff 增删，补充冲突处理、认知状态、手术式遗忘与全局审计；新增“引用、过期与清理”一节，说明 citation → `usage_count`/`last_usage`、`max_unused_days` 两层过期与 `prune_stage1_outputs_for_retention`，并区分命令级遥测统计；据此改写争议说明）；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 首次给出使用计数的确切来源（模型记忆引用），把过期拆成“输入选择”和“产物清理”两层，并保留“计数 ≠ 完整读取链”的证据边界。
+
+## [2026-09-22] ingest | 长期记忆：从历史记录到可复用经验（补充生命周期）
+
+- Disposition: Update
+- Raw: raw/2026-09-22-204002.md（用户粘贴的生命周期总结，含 start.rs、phase1.rs、phase2.rs、config types、state/runtime/memories.rs 及 app-server / CLI / TUI 入口片段；未提供会话 URL 或 commit）
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md（触发条件补 `MemoryTool` feature 与配置项；Phase 2 成功后的 `selected_for_phase2` 记账、6 小时冷却与空输入占位；`memory_summary.md` 注入 `DeveloperPolicy`；新增“生命周期：从提取到删除”一节，含状态图与 prune / `delete_thread_memory` / `clear_memory_data` 三条删除路径）；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 把保存、使用、删除串成一条生命周期，补齐线程级删除与全量重置（`memory/reset`、`debug clear-memories`、TUI Reset）两个此前未覆盖的入口。
+
+## [2026-09-22] edit | 精简长期记忆文章
+
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md
+- Result: 从 144 行压到 80 行，保留主线——两阶段流水线、高信号判断、分层存储与注入、按 diff 更新与删除；删去配置项枚举、字段级格式清单、生命周期状态图、水位线与 `selected_for_phase2` 等记账细节，并把多份重复描述和来源链接合并到各节末尾。
+- Validation: `make format-check`、`git diff --check` 通过；文章内 7 个 raw 链接均存在；Quartz 构建成功；证据检查无 fidelity 疑点。
+
+## [2026-09-22] edit | 长期记忆改为设计思路主线
+
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md；wiki/index.md；wiki/ai-agent/context-engineering/index.md
+- Result: 按“问题 → 该记住什么 → 一直存会膨胀（分层 / 冲突更新 / 过期删除）→ 完整生命周期”重排，每节由上一节留下的问题引出；删去字段级细节与重复描述，把生命周期收敛为结尾一张状态图。
+- Validation: `make format` 应用后 `make format-check`、`git diff --check` 通过；文章内 7 个 raw 链接均存在；Quartz 构建成功；证据检查无 fidelity 疑点。
+
+## [2026-09-22] edit | 强化技术文档写作思路
+
+- Updated: AGENTS.md（「文档梳理与表达习惯」新增“用问题链推进，而不是按清单罗列”，并在专题参考中补入长期记忆篇）
+- Result: 把“场景引出需求 → 首要目标 → 新做法带来的问题 → 收敛为完整流程”的问题链确立为设计类技术文档的默认推进方式，并给出“去掉某段后文仍可读就说明它不在链上”的自检标准。
+
+## [2026-09-22] edit | 长期记忆按问题链重写
+
+- Updated: wiki/ai-agent/context-engineering/long-term-memory.md；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 按「经验只活在一次会话 → 该记住什么 → 怎样被读到 → 新旧冲突 → 过期淘汰 → 完整生命周期」重排，每节结尾显式引出下一节的问题；把「读」的分层（摘要常驻、手册按需 grep）与「认知状态无结构化字段兜底」的边界写进正文；去掉抢结论词与破折号分句，中文引号统一为「」。
+- Validation: 单文件 `make format` / `--check` 无改动，`git diff --check` 通过；文章内 7 个 raw 链接均存在。
+
+## [2026-09-22] edit | 系统提示词设计改为判断链
+
+- Updated: wiki/ai-agent/system-prompt-design.md；wiki/ai-agent/index.md
+- Result: 把模块平铺改为「模型要作哪些判断」的链式主线（环境与能力 → 指令作用域 → 是否动手 → 改动边界 → 计划与真实进度 → 验证 → 交付 → 工具调用），每节结尾显式引出下一节的问题；来源未逐字核对与 Planning 状态冲突两处边界保持原样；引号统一为「」，去掉「真正」「任务闭环」等措辞。
+- Validation: 单文件 `make format` / `--check` 无改动，`git diff --check` 通过，`make build` 成功。
+
+## [2026-09-22] edit | 系统提示词设计拆分为子专题
+
+- Updated: 新建 wiki/ai-agent/system-prompt-design/{index,environment-and-instructions,autonomy-and-planning,verification-delivery-and-tools}.md；删除 wiki/ai-agent/system-prompt-design.md；更新 wiki/ai-agent/index.md、wiki/ai-agent/context-engineering/index.md、wiki/ai-agent/interview-question-checklist.md 中指向该文的链接
+- Result: 把约 190 行的单页拆成专题入口（判断链总表、来源边界、设计方法）加三个聚焦页（环境与指令作用域 / 自主性、边界与计划 / 验证、交付与工具），每页 33–51 行，缓解单页阅读负担；事实与边界（来源未逐字核对、Planning 状态冲突的 Status）原样保留。
+- Validation: `make format` / `--check`、`git diff --check` 通过；4 个新文件内部链接与 3 处入链均指向 `index.md`；`make build` 成功（44 个文件）。
+
+## [2026-09-22] edit | 新增重点高亮规范并应用
+
+- Updated: .opencode/skills/technical-writing/SKILL.md（新增「重点高亮」一节与一条检查项）；wiki/ai-agent/system-prompt-design/{index,autonomy-and-planning,verification-delivery-and-tools}.md
+- Result: 在写作 skill 中确立高亮规范——一篇最多一到两处，只给最核心、最易忽略或最反直觉的判断；行内用 `==...==`，区块用 `> [!tip]`，不与加粗叠用。在系统提示词专题应用：入口页加一个 tip 标注块，计划质量与「未验证不得写成验证通过」两处改为行内高亮作为示例。
+- Validation: 单文件 `make format` / `--check`、`git diff --check` 通过；`make build` 成功，渲染确认 callout 与 `text-highlight` 均已生效。
+
+## [2026-09-22] edit | 收严重点高亮标准
+
+- Updated: .opencode/skills/technical-writing/SKILL.md；wiki/ai-agent/system-prompt-design/{index,autonomy-and-planning,verification-delivery-and-tools}.md
+- Result: 把高亮的门槛改严——只有整篇能浓缩成一句话时才高亮这一句，一篇最多一处；据此撤掉自主性、验证两页的行内高亮（改回加粗），入口页标注块收敛成一句全篇概括。
+- Validation: `make format` / `--check`、`git diff --check` 通过；`make build` 成功，仅入口页保留 callout。
+
+## [2026-09-22] edit | 反直觉内容改用对比突出
+
+- Updated: .opencode/skills/technical-writing/SKILL.md（「重点高亮」补充反直觉内容的处理方式）；wiki/ai-agent/system-prompt-design/autonomy-and-planning.md
+- Result: 明确高亮只给「全篇一句话」，反直觉内容不用高亮，改用先设想再纠正、对比句、单独成段、加粗后就地说明差别；在自主性页试一处——把「默认动手、不先问」改成先写读者的默认理解，再给原文要求。
+- Validation: `make format` / `--check`、`git diff --check` 通过；`make build` 成功。
+
+## [2026-09-22] edit | 撤销系统提示词的 callout
+
+- Updated: .opencode/skills/technical-writing/SKILL.md；wiki/ai-agent/system-prompt-design/index.md
+- Result: 澄清高亮/callout 的门槛是「整篇内容确实能归拢成一句话」，不是给总结句套标签；系统提示词各页不满足该门槛，撤掉入口页最后一个 callout，专题内不再有任何高亮。skill 补充「拿不准默认不加」，并禁止「一句话概括这篇」这类套路标题。
+- Validation: `make format` / `--check`、`git diff --check` 通过；`make build` 成功。
+
+## [2026-09-22] edit | 去掉 callout 建议
+
+- Updated: .opencode/skills/technical-writing/SKILL.md
+- Result: 高亮只保留行内 `==...==` 一种形式，移除「单独成段用 callout」的建议（暂无合适示例）；门槛不变——整篇能归拢成一句话才用，拿不准默认不加。反直觉内容仍用对比、先设想再纠正等方式。
+- Validation: 全库无 callout 用法；`make format` / `--check`、`git diff --check` 通过。
