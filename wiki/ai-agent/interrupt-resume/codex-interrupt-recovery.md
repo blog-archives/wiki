@@ -1,6 +1,6 @@
 ---
 title: 从 Codex 学习中断恢复的实现
-updated: "2026-09-21"
+updated: "2026-09-22"
 order: 1.5
 ---
 
@@ -108,7 +108,11 @@ flowchart LR
 
 ## See Also
 
-- [中断与恢复子专题](ai-agent/interrupt-resume/index.md) — turn / thread 与挂起交接。
+- [中断与恢复子专题](index.md) — turn / thread 与挂起交接。
 - [内部中断实现](internal-interrupt.md) — 工具等待输入与业务状态机。
 - [外部中断实现](external-interrupt.md) — 从外部停止循环与安全点。
 - [多 Agent 中断实现](multi-agent-interrupt.md) — 中断传播和恢复寻址。
+
+## 目标与当前窗口如何一起恢复
+
+**执行恢复还需要区分持久目标与模型可见的历史。** Goal 从独立状态读取目标与预算，压缩 checkpoint 重建下一次请求可见的窗口，两者互补；工具执行记录则帮助判断已有证据，不能单独提供副作用幂等保证。具体分工见 [任务状态：让目标与进度跨越上下文窗口](../context-engineering/task-state.md)，上下文整理与配对见 [上下文完整性](../context-engineering/context-integrity.md)。

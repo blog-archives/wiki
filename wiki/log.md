@@ -760,3 +760,68 @@
 - Removed: wiki/ai-agent/large-tool-result-handling.md；wiki/ai-agent/repeated-tool-call-detection.md（原地址通过 aliases 跳转）
 - Updated: wiki/ai-agent/index.md；wiki/index.md；wiki/ai-agent/interview-question-checklist.md
 - Result: 删除逐项目实现展开、代码片段与次要参数，只保留输出预算、截断 / 落盘 / 按需读取，以及内容指纹、进展判断、分级停止的思路；增加 Status 说明，纠正把元数据容量限制当成工具执行次数上限的旧结论。
+
+## [2026-09-22] ingest | 上下文工程专题：从请求组装到长期记忆
+
+- Disposition: New; Update; Disputed
+- Raw: raw/2026-09-22-153917.md；raw/2026-09-22-153918.md；raw/2026-09-22-153919.md；raw/2026-09-22-153920.md；raw/2026-09-22-153921.md（五份用户附件逐字保留，添加来源元数据；无固定 commit 或原始问答 URL）
+- Added: wiki/ai-agent/context-engineering/index.md；context-assembly.md；budget-and-compaction.md；context-integrity.md；task-state.md；long-term-memory.md
+- Updated: wiki/index.md；wiki/ai-agent/index.md；wiki/ai-agent/task-planning.md；wiki/ai-agent/interrupt-resume/codex-interrupt-recovery.md；wiki/ai-agent/tool-call-guardrails.md；wiki/ai-agent/interview-question-checklist.md（增加阅读入口，保留原勾选状态）
+- Result: 沿信息生命周期解释设计，区分实现、模板要求、问答转述与设计建议；纠正裁剪方向、用户消息预算与摘要预算混淆、路由状态与任务状态混淆、工具执行记录被误作幂等保证、固定回复 mock 被误作效果评测、记忆全文注入与读取闭环的过度断言。保留争议记录，并关联既有规划、工具防护和中断恢复文章。
+- Validation: 五份 raw 与附件正文逐字节一致；新增 Rust 摘录的非注释行均能在原材料找到；12 个新增或关联页面的相对链接与 Q 锚点检查通过；make format-check、git diff --check 通过；直接运行 Quartz 仓库入口完成站点构建。构建仅提示已有四份 raw 的 git 日期警告。
+
+## [2026-09-22] edit | 上下文组装改为整体架构视角
+
+- Updated: wiki/ai-agent/context-engineering/context-assembly.md；wiki/ai-agent/context-engineering/index.md；wiki/index.md
+- Result: 按用户反馈重写主文，先串联用户输入、步骤准备、请求组装、模型响应、工具执行和循环结束，再逐项解释基础指令、工具定义、输入历史、环境与任务状态、记忆和输出要求；补充内部字段、功能、来源、存储层及 API 映射。保留已标明的路由状态争议及读取链证据边界。
+- Validation: 格式、diff 检查、主文与专题相对链接及问答锚点、全局索引内本专题链接均通过，Quartz 构建成功。全局链接扫描另发现工作区已删除的 claude-code/index.md 仍有既有索引入口；该目录删除不属于本次文章改写，未改动。
+
+## [2026-09-22] edit | 新增上下文存储基础篇
+
+- Disposition: New; Update; Disputed
+- Sources: 复用 raw/2026-09-21-221655.md 的历史格式、写入、筛选与重建源码，以及本专题已归档的上下文与 Goal 材料，无新增原文存档。
+- Added: wiki/ai-agent/context-engineering/context-storage.md
+- Updated: 上下文组装增加存储详解入口；上下文专题调整为组装 → 存储 → 预算与压缩 → 完整性 → 任务状态 → 记忆；同步全局及 AI Agent 索引和文章 order。
+- Result: 从同一个任务说明 rollout 的记录类型、JSONL、异步写入与 flush、当前内存窗口、Goal SQL 字段、Plan 持久化、运行时句柄、配置与外部资料，并追踪正常执行、压缩、中断与恢复时各层变化。明确存储分层是职责分离而非数据互斥，数据库 Goal 与历史更新事件可并存。
+- Disputed: 既有源码明确允许 TurnItem::Plan 历史事件落盘，在任务状态篇补充争议说明；未据此宣称有独立 Plan 状态机或完整自动回注路径。
+- Validation: 专题所有相对链接、Q 锚点与索引条目检查通过；阅读顺序为 1—6；make format-check 与 git diff --check 通过；Quartz 构建成功，新文章正常输出。
+
+## [2026-09-22] edit | 精简上下文存储的表达
+
+- Updated: wiki/ai-agent/context-engineering/context-storage.md
+- Result: 按用户反馈改为直接说明核心观点，明确会话与 rollout 文件对应关系、JSONL 格式和内容、当前窗口、Goal / Plan / 运行时状态的保存位置及分工；删除反复描述材料与源码的口吻、次要实现细节和重复边界说明，保留来源链接和必要限定。
+
+## [2026-09-22] edit | 预算与压缩改为宏观设计主线
+
+- Updated: wiki/ai-agent/context-engineering/budget-and-compaction.md；context-storage.md；context-engineering/index.md；wiki/index.md
+- Result: 从历史持续增长与模型窗口有限的矛盾引出预算，按为何减量、何时触发、不同减量方式、压缩前后变化、收益代价与效果判断展开；移除逐段 Rust 解读，保留源码来源和原有争议说明。存储篇结尾自然引出容量问题，压缩篇结尾衔接完整性验证。
+
+## [2026-09-22] edit | 按源码重写预算与压缩流程
+
+- Updated: wiki/ai-agent/context-engineering/budget-and-compaction.md；context-engineering/index.md；wiki/index.md
+- Sources: 重新核对最初三份 raw 中的源码片段，并补查上游 history.rs、session/turn.rs、compact_token_budget.rs；公开源码直接链接，无新增存档。
+- Result: 精简为计量与阈值、执行节点、减量方式及处理结果。明确 usage 基线与本地估算的边界，区分工具结果写入截断、步骤后检查和整窗替换，补充轮前 / 轮后条件；明确 TokenBudget 跳过摘要重建窗口。保留原有争议说明，删除泛化方案清单与假设性效果示例。用户口述假设不作为实现依据。
+- Validation: make format-check、git diff --check、主文相对链接及两级索引入口检查通过。
+
+## [2026-09-22] edit | 消除窗口用量表述歧义
+
+- Updated: wiki/ai-agent/context-engineering/budget-and-compaction.md；wiki/index.md
+- Result: 明确模型返回 usage、随后写入历史但尚未被统计的内容、最终阈值比较值三者的区别；用读取文件的例子解释新增内容，并同步公式、比较表和流程图的措辞。
+
+## [2026-09-22] edit | 简化预算检查一节
+
+- Updated: wiki/ai-agent/context-engineering/budget-and-compaction.md；wiki/index.md
+- Result: 按用户要求聚焦可借鉴的设计思路，以工具调用解释“已有统计直接用、尚未统计的内容再估算、合并后比较阈值”；移除历史推理补估、统计范围及回退缓冲等实现细节，并明确公式是核心思路的简化。
+
+## [2026-09-22] edit | 简化上下文专题后三篇
+
+- Updated: context-integrity.md；task-state.md；long-term-memory.md；专题及全局索引
+- Sources: 复用已归档的完整性、任务状态、长期记忆问答及原有源码依据，无新增来源。
+- Result: 延续前三篇的问题导向和简洁表达；完整性聚焦关联、约束与两层验证，任务状态聚焦保存、更新与恢复，长期记忆聚焦提取、文件分工、读取和更新。移除模块清单、非主线实现细节及泛化方案比较，合并保留争议记录和必要证据边界，并串联三篇阅读顺序。
+- Validation: make format-check、git diff --check、三篇相对链接检查及 Quartz 构建通过；构建仅提示既有 raw 文件未跟踪的日期警告。
+
+## [2026-09-22] edit | 补充完整性篇的实际压缩过程
+
+- Updated: context-integrity.md；专题及全局索引
+- Sources: 复用原始历史重建代码，并核对上游 core/src/compact.rs 与 prompts/templates/compact/prompt.md，公开来源直接链接。
+- Result: 补充历史加摘要提示词、模型生成交接摘要、程序保留消息并重建窗口的完整过程；提供明确标注为设计建议的提示词与压缩前后示例，区分摘要化的已完成交互、仍保留的原始调用关联和待返回结果。
