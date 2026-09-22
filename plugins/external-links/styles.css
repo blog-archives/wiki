@@ -1,12 +1,27 @@
 .markdown-rendered a.el-link {
   --el-radius: 5px;
   --el-gap: 0.3em;
+  --el-inline-space: 0.25em;
   color: var(--secondary);
   font-weight: inherit;
   text-decoration: none;
   overflow-wrap: anywhere;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+/* Inline links keep a space's worth of distance from the surrounding text. */
+.markdown-rendered a.el-text,
+.markdown-rendered a.el-tag,
+.markdown-rendered a.el-pill {
+  margin-inline: var(--el-inline-space);
+}
+/* Site links share the pill look, keep a line-symbol logo, drop the arrow and Quartz's highlight block. */
+.markdown-rendered a.el-internal.el-text,
+.markdown-rendered a.el-internal.el-pill {
+  background: transparent;
+}
+.markdown-rendered a.el-internal.el-text {
+  padding: 0;
 }
 .markdown-rendered a.el-link:hover {
   color: var(--secondary);

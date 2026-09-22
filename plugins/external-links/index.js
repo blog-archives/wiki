@@ -8,13 +8,16 @@ const defaults = {
   logo: "favicon",
   arrow: "diagonal",
   showDomain: false,
+  internal: true,
+  internalLogo: "note",
   icons: {},
 }
 
 export const manifest = {
   name: "external-links",
   displayName: "External Links",
-  description: "Configurable external link labels, icons and source cards.",
+  description:
+    "Configurable link pills: icons and source cards for external links, matching site links.",
   version: "1.0.0",
   category: "transformer",
   quartzVersion: ">=5.0.0",
@@ -26,6 +29,18 @@ const paths = {
   diagonal: ["M6 18 18 6M6 6h12v12"],
   external: ["M14 3h7v7M10 14 21 3", "M10 3H3v18h18v-7"],
   chevron: ["m9 5 7 7-7 7"],
+  note: [
+    "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z",
+    "M14 2v4a2 2 0 0 0 2 2h4",
+    "M10 9H8",
+    "M16 13H8",
+    "M16 17H8",
+  ],
+  link: [
+    "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71",
+    "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71",
+  ],
+  hash: ["M4 9h16", "M4 15h16", "M10 3 8 21", "M16 3l-2 18"],
 }
 const text = (value) => ({ type: "text", value })
 const element = (tagName, properties, children = []) => ({
@@ -40,7 +55,15 @@ const hasMedia = (node) =>
   ["img", "svg", "picture", "video", "audio"].includes(node.tagName) ||
   node.children?.some(hasMedia)
 
-function icon(name, className) {
+const isPath = (value) => typeof value === "string" && /^[Mm]\s*[-.\d]/.test(value.trim())
+const isSymbol = (value) =>
+  value === "none" ||
+  (Array.isArray(value) && value.length > 0 && value.every(isPath)) ||
+  (typeof value === "string" && (Object.hasOwn(paths, value) || isPath(value)))
+const symbolPaths = (value) =>
+  Array.isArray(value) ? value : Object.hasOwn(paths, value) ? paths[value] : [value]
+
+function icon(symbol, className) {
   return element(
     "svg",
     {
@@ -53,7 +76,7 @@ function icon(name, className) {
       strokeLinejoin: "round",
       ariaHidden: "true",
     },
-    paths[name].map((d) => element("path", { d })),
+    symbolPaths(symbol).map((d) => element("path", { d })),
   )
 }
 
@@ -70,6 +93,12 @@ function configuration(options) {
   }
   if (typeof config.showDomain !== "boolean")
     throw new Error("ExternalLinks: showDomain must be a boolean")
+  if (typeof config.internal !== "boolean")
+    throw new Error("ExternalLinks: internal must be a boolean")
+  if (!isSymbol(config.internalLogo))
+    throw new Error(
+      "ExternalLinks: internalLogo must be a built-in symbol name, SVG path data, an array of path data, or none",
+    )
   if (!config.icons || typeof config.icons !== "object" || Array.isArray(config.icons))
     throw new Error("ExternalLinks: icons must map hostnames to image URLs")
   for (const src of Object.values(config.icons)) {
@@ -79,12 +108,18 @@ function configuration(options) {
   return config
 }
 
-function externalUrl(node, ownHost) {
+const scheme = /^[a-z][a-z0-9+.-]*:/i
+
+function linkTarget(node, ownHost) {
   const href = node.properties?.href
-  if (typeof href !== "string" || !/^(https?:)?\/\//i.test(href)) return
+  if (typeof href !== "string" || !href || href.startsWith("#")) return
+  if (!/^(https?:)?\/\//i.test(href)) {
+    // A bare scheme (mailto:, tel:, javascript:, data:) is not a site link.
+    return scheme.test(href) ? undefined : { kind: "internal" }
+  }
   try {
     const url = new URL(href, "https://external.invalid")
-    if (url.host !== ownHost) return url
+    if (url.host !== ownHost) return { kind: "external", url }
   } catch {
     // Malformed destinations remain ordinary links rather than failing the build.
   }
@@ -109,15 +144,27 @@ function logo(url, config) {
   return element("span", { className: ["el-logo"], ariaHidden: "true" }, children)
 }
 
-function decorate(node, url, style, config) {
+function siteLogo(symbol) {
+  return element("span", { className: ["el-logo", "el-logo-site"], ariaHidden: "true" }, [
+    icon(symbol, "el-symbol"),
+  ])
+}
+
+function decorate(node, target, style, config) {
+  const internal = target.kind === "internal"
   const label = element("span", { className: ["el-label"] }, node.children)
   const body = [label]
-  if (config.showDomain || ["card", "list"].includes(style))
-    body.push(element("span", { className: ["el-domain"] }, [text(url.host)]))
+  if (!internal && (config.showDomain || ["card", "list"].includes(style)))
+    body.push(element("span", { className: ["el-domain"] }, [text(target.url.host)]))
   node.children = [element("span", { className: ["el-body"] }, body)]
-  if (config.logo !== "none") node.children.unshift(logo(url, config))
-  if (config.arrow !== "none") node.children.push(icon(config.arrow, "el-arrow"))
+  if (internal) {
+    if (config.internalLogo !== "none") node.children.unshift(siteLogo(config.internalLogo))
+  } else if (config.logo !== "none") {
+    node.children.unshift(logo(target.url, config))
+  }
+  if (!internal && config.arrow !== "none") node.children.push(icon(config.arrow, "el-arrow"))
   node.properties.className = [...classes(node).filter(Boolean), "el-link", `el-${style}`]
+  if (internal) node.properties.className.push("el-internal")
   if (node.properties.target === "_blank") {
     const rel = String(node.properties.rel ?? "")
       .split(/[ ,]+/)
@@ -130,9 +177,13 @@ function transformTree(tree, ownHost, config) {
   function walk(node, parent) {
     if (["pre", "code"].includes(node.tagName)) return
     if (node.tagName === "a") {
-      const url = externalUrl(node, ownHost)
-      if (!url || classes(node).includes("el-link") || classes(node).includes("external-plain"))
-        return
+      const target = linkTarget(node, ownHost)
+      const skip =
+        !target ||
+        (target.kind === "internal" && !config.internal) ||
+        classes(node).includes("el-link") ||
+        classes(node).includes("external-plain")
+      if (skip) return
       // Remove only Quartz's generated arrow; authored linked images are left intact.
       const content = node.children.filter((child) => !classes(child).includes("external-icon"))
       if (content.some(hasMedia) || !content.length) return
@@ -142,9 +193,12 @@ function transformTree(tree, ownHost, config) {
         parent.children.every(
           (child) => child === node || (child.type === "text" && !child.value.trim()),
         )
+      // Source cards identify external sources; site links stay inline.
       const style =
-        standalone && config.standaloneStyle !== "inline" ? config.standaloneStyle : config.style
-      decorate(node, url, style, config)
+        target.kind === "external" && standalone && config.standaloneStyle !== "inline"
+          ? config.standaloneStyle
+          : config.style
+      decorate(node, target, style, config)
       return
     }
     for (const child of node.children ?? []) walk(child, node)

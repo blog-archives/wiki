@@ -88,6 +88,8 @@ plugins:
       logo: favicon # favicon | globe | none
       arrow: chevron # diagonal | external | chevron | none
       showDomain: false
+      internal: true
+      internalLogo: note # note | link | hash | none | SVG path data
       icons: {}
   - source: "@quartz-community/description"
     enabled: true
