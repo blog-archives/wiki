@@ -79,6 +79,16 @@ plugins:
       markdownLinkResolution: shortest
       openLinksInNewTab: true
     order: 60
+  - source: "./plugins/external-links"
+    enabled: true
+    order: 61
+    options:
+      style: pill # text | tag | pill
+      standaloneStyle: inline # inline | card | list
+      logo: favicon # favicon | globe | none
+      arrow: chevron # diagonal | external | chevron | none
+      showDomain: false
+      icons: {}
   - source: "@quartz-community/description"
     enabled: true
     order: 70
