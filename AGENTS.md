@@ -11,6 +11,17 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 - `wiki/index.md` — global index: one row per article, grouped by topic.
 - `wiki/log.md` — append-only operation log.
 
+## Raw metadata
+
+Every raw file carries `tags:` in its frontmatter (add a frontmatter block if the file has none), so retrieval can judge a source's scope before opening it. Tags are lowercase and hyphen-separated; reuse existing ones instead of inventing near-duplicates. Aim for at least five, covering four dimensions:
+
+- **来源** — the repo or product the source analyses: `openai-codex`, `anthropics-claude-code`, `charmbracelet-crush`, `cloudwego-eino`.
+- **主题** — the wiki area it feeds: `context-engineering`, `context-assembly`, `context-storage`, `context-compaction`, `context-integrity`, `long-term-memory`, `task-state`, `interrupt-resume`, `multi-agent`, `tool-call`, `model-retry`, `error-handling`.
+- **内容类型** — `deepwiki-qa`, `source-code`, `prompt-template`.
+- **关键对象或概念** — `rollout`, `session`, `goal`, `plan`, `sub-agent`, `token-budget`, `summary`, `watermark`, `memory-write`, `memory-read`, `consolidation`.
+
+Raw pages are unlisted, and `@quartz-community/tag-page` respects that flag, so these tags never create public tag listings; they exist for agent-side retrieval.
+
 ## Site
 
 The published site is built with [Quartz 5](https://quartz.jzhao.xyz/) from `wiki/`. `make build` runs `npx quartz build -d wiki -o public`; `make serve` previews at http://localhost:8080. Config lives in `quartz.config.yaml`. Hover previews (`enablePopovers`), graph view, backlinks and full-text search are enabled; the UI locale is `zh-CN`.
@@ -32,9 +43,10 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 ## Workflow
 
-- **Ingest** ("add to wiki", drop a URL/file): fetch the source; archive it to `raw/` only if it is ephemeral or likely to be lost, otherwise cite the durable original inline. Then triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
+- **Ingest** ("add to wiki", drop a URL/file): fetch the source; archive it to `raw/` only if it is ephemeral or likely to be lost, otherwise cite the durable original inline. When archiving, write the frontmatter `tags` (see Raw metadata). Then triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
 - **Format**: run `make format` (or `node scripts/format-markdown.mjs wiki`) to apply pangu spacing, emphasis spacing and safe layout to every `wiki/*.md`; `make format-check` reports drift without writing. The script skips frontmatter, code and link targets.
+- **Write/revise**: load the `technical-writing` skill (`.opencode/skills/technical-writing/`) before drafting or editing an article. It carries the project's Chinese tone rules and the problem-chain structure.
 
 ## Rules
 
@@ -54,7 +66,15 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 [内部中断实现](wiki/ai-agent/interrupt-resume/internal-interrupt.md)及其修改过程是重要的写作参考。**参考的是如何理解材料、确定重点、取舍细节和组织解释，不是复用它的章节结构。** 以下原则用于日常知识整理；其中源码和代码片段的要求适用于实现解析。按当前主题和读者需要组织文章，不规定章节数量、先后顺序或固定结尾。
 
-[上下文工程专题](wiki/ai-agent/context-engineering/index.md)补充了设计思路类文章的写作参考：[存储篇](wiki/ai-agent/context-engineering/context-storage.md)展示如何说明对象与保存位置的对应关系，[预算篇](wiki/ai-agent/context-engineering/budget-and-compaction.md)展示如何简化核心流程，[完整性篇](wiki/ai-agent/context-engineering/context-integrity.md)展示如何把原则落实为具体操作。借鉴解释方式，不照搬篇章安排。
+[上下文工程专题](wiki/ai-agent/context-engineering/index.md)补充了设计思路类文章的写作参考：[存储篇](wiki/ai-agent/context-engineering/context-storage.md)展示如何说明对象与保存位置的对应关系，[预算篇](wiki/ai-agent/context-engineering/budget-and-compaction.md)展示如何简化核心流程，[完整性篇](wiki/ai-agent/context-engineering/context-integrity.md)展示如何把原则落实为具体操作，[长期记忆篇](wiki/ai-agent/context-engineering/long-term-memory.md)展示如何从场景出发用一条问题链推进到完整生命周期。借鉴解释方式，不照搬篇章安排。
+
+### 用问题链推进，而不是按清单罗列
+
+**技术文档先给一个具体场景或问题，再让每一步设计都由上一步留下的麻烦逼出来。** 默认的推进顺序是：从真实场景引出需求，说明首要目标如何达成，接着处理新做法带来的问题（容量膨胀、新旧冲突、陈旧失效），最后把各环节收敛成完整流程或生命周期。不要按模块清单、源码目录或功能列表平铺。
+
+**每一步都要交代“为什么现在讲它”，让新增的机制显得必要，而不是功能罗列。** 检验方法是看某一段去掉后后文还能不能读懂：如果还能，说明它没落在问题链上，应当并入相邻环节，或压缩成就近的简短说明。
+
+**设计类文章的重点是取舍。** 讲清每个机制解决谁的痛点、代价是什么、边界在哪里；配置项、字段名和函数名只在支撑取舍时出现，能用一句话说清就不铺开。
 
 ### 从要解释的问题确定重点
 
