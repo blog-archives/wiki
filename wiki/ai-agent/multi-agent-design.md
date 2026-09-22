@@ -6,7 +6,7 @@ order: 2
 
 ## Overview
 
-三个 coding agent 加一个 Go 框架（Eino），对「多 agent」围绕同一组问题：预定义了哪些 agent、如何触发、能否动态生成、agent 之间如何交互。共同底线是**角色预先定义、不会由模型凭对话内容凭空发明**；差异主要在「角色的来源有多开放」：Crush 写死 → Codex 用户可配置 → Claude Code 插件可运行时注册；Eino 则把「角色」完全交给开发者用代码组合。
+三个 coding agent 加一个 Go 框架（Eino），对「多 agent」围绕同一组问题：预定义了哪些 agent、如何触发、能否动态生成、agent 之间如何交互。共同底线是 **角色预先定义、不会由模型凭对话内容凭空发明**；差异主要在「角色的来源有多开放」：Crush 写死 → Codex 用户可配置 → Claude Code 插件可运行时注册；Eino 则把「角色」完全交给开发者用代码组合。
 
 ## 1. 预定义了哪些 Agent / 角色
 

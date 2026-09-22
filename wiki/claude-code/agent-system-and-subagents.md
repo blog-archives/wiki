@@ -8,7 +8,7 @@ order: 1
 
 ## 目的与范围
 
-Claude Code 的 Agent 系统实现**层级化的任务拆分**：主 agent 可以派生独立的 subagent 实例，让它们并行执行子任务，或运行在隔离的 [git worktree](../annotations/git-worktree.md) 中。每个 subagent 各自维护独立的上下文窗口、模型配置与权限范围，从而支撑复杂的多步骤工作流，同时避免主线程撞上 token 上限。
+Claude Code 的 Agent 系统实现 **层级化的任务拆分**：主 agent 可以派生独立的 subagent 实例，让它们并行执行子任务，或运行在隔离的 [git worktree](../annotations/git-worktree.md) 中。每个 subagent 各自维护独立的上下文窗口、模型配置与权限范围，从而支撑复杂的多步骤工作流，同时避免主线程撞上 token 上限。
 
 关键架构组件：
 

@@ -34,7 +34,7 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 - **Ingest** ("add to wiki", drop a URL/file): fetch the source; archive it to `raw/` only if it is ephemeral or likely to be lost, otherwise cite the durable original inline. Then triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
-- **Format**: run `make format` (or `node scripts/format-markdown.mjs wiki`) to apply pangu spacing and safe layout to every `wiki/*.md`; `make format-check` reports drift without writing. The script skips frontmatter, code and link targets.
+- **Format**: run `make format` (or `node scripts/format-markdown.mjs wiki`) to apply pangu spacing, emphasis spacing and safe layout to every `wiki/*.md`; `make format-check` reports drift without writing. The script skips frontmatter, code and link targets.
 
 ## Rules
 
@@ -48,6 +48,7 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 - Use lists only for short, one-line items. For longer reasoning, write prose paragraphs instead of paragraph-length list items.
 - For multi-point reasoning, give each point a short bold title line (a numbered item like `1. **Title**`, or a `###` subheading) and put the explanation in a separate paragraph below it.
 - Don't leave prose as flat text: bold the thesis sentence of a paragraph and key terms, and use italics for sharp contrasts, so the reader can scan the argument.
+- When using `**` for bold (or other emphasis), put a space on each side where it meets CJK text — `我要 **加粗** 文本`. Without it `是**「x」**` hits CommonMark's flanking rules and renders literal asterisks instead of bold. Write it spaced from the start; `make format` enforces the spacing.
 
 ## 文档梳理与表达习惯
 

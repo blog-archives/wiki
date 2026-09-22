@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 // Pangu-style Markdown formatter for the wiki.
 //
-// Two jobs, both conservative:
+// Three jobs, all conservative:
 //   1. Pangu spacing — insert a space between CJK and half-width Latin letters
 //      or digits ("中文abc" -> "中文 abc").
-//   2. Safe layout — trim trailing whitespace, collapse runs of blank lines,
+//   2. Emphasis spacing — a `**` touching CJK gets a space on its outer side
+//      ("我要**加粗**文本" -> "我要 **加粗** 文本"), which also repairs the
+//      CommonMark flanking failure that makes "是**「x」**" render literally.
+//   3. Safe layout — trim trailing whitespace, collapse runs of blank lines,
 //      put exactly one blank line around headings / fences / tables / quotes /
 //      lists, normalize heading, blockquote and list-marker spacing, and end
 //      the file with a single newline.
@@ -52,6 +55,65 @@ function pangu(text) {
   return text.replace(RE_CJK_LATIN, "$1 $2").replace(RE_LATIN_CJK, "$1 $2")
 }
 
+// Emphasis and CJK do not mix without a space. Two things go wrong:
+//   1. Convention — pangu spacing puts a space between CJK and half-width
+//      tokens, so `**` should be spaced too: "我要**加粗**文本" reads as
+//      "我要 **加粗** 文本".
+//   2. Rendering — CommonMark only lets a delimiter open/close emphasis when it
+//      is "flanking": an opener must not be followed by whitespace and, if
+//      followed by punctuation, must be preceded by whitespace or punctuation;
+//      a closer is the mirror image. A `**` wedged between a CJK word character
+//      and CJK punctuation ("是**「x」**") fails that test and the bold silently
+//      disappears. The space from rule 1 also fixes this.
+// So: put a space on the outside of every delimiter that touches a CJK
+// character, and additionally whenever the delimiter could not otherwise be
+// flanking (e.g. Latin word + CJK punctuation).
+const RE_PUNCT = /\p{P}/u
+const RE_CJK_CHAR = new RegExp(`[${CJK}]`)
+
+const isPunct = (ch) => ch !== undefined && RE_PUNCT.test(ch)
+const isSpace = (ch) => ch === undefined || /\s/.test(ch)
+const isCJK = (ch) => ch !== undefined && RE_CJK_CHAR.test(ch)
+
+function spaceEmphasis(line) {
+  const positions = []
+  const re = /\*\*/g
+  let match
+  while ((match = re.exec(line)) !== null) positions.push(match.index)
+  // An odd number of delimiters is ambiguous; leave the line alone.
+  if (positions.length === 0 || positions.length % 2 !== 0) return line
+
+  const insertAt = new Set()
+  for (let i = 0; i < positions.length; i += 2) {
+    const open = positions[i]
+    const close = positions[i + 1]
+    const content = line.slice(open + 2, close)
+    if (content.length === 0) continue
+
+    const before = open > 0 ? line[open - 1] : undefined
+    const after = close + 2 < line.length ? line[close + 2] : undefined
+    const first = content[0]
+    const last = content[content.length - 1]
+
+    const canOpen =
+      !isSpace(first) && (!isPunct(first) || isSpace(before) || isPunct(before))
+    if (!isSpace(before) && (isCJK(before) || !canOpen)) insertAt.add(open)
+
+    const canClose =
+      !isSpace(last) && (!isPunct(last) || isSpace(after) || isPunct(after))
+    if (!isSpace(after) && (isCJK(after) || !canClose)) insertAt.add(close + 2)
+  }
+
+  if (insertAt.size === 0) return line
+  let out = ""
+  for (let i = 0; i < line.length; i++) {
+    if (insertAt.has(i)) out += " "
+    out += line[i]
+  }
+  if (insertAt.has(line.length)) out += " "
+  return out
+}
+
 // Replace protected substrings with sentinels so pangu cannot reach them.
 function mask(line) {
   const spans = []
@@ -86,7 +148,7 @@ function transformLine(line) {
   }
   if (RE_REF_DEF.test(out)) return out
   const { line: hidden, spans } = mask(out)
-  return unmask(pangu(hidden), spans)
+  return unmask(spaceEmphasis(pangu(hidden)), spans)
 }
 
 function typeOf(line, state) {
