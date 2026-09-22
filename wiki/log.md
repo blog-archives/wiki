@@ -975,3 +975,72 @@
 - Updated: wiki/annotations/git-worktree.md（`claude-code` → `anthropics-claude-code`，`subagent` → `sub-agent`，补 `annotations`，与 raw 词表对齐）
 - Fixed: raw/2026-09-22-153920.md 的 `##直接回答` → `## 直接回答`（缺空格被解析成内联标签，既生成 `tags/直接回答` 垃圾页，又让该行没有渲染成标题）
 - Result: 标签页 65 个；文章与 raw 共用同一标签命名空间，经 `tag-normalize` 归一化后由 `tag-pills` 展示、`tag-pages` 生成列表
+
+## [2026-09-23] ingest | 什么时候使用多 Agent：静态编排与模型动态决定
+
+- Disposition: New; Update
+- Raw: raw/2026-09-23-000951.md（DeepWiki Q&A 导出文本，4 组问答，会话级来源，逐字存档）
+- Added: wiki/ai-agent/multi-agent-when-to-use.md（order 2.1）——按「为什么要开多个 agent → 谁决定开几个 → 模型动态决定时引擎给了哪些引导 → 模型实际看到什么 → 边界」组织；含`/code-review` 的 4 并行 agent + 逐个验证流程、静态编排与动态决定两层对照表、预提供 agent 表
+- Updated: wiki/ai-agent/index.md；wiki/index.md（新增「多 Agent」节）；wiki/ai-agent/multi-agent-design.md（第 2 节 Claude Code 触发补指向新文，See Also 增加新文）；wiki/ai-agent/interview-question-checklist.md（模块 10 第 071 题相关整理）
+- Result: 区分插件命令里的静态编排（写死在 `.md`，命令一调用必执行）与引擎层由模型按 `AgentSpec.description` 动态派生；把「决策因素」限定为结构性引导（description、动态工作流规模建议、嵌套深度上限、auto 分类器审核、减少再委派的行为调优），并保留「未见决策算法与系统提示词全文」的证据边界
+- Disputed: 同一套 code-review 流程在仓库内有三处不一致描述（命令文件 4 个 agent、plugins/README.md 5 个并行 Sonnet agent、code-review/README.md 第 4 个 agent 为 git blame/history），在边界一节标明以命令文件为准
+- Validation: `make format` / `--check`、`git diff --check` 通过；新文相对链接与 raw 链接存在；Quartz 构建成功
+
+## [2026-09-23] edit | 多 Agent 独立成子专题
+
+- Removed: wiki/ai-agent/multi-agent-design.md、wiki/ai-agent/multi-agent-when-to-use.md（旧地址经 aliases 跳转）
+- Added: wiki/ai-agent/multi-agent/index.md（标题「多 Agent」，alias `ai-agent/multi-agent-design`）——基本概念（角色 / 任务分离、工具委派、静态编排 vs 模型动态派生）与 Crush / Codex / Claude Code / Eino 产品使用情况对比表
+- Added: wiki/ai-agent/multi-agent/claude-code.md（alias `ai-agent/multi-agent-when-to-use`）——两类动机、两层触发机制、动态决定的引导因素、`AgentSpec` 与预提供 agent、code-review 描述不一致的证据边界
+- Added: wiki/ai-agent/multi-agent/eino.md——Eino 各子 agent 机制（推荐 / NOT RECOMMENDED）、`AgentTool`、`DeepAgent` 的 `task` 工具、两种写法取舍与「动态」的边界
+- Raw: raw/2026-09-23-001441.md（Eino 子 agent 机制问答）；raw/2026-09-23-001442.md（AgentTool demo）；raw/2026-09-23-001443.md（DeepAgent demo）——三份从 git 历史恢复，按现行策略重新存档并补 tags
+- Updated: wiki/ai-agent/index.md；wiki/index.md（「多 Agent」节改为子专题入口 + 两篇）；wiki/ai-agent/interview-question-checklist.md（模块 10 相关整理）；wiki/ai-agent/task-planning.md（See Also）
+- Result: ai-agent 下新增多 Agent 子专题，与工具调用 / 中断与恢复 / 上下文工程同构（index + 聚焦页）；Crush / Codex 的对比保留在 index，Claude Code 与 Eino 各成一篇
+- Validation: `make format` / `--check`、`git diff --check` 通过；新目录相对链接与 raw 链接存在；Quartz 构建成功
+
+## [2026-09-23] edit | 区分 agent 产品与开发框架
+
+- Updated: wiki/ai-agent/multi-agent/index.md（把 Eino 从产品对比表中移出，拆成「产品怎样使用多 agent」与「框架怎样支持开发者搭建多 agent」两节，明确 Eino 是用 Go 开发 agent 的框架、不是 agent 产品）；wiki/ai-agent/multi-agent/eino.md（开头点明框架定位）；wiki/ai-agent/index.md；wiki/index.md；wiki/ai-agent/interview-question-checklist.md
+- Result: 不再把开发框架与三个 agent 产品并列比较；产品侧保留 Crush / Codex / Claude Code 的角色、触发、委派对比，Eino 作为框架单独说明它交给开发者的原语
+- Validation: `make format` / `--check`、`git diff --check` 通过；Quartz 构建成功
+
+## [2026-09-23] edit | 精简 Claude Code 多 Agent 篇
+
+- Updated: wiki/ai-agent/multi-agent/claude-code.md
+- Result: 保留原有章节结构，压掉重复与次要文字——去掉静态编排段对第 4/5 步的复述、动态工作流规模设置的重复、pr-review-toolkit 的维度清单、marketplace 描述句，并收紧「模型看到什么」、行为调优与边界两段；事实与证据边界不变
+- Validation: `make format` / `--check`、`git diff --check` 通过；Quartz 构建成功
+
+## [2026-09-23] edit | Claude Code 篇改用流程图并再压缩
+
+- Updated: wiki/ai-agent/multi-agent/claude-code.md
+- Result: 两个 PR 审查流程改为 mermaid 图（`/code-review` 的并行 + 逐个验证、`pr-review-toolkit` 的串行链），删去预提供 agent 表（保留引擎内置与三个代表性插件的举例）和行为调优一句，并收紧「模型实际看到什么」与边界两段；章节结构不变，正文由约 3.7k 压到约 2.6k 字符
+- Validation: `make format` / `--check`、`git diff --check` 通过；Quartz 构建成功
+
+## [2026-09-23] edit | Claude Code 篇删除边界一节
+
+- Updated: wiki/ai-agent/multi-agent/claude-code.md
+- Result: 按用户要求删除「边界」一节（原先记录「无决策代码」的证据限制与 code-review 描述不一致），文章以 §1 流程图和 4 个 agent 的表述为准
+- Validation: `make format` / `--check`、`git diff --check` 通过；Quartz 构建成功
+
+## [2026-09-23] edit | 文末相关改为独立章节
+
+- Updated: wiki/ai-agent/multi-agent/claude-code.md；wiki/ai-agent/multi-agent/eino.md
+- Result: 把文末行内的「相关：…」改为 `## 相关文档` 小节，用列表列出关联文章与对应面试题
+- Validation: `make format` / `--check`、`git diff --check` 通过；链接存在；Quartz 构建成功
+
+## [2026-09-23] edit | 精简 Eino 篇
+
+- Updated: wiki/ai-agent/multi-agent/eino.md
+- Result: 合并「运行时按角色实例化」进「两种写法怎么选」（少一节）；子 agent 机制表把三套不推荐机制并为一行；agent-as-tool 的四条边界收成一段；DeepAgent 与边界两节各自压句，去掉 `role` 类型定义等冗余代码行。全文 117 → 101 行
+- Validation: `make format` / `--check`、`git diff --check` 通过；链接存在；Quartz 构建成功
+
+## [2026-09-23] edit | Eino 篇去掉密集行内代码
+
+- Updated: wiki/ai-agent/multi-agent/eino.md
+- Result: 把 agent-as-tool 那段边界说明从符号罗列改为散文，删去 `Exit` / `TransferToAgent` / `BreakLoop` / `Interrupted` / `EmitInternalEvents` 等行内代码，只保留 `name` / `description` / `RunPath`
+- Validation: `make format` / `--check`、`git diff --check` 通过；链接存在；Quartz 构建成功
+
+## [2026-09-23] edit | Eino 篇合并「动态的边界」进「两种写法怎么选」
+
+- Updated: wiki/ai-agent/multi-agent/eino.md
+- Result: 把「动态的边界」并入「两种写法怎么选」（两者都在讲两种包装方式的取舍与限制），全文由 6 节收到 5 节；同时删去该段密集行内代码（`[]tool.BaseTool` / `general-purpose` / `write_todos` / `AgentTool` / `Tools` / `adk.NewChatModelAgent` / `NewTypedChatModelAgent`），改用散文
+- Validation: `make format` / `--check`、`git diff --check` 通过；链接存在；Quartz 构建成功

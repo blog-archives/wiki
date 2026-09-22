@@ -1,11 +1,19 @@
 ---
 title: Knowledge Base Index
-updated: "2026-09-22"
+updated: "2026-09-23"
 ---
 
 | 目录 | 内容 |
 | --- | --- |
-| [ai-agent](ai-agent/index.md) | AI Agent 应用开发与工程实践：面试题清单、多 Agent 设计对比、任务拆分与规划、系统提示词设计（指令作用域、计划状态与验证策略）、Agent Skills、模型调用错误处理与 Eino 重试故障转移，及「工具调用」「中断与恢复」「上下文工程」子专题 |
+| [ai-agent](ai-agent/index.md) | AI Agent 应用开发与工程实践：面试题清单、多 Agent 设计、任务拆分与规划、系统提示词设计（指令作用域、计划状态与验证策略）、Agent Skills、模型调用错误处理与 Eino 重试故障转移，及「工具调用」「多 Agent」「中断与恢复」「上下文工程」子专题 |
+
+## 多 Agent
+
+| 文章 | 内容 | Updated |
+| --- | --- | --- |
+| [多 Agent（子专题）](ai-agent/multi-agent/index.md) | 基本概念；agent 产品与开发框架各自怎样组织多 agent | 2026-09-23 |
+| [Claude Code 多 Agent：设计与使用](ai-agent/multi-agent/claude-code.md) | 静态编排 vs 模型动态决定、`AgentSpec` 与预提供 agent | 2026-09-23 |
+| [用 Eino 动态创建与调度子 Agent](ai-agent/multi-agent/eino.md) | 开发框架侧：`AgentTool` 与 `DeepAgent` 的 `task` 工具、动态选派的边界 | 2026-09-23 |
 
 ## 错误处理与重试
 

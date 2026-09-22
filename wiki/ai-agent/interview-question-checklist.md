@@ -1,6 +1,6 @@
 ---
 title: AI Agent 面试题清单（120 题）
-updated: "2026-09-22"
+updated: "2026-09-23"
 tags:
   - interview-questions
   - ai-agent
@@ -126,9 +126,9 @@ order: 1
 
 ## 10 多 Agent 与框架选型
 
-相关整理：[多 Agent 设计对比：Crush / Codex / Claude Code / Eino](multi-agent-design.md) — 角色预定义、触发、动态生成与委派方式。
+相关整理：[多 Agent](multi-agent/index.md) — 基本概念，以及 agent 产品（Crush / Codex / Claude Code）与开发框架（Eino）各自怎样组织多 agent；[Claude Code 多 Agent](multi-agent/claude-code.md) — 何时开多 agent，触发由命令写死还是模型决定；[用 Eino 动态创建与调度子 Agent](multi-agent/eino.md) — agent-as-tool 与 `DeepAgent` 的 `task` 工具。
 
-- [ ] 071 ★ 什么情况下应该使用多 Agent，而不是一个 Agent 加多个工具？如何验证拆分确实有收益？
+- [x] 071 ★ 什么情况下应该使用多 Agent，而不是一个 Agent 加多个工具？如何验证拆分确实有收益？
 - [ ] 072 主 Agent 调度子 Agent、把 Agent 当作工具、直接移交任务，这几种协作方式如何选择？
 - [ ] 073 子 Agent 应接收完整历史还是精简任务上下文？如何保证信息充分，又避免上下文互相干扰？
 - [ ] 074 多个 Agent 给出冲突结果或重复执行同一任务时，如何协调和合并结果？
