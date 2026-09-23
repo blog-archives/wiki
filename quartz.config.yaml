@@ -290,6 +290,9 @@ plugins:
   - source: "./plugins/centered-media"
     enabled: true
     order: 53
+  - source: "./plugins/forum-thread"
+    enabled: true
+    order: 54
   - source: "@quartz-community/encrypted-pages"
     enabled: false
     options:

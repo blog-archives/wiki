@@ -1,0 +1,123 @@
+/* Forum floors.
+   The question sits in a light title band; its answer follows below with
+   wrapped, generously spaced lines. A floor's content (answer plus any
+   sub-floors) hangs off a single left rule, so deeper floors step inward and
+   each carries its own line — one rule per level, never two in one floor.
+   When a floor has sub-floors, a small chevron at the right edge of the title
+   collapses just those sub-floors (the answers stay visible); a hidden checkbox
+   drives it, so no JavaScript is involved. Scoped to `.markdown-rendered` so
+   the page title, popovers and UI chrome stay put. */
+
+.markdown-rendered {
+  .forum-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    margin: 1.5rem 0;
+  }
+
+  /* The question line is the floor's title bar: a light band with the collapse
+     chevron at its right edge. */
+  .forum-floor-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--lightgray) 45%, transparent);
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .forum-title-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .forum-chevron {
+    position: relative;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-top: 0.02em;
+    color: var(--gray);
+    cursor: pointer;
+  }
+  .forum-chevron::before {
+    content: "";
+    width: 0.42em;
+    height: 0.42em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-135deg);
+    transition: transform 0.15s ease;
+  }
+  .forum-chevron:hover {
+    color: var(--secondary);
+  }
+  .forum-chevron input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    appearance: none;
+    transform: none;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .forum-chevron:has(input:focus-visible) {
+    outline: 2px solid var(--secondary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Scope the collapse to the floor that owns the checkbox: a title's own
+     chevron toggles only that title's sibling content, and only its own
+     direct sub-floors. Using `.forum-floor:has(...)` here would match ancestor
+     floors too, collapsing every sub-floor in the thread at once. */
+  .forum-floor-title:has(> .forum-chevron > input:not(:checked)) > .forum-chevron::before {
+    transform: rotate(45deg);
+  }
+  .forum-floor-title:has(> .forum-chevron > input:not(:checked)) ~ .forum-floor-content > .forum-subfloors {
+    display: none;
+  }
+
+  .forum-floor-content {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid var(--lightgray);
+    padding-left: 0.6rem;
+  }
+
+  .forum-post {
+    padding: 0.45rem 0.6rem 0.45rem 0;
+    overflow-wrap: anywhere;
+  }
+  /* One rule per floor lives on `.forum-floor-content`, so it covers the answer
+     and the sub-floors together; deeper floors add their own inset rule. */
+  .forum-post-a {
+    color: var(--darkgray);
+  }
+  .forum-post-content {
+    line-height: 2;
+  }
+  .forum-post-content > *:first-child {
+    margin-top: 0;
+  }
+  .forum-post-content > *:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Sub-floors indent under their question, each with its own content rule. */
+  .forum-subfloors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.5rem 0 0.1rem 0.4rem;
+  }
+}
