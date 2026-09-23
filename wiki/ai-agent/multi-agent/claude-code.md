@@ -72,4 +72,4 @@ flowchart LR
 - [多 Agent](index.md) — 总览 agent 产品与框架各自的做法
 - [用 Eino 动态创建与调度子 Agent](eino.md) — 框架侧的做法
 - [任务拆分与规划](../task-planning.md) — 子任务的契约与校验
-- [AI Agent 面试题清单](../interview-question-checklist.md) — 本文对应第 071 题
+- [AI Agent 面试题清单](../../interview/interview-question-checklist.md) — 本文对应第 071 题

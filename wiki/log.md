@@ -1073,3 +1073,12 @@
 - Updated: wiki/ai-agent/index.md
 - Result: 保留最小循环、代码与流程图，以及逐问引出专题的介绍顺序；每个回答收紧为一两句话，合并链接与说明，删去接口字段和具体产品实现的展开。全文字符数由 3017 减至 1586，保留全部 9 个阅读链接
 - Validation: Markdown 格式检查、`git diff --check` 通过；原有链接全部保留且目标存在
+
+## [2026-09-23] ingest | 项目经历：题库系统的刷题计划与出题助手 Agent
+
+- Disposition: New; Update
+- Raw: raw/2026-09-23-211747.md（用户口述项目经历，会话粘贴文本，逐字存档）
+- Added: wiki/interview/index.md（顶层 interview 主题入口）；wiki/interview/project-quiz-platform-agents.md（用户口述原文，逐字记录）
+- Moved: wiki/ai-agent/interview-question-checklist.md → wiki/interview/interview-question-checklist.md（alias `ai-agent/interview-question-checklist` 保留旧地址）
+- Updated: wiki/index.md（新增 interview 目录行与「面试准备」节，ai-agent 说明去掉「面试题清单」）；wiki/interview/interview-question-checklist.md（内部链接改指 `../ai-agent/`，勾选第 111、112、120 题并加入项目经历入口）；wiki/ai-agent/index.md、wiki/ai-agent/task-planning.md、wiki/ai-agent/multi-agent/eino.md、wiki/ai-agent/multi-agent/claude-code.md、wiki/ai-agent/system-prompt-design/index.md、wiki/ai-agent/system-prompt-design/verification-delivery-and-tools.md（指向清单的链接改到新路径）
+- Result: 面试材料与知识文章分开——新建 interview 主题收纳项目经历与面试题清单；项目经历按本人原文逐字记录，对应清单第 111、112、120 题

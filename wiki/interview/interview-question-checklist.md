@@ -4,7 +4,9 @@ updated: "2026-09-23"
 tags:
   - interview-questions
   - ai-agent
-order: 8
+order: 3
+aliases:
+  - ai-agent/interview-question-checklist
 ---
 
 ## Overview
@@ -33,7 +35,7 @@ order: 8
 
 ## 03 任务拆分与规划
 
-相关整理：[任务拆分与规划](task-planning.md) — 拆分信号/维度/产物、子任务契约、计划质量校验（第 19 题）、澄清·假设·停止（第 20 题）、出错后的重试/替换/重规划（第 21 题）、中途改目标（第 22 题）。
+相关整理：[任务拆分与规划](../ai-agent/task-planning.md) — 拆分信号/维度/产物、子任务契约、计划质量校验（第 19 题）、澄清·假设·停止（第 20 题）、出错后的重试/替换/重规划（第 21 题）、中途改目标（第 22 题）。
 
 - [x] 015 ★ 拿到一个复杂需求时，你依据什么划分子任务？如何判断拆分粒度过粗或过细？
 - [x] 016 任务拆分应该由开发者预先定义，还是由模型运行时生成？如何确定两者的边界？
@@ -46,7 +48,7 @@ order: 8
 
 ## 04 Prompt 与结构化输出
 
-相关整理：[系统提示词设计](system-prompt-design/index.md) — 以 Codex 提示词为样本，展开指令作用域、计划状态、验证策略和工具规范（第 23 题）。
+相关整理：[系统提示词设计](../ai-agent/system-prompt-design/index.md) — 以 Codex 提示词为样本，展开指令作用域、计划状态、验证策略和工具规范（第 23 题）。
 
 - [x] 023 ★ 你会如何组织 Agent 的系统提示词？角色、目标、边界、工具说明和输出要求如何分工？
 - [x] 024 Zero-shot 与 Few-shot 如何选择？怎样挑选有代表性的示例，避免只对示例有效？
@@ -57,7 +59,7 @@ order: 8
 
 ## 05 工具调用与工具设计
 
-相关整理：[工具发现与调用](tool-call/tool-discovery-and-dispatch.md) — 工具注册、延迟暴露与执行分发（第 29、31 题）；[工具调用大结果处理](tool-call/large-tool-result-handling.md) — 截断、落盘与按需读取（第 34 题）。
+相关整理：[工具发现与调用](../ai-agent/tool-call/tool-discovery-and-dispatch.md) — 工具注册、延迟暴露与执行分发（第 29、31 题）；[工具调用大结果处理](../ai-agent/tool-call/large-tool-result-handling.md) — 截断、落盘与按需读取（第 34 题）。
 
 - [x] 029 ★ 请描述一次完整的 Function Calling 流程：模型和业务程序分别负责哪些事情？
 - [x] 030 ★ 如何设计工具名称、描述和参数 Schema，使模型能够正确选择工具并构造参数？
@@ -72,9 +74,9 @@ order: 8
 
 ## 06 自纠、校验与循环控制
 
-相关整理：[重复工具调用的检测](tool-call/repeated-tool-call-detection.md) — 调用指纹、进展判断与停止条件（第 43 题）。
+相关整理：[重复工具调用的检测](../ai-agent/tool-call/repeated-tool-call-detection.md) — 调用指纹、进展判断与停止条件（第 43 题）。
 
-第 44 题：[模型调用错误处理：策略设计与 Eino 实现](model-call-retry-and-fallback.md)。
+第 44 题：[模型调用错误处理：策略设计与 Eino 实现](../ai-agent/model-call-retry-and-fallback.md)。
 
 - [x] 039 ★ 同一个模型再检查一遍，为什么可能纠错，也可能重复原错？什么反馈能够提供新的纠错依据？
 - [x] 040 程序校验、外部事实核验和模型自检各自适合发现什么错误？各自有什么盲区？
@@ -96,7 +98,7 @@ order: 8
 - [x] 053 长期记忆采用关系数据库、全文检索、向量库或文件存储，各有什么取舍？
 - [x] 054 任务级结构化状态与对话历史有什么区别？复杂任务中如何防止目标和进度逐渐丢失？
 
-本组源码阅读见 [上下文工程专题](context-engineering/index.md)：从请求组装、预算与压缩，逐步进入约束保留、任务状态与长期记忆。
+本组源码阅读见 [上下文工程专题](../ai-agent/context-engineering/index.md)：从请求组装、预算与压缩，逐步进入约束保留、任务状态与长期记忆。
 
 ## 08 RAG 与知识检索
 
@@ -113,9 +115,9 @@ order: 8
 
 ## 09 MCP、Skills 与 A2A
 
-相关整理：[工具发现与调用](tool-call/tool-discovery-and-dispatch.md) — Codex 侧的工具注册、延迟暴露、tool_search / BM25 检索与执行分发（第 66 题「一次工具发现与调用经过哪些环节」）。
+相关整理：[工具发现与调用](../ai-agent/tool-call/tool-discovery-and-dispatch.md) — Codex 侧的工具注册、延迟暴露、tool_search / BM25 检索与执行分发（第 66 题「一次工具发现与调用经过哪些环节」）。
 
-相关整理：[Agent Skills：发现、按需加载与渐进披露](agent-skills.md) — 发现 / 加载两阶段、正文按需读取、元数据预算与压缩（第 69 题）。
+相关整理：[Agent Skills：发现、按需加载与渐进披露](../ai-agent/agent-skills.md) — 发现 / 加载两阶段、正文按需读取、元数据预算与压缩（第 69 题）。
 
 - [x] 065 ★ MCP 解决了什么问题？它与 Function Calling、普通 HTTP API 是什么关系？
 - [x] 066 ★ MCP 中的 Host、Client、Server 分别负责什么？一次工具发现与调用经过哪些环节？
@@ -126,7 +128,7 @@ order: 8
 
 ## 10 多 Agent 与框架选型
 
-相关整理：[多 Agent](multi-agent/index.md) — 基本概念，以及 agent 产品（Crush / Codex / Claude Code）与开发框架（Eino）各自怎样组织多 agent；[Claude Code 多 Agent](multi-agent/claude-code.md) — 何时开多 agent，触发由命令写死还是模型决定；[用 Eino 动态创建与调度子 Agent](multi-agent/eino.md) — agent-as-tool 与 `DeepAgent` 的 `task` 工具。
+相关整理：[多 Agent](../ai-agent/multi-agent/index.md) — 基本概念，以及 agent 产品（Crush / Codex / Claude Code）与开发框架（Eino）各自怎样组织多 agent；[Claude Code 多 Agent](../ai-agent/multi-agent/claude-code.md) — 何时开多 agent，触发由命令写死还是模型决定；[用 Eino 动态创建与调度子 Agent](../ai-agent/multi-agent/eino.md) — agent-as-tool 与 `DeepAgent` 的 `task` 工具。
 
 - [x] 071 ★ 什么情况下应该使用多 Agent，而不是一个 Agent 加多个工具？如何验证拆分确实有收益？
 - [x] 072 主 Agent 调度子 Agent、把 Agent 当作工具、直接移交任务，这几种协作方式如何选择？
@@ -186,8 +188,10 @@ order: 8
 
 ## 16 综合设计、故障排查与项目追问
 
-- [ ] 111 ★ 设计一个根据学生薄弱点、可用时间和考试目标生成学习计划的 Agent，如何划分流程、工具和验收条件？
-- [ ] 112 设计一个辅助教师生成题面、题解和参考代码的 Agent，如何安排校验、草稿保存、人工确认与发布边界？
+相关整理：[项目经历：题库系统的刷题计划与出题助手 Agent](project-quiz-platform-agents.md) — 本人独立负责的后端项目，对应第 111、112、120 题。
+
+- [x] 111 ★ 设计一个根据学生薄弱点、可用时间和考试目标生成学习计划的 Agent，如何划分流程、工具和验收条件？
+- [x] 112 设计一个辅助教师生成题面、题解和参考代码的 Agent，如何安排校验、草稿保存、人工确认与发布边界？
 - [ ] 113 设计一个 Wiki 整理 Agent，面对重复文档、过时内容和相互矛盾的信息，如何生成可审核的修改方案？
 - [ ] 114 上线后任务 P95 耗时突然升高，但单次模型请求耗时基本不变，你会如何建立排查路径？
 - [ ] 115 检索日志显示已找到正确资料，但最终回答仍然错误，你会怎样逐层定位原因？
@@ -195,4 +199,4 @@ order: 8
 - [ ] 117 单用户测试正常，并发后偶尔出现串话、错误工具结果或重复写入，你会如何定位？
 - [ ] 118 一次提示词修改修复了部分案例，却让另一批任务退化，你会如何判断原因并决定回滚还是继续调整？
 - [ ] 119 Coding Agent 生成的代码通过了现有测试，是否就可以认定任务完成？还需要如何验证需求与安全边界？
-- [ ] 120 选一个你实际做过的 Agent，说明你独立负责的部分、最难的问题、关键取舍，以及证明效果的证据？
+- [x] 120 选一个你实际做过的 Agent，说明你独立负责的部分、最难的问题、关键取舍，以及证明效果的证据？

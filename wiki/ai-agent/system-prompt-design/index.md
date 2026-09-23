@@ -42,4 +42,4 @@ order: 4
 ## 相关条目
 
 - [任务拆分与规划](../task-planning.md) — 进一步讨论拆分依据、交接和重新规划。
-- [AI Agent 面试题清单（120 题）](../interview-question-checklist.md) — 第 04 模块「Prompt 与结构化输出」。
+- [AI Agent 面试题清单（120 题）](../../interview/interview-question-checklist.md) — 第 04 模块「Prompt 与结构化输出」。

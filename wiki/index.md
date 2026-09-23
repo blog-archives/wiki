@@ -5,7 +5,8 @@ updated: "2026-09-23"
 
 | 目录 | 内容 |
 | --- | --- |
-| [ai-agent](ai-agent/index.md) | AI Agent 应用开发与工程实践：面试题清单、多 Agent 设计、任务拆分与规划、系统提示词设计（指令作用域、计划状态与验证策略）、Agent Skills、模型调用错误处理与 Eino 重试故障转移，及「工具调用」「多 Agent」「中断与恢复」「上下文工程」子专题 |
+| [ai-agent](ai-agent/index.md) | AI Agent 应用开发与工程实践：多 Agent 设计、任务拆分与规划、系统提示词设计（指令作用域、计划状态与验证策略）、Agent Skills、模型调用错误处理与 Eino 重试故障转移，及「工具调用」「多 Agent」「中断与恢复」「上下文工程」子专题 |
+| [interview](interview/index.md) | 面试准备：项目经历与 120 题面试清单，与知识文章分开 |
 
 ## 多 Agent
 
@@ -58,4 +59,10 @@ updated: "2026-09-23"
 | --- | --- | --- |
 | [任务拆分与规划](ai-agent/task-planning.md) | 规划与委派设计；补充持久 Goal 与步骤计划的区别 | 2026-09-22 |
 | [从 Codex 学习中断恢复的实现](ai-agent/interrupt-resume/codex-interrupt-recovery.md) | 执行停止与历史重建；衔接独立任务状态恢复 | 2026-09-22 |
-| [AI Agent 面试题清单（120 题）](ai-agent/interview-question-checklist.md) | 上下文与记忆题组关联专题阅读入口 | 2026-09-22 |
+
+## 面试准备
+
+| 文章 | 内容 | Updated |
+| --- | --- | --- |
+| [AI Agent 面试题清单（120 题）](interview/interview-question-checklist.md) | 16 个模块、120 道题的自测清单，★ 为优先准备题 | 2026-09-23 |
+| [项目经历：题库系统的刷题计划与出题助手 Agent](interview/project-quiz-platform-agents.md) | 本人项目介绍原文；对应清单第 111、112、120 题 | 2026-09-23 |

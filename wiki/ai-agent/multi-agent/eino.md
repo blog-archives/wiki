@@ -94,4 +94,4 @@ for _, r := range roles {
 
 - [多 Agent](index.md) — 总览 agent 产品与框架各自的做法
 - [Claude Code 多 Agent：设计与使用](claude-code.md) — 产品侧的做法，其中「模型按 `description` 选型」与 Eino 的派发思路一致
-- [AI Agent 面试题清单](../interview-question-checklist.md) — 本文对应第 072、076 题
+- [AI Agent 面试题清单](../../interview/interview-question-checklist.md) — 本文对应第 072、076 题

@@ -62,4 +62,4 @@ flowchart LR
 
 **[中断与恢复](interrupt-resume/index.md)**：控制执行停止，保存历史与任务状态，恢复时重建上下文与进度，让任务能够从已有结果继续。
 
-可通过 [AI Agent 面试题清单（120 题）](interview-question-checklist.md) 按模块自测。
+可通过 [AI Agent 面试题清单（120 题）](../interview/interview-question-checklist.md) 按模块自测。
