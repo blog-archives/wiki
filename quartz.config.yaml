@@ -284,6 +284,9 @@ plugins:
   - source: "./plugins/explorer-align"
     enabled: true
     order: 51
+  - source: "./plugins/explorer-expand-all"
+    enabled: true
+    order: 52
   - source: "@quartz-community/encrypted-pages"
     enabled: false
     options:

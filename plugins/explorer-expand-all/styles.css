@@ -1,0 +1,59 @@
+/* Explorer expand-all / collapse-all control.
+   The button is placed in the explorer header, at the right edge of the title
+   row. The header is not a positioned ancestor, so the explorer itself becomes
+   the positioning context; the button stays out of the flow and cannot disturb
+   the tree. */
+
+.explorer {
+  position: relative;
+}
+
+.explorer-expand-all {
+  position: absolute;
+  top: 0.15rem;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--darkgray);
+  cursor: pointer;
+  opacity: 0.75;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.explorer-expand-all:hover {
+  opacity: 1;
+  color: var(--tertiary);
+  background-color: var(--highlight);
+}
+
+/* The stock `.explorer svg` rule turns pointer events back on; keep clicks on
+   the button so the whole control stays a single target. */
+.explorer-expand-all svg {
+  display: block;
+  pointer-events: none;
+  transition: none;
+}
+
+/* Folded away with the rest of the explorer. */
+.explorer.collapsed > .explorer-expand-all {
+  display: none;
+}
+
+/* On mobile the explorer is a full-screen overlay with its own header, and the
+   desktop title row the button aligns to is hidden; leave that view as it is. */
+@media all and (max-width: 800px) {
+  .explorer-expand-all {
+    display: none;
+  }
+}

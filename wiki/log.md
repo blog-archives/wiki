@@ -1044,3 +1044,10 @@
 - Updated: wiki/ai-agent/multi-agent/eino.md
 - Result: 把「动态的边界」并入「两种写法怎么选」（两者都在讲两种包装方式的取舍与限制），全文由 6 节收到 5 节；同时删去该段密集行内代码（`[]tool.BaseTool` / `general-purpose` / `write_todos` / `AgentTool` / `Tools` / `adk.NewChatModelAgent` / `NewTypedChatModelAgent`），改用散文
 - Validation: `make format` / `--check`、`git diff --check` 通过；链接存在；Quartz 构建成功
+
+## [2026-09-23] edit | 左侧目录新增全部展开 / 收缩按钮
+
+- Added: plugins/explorer-expand-all/（transformer 注入 CSS + 客户端脚本）：在 explorer 标题行右侧加一个切换按钮，点击后展开全部，或只保留当前阅读文档路径展开。状态写回 stock explorer 使用的 `fileTree` localStorage，按钮图标/文案随目录或文件夹状态自动同步
+- Updated: quartz.config.yaml 启用该 transformer（order 52）；AGENTS.md 记录该插件
+- Result: 折叠全部时当前文档所在路径始终展开；跨页导航后仍只保留新页面路径展开；SPA 切换不产生重复按钮；explorer 整体折起或移动端（≤800px）时按钮隐藏
+- Validation: `npx prettier --check`、`make build` 通过；无头 Chrome（CDP）验证初始态 / 展开全部 / 收缩全部 / 跨目录导航 / 目录页五种情形与 localStorage 持久化
