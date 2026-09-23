@@ -1082,3 +1082,10 @@
 - Moved: wiki/ai-agent/interview-question-checklist.md → wiki/interview/interview-question-checklist.md（alias `ai-agent/interview-question-checklist` 保留旧地址）
 - Updated: wiki/index.md（新增 interview 目录行与「面试准备」节，ai-agent 说明去掉「面试题清单」）；wiki/interview/interview-question-checklist.md（内部链接改指 `../ai-agent/`，勾选第 111、112、120 题并加入项目经历入口）；wiki/ai-agent/index.md、wiki/ai-agent/task-planning.md、wiki/ai-agent/multi-agent/eino.md、wiki/ai-agent/multi-agent/claude-code.md、wiki/ai-agent/system-prompt-design/index.md、wiki/ai-agent/system-prompt-design/verification-delivery-and-tools.md（指向清单的链接改到新路径）
 - Result: 面试材料与知识文章分开——新建 interview 主题收纳项目经历与面试题清单；项目经历按本人原文逐字记录，对应清单第 111、112、120 题
+
+## [2026-09-23] chore | 本地启动快速模式（跳过 raw 归档）
+
+- Diagnosed: 本地 `make serve` 冷启动约 9.4s。CPU 采样显示自定义插件只占约 0.1%（14ms），瓶颈是 `raw/` 归档（26 个文件、1.4MB、约 930 个代码块）的 shiki 高亮（约 6s）与 Markdown 解析；禁用 `raw/` 后构建约 0.7s
+- Added: scripts/serve-fast.mjs（把 `wiki/` 中除 `raw` 外的顶层条目以符号链接镜像到临时目录，再让 Quartz 以该目录为内容根启动，退出时清理；不改动仓库，`make build` / CI 仍读取 `wiki/` 并照常发布 raw 页面）
+- Updated: Makefile 新增 `serve-fast` 目标与 help 行；AGENTS.md 记录该模式及其取舍
+- Result: `make serve-fast` 冷启动约 1.5s（原约 9.4s）；代价是本地不存在 raw 页面，正文指向 `raw/` 的链接与悬浮预览在本地 404

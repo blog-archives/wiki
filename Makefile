@@ -2,11 +2,12 @@ QUARTZ := npx quartz
 CONTENT := wiki
 OUTPUT := public
 
-.PHONY: help setup serve build format format-check clean
+.PHONY: help setup serve serve-fast build format format-check clean
 
 help:
 	@echo "make setup        - install Node dependencies"
 	@echo "make serve        - preview at http://localhost:8080"
+	@echo "make serve-fast   - preview without the raw/ archive (faster cold start)"
 	@echo "make build        - build static site into $(OUTPUT)/"
 	@echo "make format       - format wiki Markdown (pangu + layout)"
 	@echo "make format-check - report Markdown formatting drift"
@@ -17,6 +18,9 @@ setup:
 
 serve:
 	$(QUARTZ) build --serve -d $(CONTENT)
+
+dev:
+	node scripts/serve-fast.mjs $(ARGS)
 
 build:
 	$(QUARTZ) build -d $(CONTENT) -o $(OUTPUT)
