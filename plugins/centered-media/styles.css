@@ -1,0 +1,33 @@
+/* Center article media.
+   Images, mermaid diagrams and tables default to the left edge of the content
+   column. These rules center them within the rendered article body, scoped to
+   `.markdown-rendered` so the page title, popovers and UI chrome stay put. */
+
+.markdown-rendered {
+  /* Block images centre themselves in the content column. Favicon logos inside
+     external-link pills keep their own inline sizing. */
+  img:not(.el-favicon) {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* A caption line (an image followed by emphasis) centres with its image. */
+  p:has(> img) {
+    text-align: center;
+  }
+
+  /* Mermaid renders an <svg> into the code element, which Quartz lays out as a
+     grid; centre the svg as both a grid item and inline content. */
+  pre:has(> code.mermaid) > code.mermaid {
+    justify-items: center;
+    text-align: center;
+  }
+
+  /* Tables narrower than the column centre in it; full-width ones are
+     unaffected because their auto margins collapse to zero. */
+  .table-container > table {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

@@ -1051,3 +1051,10 @@
 - Updated: quartz.config.yaml 启用该 transformer（order 52）；AGENTS.md 记录该插件
 - Result: 折叠全部时当前文档所在路径始终展开；跨页导航后仍只保留新页面路径展开；SPA 切换不产生重复按钮；explorer 整体折起或移动端（≤800px）时按钮隐藏
 - Validation: `npx prettier --check`、`make build` 通过；无头 Chrome（CDP）验证初始态 / 展开全部 / 收缩全部 / 跨目录导航 / 目录页五种情形与 localStorage 持久化
+
+## [2026-09-23] edit | 正文图片与图表居中显示
+
+- Added: plugins/centered-media/（transformer 注入 CSS）：把 Markdown 图片、mermaid 图表与表格在正文列中居中——图片按块级居中且图注（图片后的强调行）随图居中，mermaid 渲染出的 `<svg>` 作为网格项居中，窄表格居中而满宽表格不受影响
+- Updated: quartz.config.yaml 启用该 transformer（order 53）
+- Result: 仅作用于 `.markdown-rendered`，页面标题、悬浮预览与 UI 不变；外链胶囊里的 favicon（`.el-favicon`）排除在外，保持内联尺寸
+- Validation: `npx prettier --check`、`make build` 通过；构建产物 CSS 含新规则

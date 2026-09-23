@@ -287,6 +287,9 @@ plugins:
   - source: "./plugins/explorer-expand-all"
     enabled: true
     order: 52
+  - source: "./plugins/centered-media"
+    enabled: true
+    order: 53
   - source: "@quartz-community/encrypted-pages"
     enabled: false
     options:
