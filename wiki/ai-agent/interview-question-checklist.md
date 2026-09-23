@@ -4,7 +4,7 @@ updated: "2026-09-23"
 tags:
   - interview-questions
   - ai-agent
-order: 1
+order: 8
 ---
 
 ## Overview
@@ -129,15 +129,15 @@ order: 1
 相关整理：[多 Agent](multi-agent/index.md) — 基本概念，以及 agent 产品（Crush / Codex / Claude Code）与开发框架（Eino）各自怎样组织多 agent；[Claude Code 多 Agent](multi-agent/claude-code.md) — 何时开多 agent，触发由命令写死还是模型决定；[用 Eino 动态创建与调度子 Agent](multi-agent/eino.md) — agent-as-tool 与 `DeepAgent` 的 `task` 工具。
 
 - [x] 071 ★ 什么情况下应该使用多 Agent，而不是一个 Agent 加多个工具？如何验证拆分确实有收益？
-- [ ] 072 主 Agent 调度子 Agent、把 Agent 当作工具、直接移交任务，这几种协作方式如何选择？
-- [ ] 073 子 Agent 应接收完整历史还是精简任务上下文？如何保证信息充分，又避免上下文互相干扰？
-- [ ] 074 多个 Agent 给出冲突结果或重复执行同一任务时，如何协调和合并结果？
-- [ ] 075 如何防止 Agent 之间循环委派、等待彼此或无限扩张任务？全局预算由谁管理？
-- [ ] 076 ★ 手写 Agent Loop 与采用 Eino、LangGraph 等框架如何取舍？你实际需要框架提供哪些能力？
+- [x] 072 主 Agent 调度子 Agent、把 Agent 当作工具、直接移交任务，这几种协作方式如何选择？
+- [x] 073 子 Agent 应接收完整历史还是精简任务上下文？如何保证信息充分，又避免上下文互相干扰？
+- [x] 074 多个 Agent 给出冲突结果或重复执行同一任务时，如何协调和合并结果？
+- [x] 075 如何防止 Agent 之间循环委派、等待彼此或无限扩张任务？全局预算由谁管理？
+- [x] 076 ★ 手写 Agent Loop 与采用 Eino、LangGraph 等框架如何取舍？你实际需要框架提供哪些能力？
 
 ## 11 任务状态、持久化与人工介入
 
-- [ ] 077 ★ 如何定义 Session、Run、Step 及其状态？会话状态与一次任务的执行状态如何区分？
+- [x] 077 ★ 如何定义 Session、Run、Step 及其状态？会话状态与一次任务的执行状态如何区分？
 - [ ] 078 长时间运行的 Agent 任务应该如何提供接口？同步请求、异步任务与结果通知如何取舍？
 - [ ] 079 ★ Checkpoint 应保存哪些内容、在什么时候保存？服务重启后怎样恢复任务而不重复已完成步骤？
 - [ ] 080 同一个会话同时收到两条用户消息时，怎样保证状态一致，避免互相覆盖？

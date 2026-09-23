@@ -1058,3 +1058,18 @@
 - Updated: quartz.config.yaml 启用该 transformer（order 53）
 - Result: 仅作用于 `.markdown-rendered`，页面标题、悬浮预览与 UI 不变；外链胶囊里的 favicon（`.el-favicon`）排除在外，保持内联尺寸
 - Validation: `npx prettier --check`、`make build` 通过；构建产物 CSS 含新规则
+
+## [2026-09-23] edit | ai-agent 入口改为导览式介绍
+
+- Updated: wiki/ai-agent/index.md —— 去掉「本目录文章」表格式清单，改为一段连续导览：最小循环（代码与流程图）→ 工具描述与按需发现 → 系统提示词的判断依据 → 任务专属指令按需读取 → 复杂任务拆分与计划 → 可并行部分委派子 agent → 上下文工程 → 模型调用失败 → 进程中断
+- Result: 入口页不再是模块清单，也不再按主题分节，改用统一格式逐环推进——每环先由一个引用块抛出问题，再用「**[名称](子文档)**（一句话解释）」在引出方案处带出链接，并加一段简短说明；除最小循环外不再逐节配流程图，末尾用一句带出面试题清单
+- Fixed: 删去引用块前与本行问题重复的过渡句（如「模型要选对动作，就得先知道有哪些动作可选」与「模型怎么知道调用什么工具？」），需要保留的上下文并入问题或紧随其后的说明
+- Removed: 工具定义示例 JSON 代码块（保留 `function` 对象的文字说明）
+- Fixed: 原有 `/ai-agent/tool-call/` 绝对路径改为相对路径 `tool-call/index.md`，与库内相对链接约定一致
+- Validation: `make format` / `--check`、`git diff --check` 通过；全部相对链接目标存在
+
+## [2026-09-23] edit | 精简 AI Agent 导览
+
+- Updated: wiki/ai-agent/index.md
+- Result: 保留最小循环、代码与流程图，以及逐问引出专题的介绍顺序；每个回答收紧为一两句话，合并链接与说明，删去接口字段和具体产品实现的展开。全文字符数由 3017 减至 1586，保留全部 9 个阅读链接
+- Validation: Markdown 格式检查、`git diff --check` 通过；原有链接全部保留且目标存在

@@ -3,7 +3,7 @@ title: 工具调用
 updated: "2026-09-22"
 tags:
   - tool-call
-order: 5
+order: 1
 aliases:
   - ai-agent/tool-call-guardrails
 ---
