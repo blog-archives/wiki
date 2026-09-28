@@ -1,6 +1,6 @@
 ---
 title: AI Agent
-updated: "2026-09-23"
+updated: "2026-09-28"
 tags:
   - ai-agent
 order: 1
@@ -61,5 +61,3 @@ flowchart LR
 > 如果任务被取消，或进程退出，怎样接着做？
 
 **[中断与恢复](interrupt-resume/index.md)**：控制执行停止，保存历史与任务状态，恢复时重建上下文与进度，让任务能够从已有结果继续。
-
-可通过 [AI Agent 面试题清单（120 题）](../interview/interview-question-checklist.md) 按模块自测。

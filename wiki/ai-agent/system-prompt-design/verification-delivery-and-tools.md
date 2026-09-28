@@ -1,6 +1,6 @@
 ---
 title: 系统提示词：验证、交付与工具
-updated: "2026-09-22"
+updated: "2026-09-28"
 tags:
   - system-prompt-design
   - openai-codex
@@ -53,4 +53,3 @@ order: 3
 
 - [系统提示词设计（专题入口）](index.md)
 - [任务拆分与规划](../task-planning.md) — 进一步讨论拆分依据、交接和重新规划。
-- [AI Agent 面试题清单（120 题）](../../interview/interview-question-checklist.md) — 第 04 模块「Prompt 与结构化输出」。

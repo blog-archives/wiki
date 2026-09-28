@@ -1089,3 +1089,38 @@
 - Added: scripts/serve-fast.mjs（把 `wiki/` 中除 `raw` 外的顶层条目以符号链接镜像到临时目录，再让 Quartz 以该目录为内容根启动，退出时清理；不改动仓库，`make build` / CI 仍读取 `wiki/` 并照常发布 raw 页面）
 - Updated: Makefile 新增 `serve-fast` 目标与 help 行；AGENTS.md 记录该模式及其取舍
 - Result: `make serve-fast` 冷启动约 1.5s（原约 9.4s）；代价是本地不存在 raw 页面，正文指向 `raw/` 的链接与悬浮预览在本地 404
+
+## [2026-09-28] ingest | Go 语言旧博客迁移
+
+- Disposition: New; Update（map 遍历笔记并入 map 文章）
+- Source: `/Users/lllllan/lllllan02/go/content/`（23 篇 Go 博客笔记、5 篇库笔记、3 篇随笔、1 篇源码笔记；官方博客和开源仓库原文在文章中直接链接）
+- Added: `wiki/go/index.md` 与 31 篇专题文章；`wiki/images/go-blog/` 中的 10 张配图
+- Updated: `wiki/index.md`
+- Result: 按主题归档，合并重复的 map 遍历内容；迁移时保留原文主旨并修复图片及相关文章链接
+- Validation: Go 专题格式检查、相对链接及图片目标检查通过；Quartz 完整构建和无 `raw/` 的临时构建均因 Node 内存耗尽中断，最小页面构建也未及时完成
+
+## [2026-09-28] edit | 简化 Go 专题标签
+
+- Updated: `wiki/go/` 全部 32 个 Markdown 页面
+- Result: `go-language` → `golang`，`golang-go` → `go`；其他概念标签保留
+- Validation: 旧标签无残留、无重复标签；Go 专题格式检查与 `git diff --check` 通过
+
+## [2026-09-28] edit | Go 子专题目录入口
+
+- Added: `wiki/go/` 八个子目录各自的 `index.md`
+- Updated: `wiki/go/index.md` 改为链接子专题入口；`wiki/index.md` 补齐八个新页面
+- Result: 每个目录入口用明确标题、简短介绍和文章链接引导阅读
+- Validation: 40 个 Go 页面均在全局索引中；子专题入口和文章的相对链接检查通过，格式检查与 `git diff --check` 通过
+
+## [2026-09-28] edit | 目录入口改为模块简介
+
+- Updated: `wiki/index.md` 只介绍 AI Agent、Go 语言和面试准备三个顶层模块；`wiki/go/` 的九个 `index.md` 改为简短的目录介绍；`AGENTS.md` 记录后续目录入口的写法
+- Result: 目录入口说明范围与必要背景，具体文章由目录页和侧栏呈现；不再逐篇罗列
+- Validation: 10 个入口页的相对链接均有效；格式检查与 `git diff --check` 通过
+
+## [2026-09-28] edit | 移除面试准备目录及失效入口
+
+- Removed: `wiki/interview/` 的三个页面（按用户确认，该目录应保持删除状态）
+- Updated: `wiki/index.md` 移除面试准备模块；六篇 AI Agent 文章移除指向面试清单的链接
+- Result: 知识库入口只介绍仍存在的 AI Agent 与 Go 模块，正文不再引用已删除的面试页面
+- Validation: `wiki/` 正文无 `interview/` 链接残留；相关文件格式检查与 `git diff --check` 通过

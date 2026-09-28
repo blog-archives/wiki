@@ -8,8 +8,10 @@ This repo is a personal LLM-powered knowledge base managed by the `karpathy-llm-
 - `wiki/images/` — single shared tree for every image under `wiki/`, grouped by source (`wiki/images/<source>/`); articles reference it as `../images/<source>/<file>`.
 - `wiki/annotations/` — link-only annotation notes. Kept out of listings (see below); articles link to them for hover-preview "comments".
 - `raw/` — archive for sources that are *ephemeral or likely to be lost*: session-scoped Q&A links, pasted text, offline documents. A durable public original (a page or repo that stays reachable) is linked directly in the article instead, never archived. Flat (no topic subdirectories), stored verbatim with a metadata header. Files are named by timestamp, `YYYY-MM-DD-HHMMSS.md` (a day can hold several sources, so the name goes down to the second). Surfaced to the build through the `wiki/raw` symlink (see below), so its pages are published and link-reachable but unlisted.
-- `wiki/index.md` — global index: one row per article, grouped by topic.
+- `wiki/index.md` — brief overview of the top-level modules, with links to their entry pages. Do not enumerate every article here.
 - `wiki/log.md` — append-only operation log.
+
+Every directory's `index.md` is a short introduction to that module: give it a clear title, describe its scope, and add brief context only when useful. Do not turn index pages into article-by-article menus; the explorer and folder pages provide the listings.
 
 ## Raw metadata
 
@@ -45,7 +47,7 @@ Never edit `quartz/` or the vendored framework files for project needs — add a
 
 ## Workflow
 
-- **Ingest** ("add to wiki", drop a URL/file): fetch the source; archive it to `raw/` only if it is ephemeral or likely to be lost, otherwise cite the durable original inline. When archiving, write the frontmatter `tags` (see Raw metadata). Then triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update `index.md` and `log.md`.
+- **Ingest** ("add to wiki", drop a URL/file): fetch the source; archive it to `raw/` only if it is ephemeral or likely to be lost, otherwise cite the durable original inline. When archiving, write the frontmatter `tags` (see Raw metadata). Then triage against existing wiki, compile into `wiki/<topic>/`, cascade-update affected articles, update a relevant `index.md` only if the module's scope or introduction needs to change, and append to `log.md`.
 - **Query** ("what do I know about X"): search `index.md` then full-text; answer in conversation with relative links. Writes nothing unless asked to archive.
 - **Format**: run `make format` (or `node scripts/format-markdown.mjs wiki`) to apply pangu spacing, emphasis spacing and safe layout to every `wiki/*.md`; `make format-check` reports drift without writing. The script skips frontmatter, code and link targets.
 - **Write/revise**: load the `technical-writing` skill (`.opencode/skills/technical-writing/`) before drafting or editing an article. It carries the project's Chinese tone rules and the problem-chain structure.
